@@ -4880,6 +4880,7 @@
 
       // windows
       let Z = 100;
+      const BACKDROP_Z = 199;   // #mobile-backdrop 的 z-index
       const isMobile = () => window.innerWidth <= 768;
 
       function showBackdrop() {
@@ -4909,8 +4910,21 @@
       function oW(id) {
         const w = document.getElementById(id);
         if (!w) return;
+
+        // 移动端：PDF 简历直接新标签打开，避免 iframe 被遮罩覆盖及滚动问题
+        if (isMobile() && id === "win-cv") {
+          const frame = w.querySelector(".pdf-frame");
+          const src = frame ? frame.src : "";
+          if (src) window.open(src, "_blank");
+          return;
+        }
+
         w.classList.remove("minimized");
         w.classList.add("open");
+        // 移动端确保 z-index 高于 backdrop（199），否则遮罩会盖住窗口内容
+        if (isMobile()) {
+          Z = Math.max(Z, BACKDROP_Z);
+        }
         w.style.zIndex = ++Z;
         w.style.display = "";
 
