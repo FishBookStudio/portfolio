@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BiteCard — Case Study · Ji Tong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:     #ffffff;
+  --bg2:    #f7f6f5;
+  --bg3:    #edecea;
+  --ink:    #1e1c18;
+  --ink2:   #3a3830;
+  --ink3:   #807a6e;
+  --or:     #ff7a3d;
+  --or2:    #ff5a0d;
+  --or-bg:  rgba(255,122,61,.08);
+  --or-bd:  rgba(255,122,61,.2);
+  --border: rgba(30,28,24,.1);
+  --bd2:    rgba(30,28,24,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink2); font-family: 'DM Sans',sans-serif; font-size: 16px; line-height: 1.7; overflow-x: hidden; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 56px; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,.93); backdrop-filter: blur(14px); border-bottom: 1px solid var(--bd2); }
+.nav-logo { font-family: 'Lora',serif; font-size: 16px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 10px; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { font-size: 15px; color: var(--ink2); text-decoration: none; }
+.nav-links a:hover { color: var(--ink); }
+.nav-cta { background: var(--ink); color: #fff; border: none; padding: 9px 22px; border-radius: 8px; font-size: 14px; cursor: pointer; font-family: 'DM Sans',sans-serif; }
+
+/* HERO */
+.hero { min-height: 100vh; padding: 120px 56px 80px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+.doodle { position: absolute; opacity: .11; pointer-events: none; }
+.d-tl { top: 148px; left: 52px; transform: rotate(-7deg); }
+.d-tr { top: 152px; right: 62px; transform: rotate(8deg); }
+.d-ml { top: 44%; left: 32px; transform: translateY(-50%) rotate(-5deg); }
+.d-mr { top: 46%; right: 32px; transform: translateY(-50%) rotate(7deg); }
+.d-bl { bottom: 160px; left: 64px; transform: rotate(-4deg); }
+.d-br { bottom: 120px; right: 58px; transform: rotate(10deg); }
+
+.hero-illo { width: 280px; height: 220px; margin-bottom: 28px; }
+.eyebrow { font-family: 'DM Mono',monospace; font-size: 11px; letter-spacing: .16em; color: var(--ink3); text-transform: uppercase; margin-bottom: 28px; }
+.hero-title { font-family: 'Lora','Noto Serif SC',serif; font-size: clamp(44px,5.5vw,84px); font-weight: 700; line-height: 1.06; color: var(--ink); max-width: 820px; margin-bottom: 20px; letter-spacing: -.02em; }
+.hero-title em { font-style: italic; color: var(--or); }
+.hero-sub { font-size: 18px; color: var(--ink3); max-width: 520px; line-height: 1.75; margin-bottom: 44px; }
+.hero-btns { display: flex; gap: 14px; align-items: center; justify-content: center; margin-bottom: 72px; }
+.btn-p { background: var(--or); color: #fff; padding: 14px 36px; border-radius: 10px; font-size: 16px; text-decoration: none; border: none; cursor: pointer; font-family: 'DM Sans',sans-serif; transition: transform .2s; }
+.btn-p:hover { transform: translateY(-1px); }
+.btn-g { color: var(--ink2); font-size: 15px; text-decoration: none; border-bottom: 1px solid var(--border); }
+.hero-stats { display: flex; gap: 52px; align-items: center; border-top: 1px solid var(--border); padding-top: 40px; flex-wrap: wrap; justify-content: center; }
+.hs-num { font-family: 'Lora',serif; font-size: 36px; font-weight: 700; color: var(--ink); line-height: 1; display: block; }
+.hs-label { font-size: 13px; color: var(--ink3); margin-top: 4px; display: block; }
+
+/* SECTIONS */
+section { padding: 100px 56px; }
+.stag { font-family: 'DM Mono',monospace; font-size: 11px; letter-spacing: .16em; color: var(--ink3); text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.stag::before { content: '+'; font-size: 14px; }
+.stitle { font-family: 'Lora','Noto Serif SC',serif; font-size: clamp(32px,3.8vw,58px); font-weight: 700; line-height: 1.1; color: var(--ink); margin-bottom: 18px; letter-spacing: -.02em; }
+.stitle em { font-style: italic; }
+.sbody { font-size: 17px; color: var(--ink3); max-width: 540px; line-height: 1.8; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; margin-top: 56px; }
+.sec-alt { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+/* PAIN */
+.pain-row { display: flex; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+.pain-row:last-child { border-bottom: none; }
+.pain-icon { flex-shrink: 0; margin-top: 2px; }
+.pain-row h4 { font-family: 'Lora',serif; font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+.pain-row p { font-size: 14px; color: var(--ink3); line-height: 1.7; }
+.quote-blk { margin-top: 36px; padding: 24px 28px; font-family: 'Lora',serif; font-size: 20px; font-style: italic; color: var(--ink); line-height: 1.55; border-left: 3px solid var(--or); background: var(--or-bg); border-radius: 0 8px 8px 0; }
+
+/* INSIGHT BOX */
+.insight-box { background: var(--ink); border-radius: 12px; padding: 36px; margin-top: 0; }
+.insight-box h3 { font-family: 'Lora',serif; font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 16px; line-height: 1.3; }
+.insight-box p { font-size: 15px; color: rgba(255,255,255,.65); line-height: 1.8; }
+.insight-box .itag { display: inline-block; background: var(--or); color: #fff; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-family: 'DM Mono',monospace; margin-bottom: 14px; }
+
+/* IPHONE MOCKUP */
+.phone-mockup { width: 200px; background: #1a1a1a; border-radius: 36px; padding: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.25), 0 0 0 1px rgba(255,255,255,.08); flex-shrink: 0; }
+.phone-screen { background: #0a0a0a; border-radius: 26px; overflow: hidden; aspect-ratio: 9/19.5; display: flex; flex-direction: column; }
+.phone-statusbar { height: 28px; background: rgba(255,255,255,.04); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-family: 'DM Mono',monospace; font-size: 8px; color: rgba(255,255,255,.4); }
+.phone-notch { width: 60px; height: 16px; background: #1a1a1a; border-radius: 0 0 12px 12px; margin: 0 auto; margin-top: -4px; }
+
+/* TODAY SCREEN MOCKUP */
+.today-screen { flex: 1; padding: 14px 12px; background: #111; overflow: hidden; }
+.ts-title { font-family: 'Lora',serif; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.ts-ring-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.ts-ring { position: relative; width: 52px; height: 52px; }
+.ts-ring svg { position: absolute; inset: 0; }
+.ts-ring-text { font-size: 7px; color: rgba(255,255,255,.5); line-height: 1.4; }
+.ts-ring-num { font-family: 'Lora',serif; font-size: 9px; font-weight: 700; color: #fff; display: block; }
+.ts-cards { display: flex; flex-direction: column; gap: 6px; }
+.ts-card { background: #1e1e1e; border-radius: 10px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; }
+.ts-card-img { width: 32px; height: 32px; border-radius: 6px; background: #2a2a2a; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.ts-card-meta { flex: 1; }
+.ts-card-name { font-size: 8px; color: rgba(255,255,255,.85); font-weight: 500; margin-bottom: 2px; }
+.ts-card-kcal { font-family: 'DM Mono',monospace; font-size: 7px; color: var(--or); }
+.ts-fab { width: 28px; height: 28px; background: var(--or); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 8px auto 0; box-shadow: 0 2px 8px rgba(255,122,61,.4); }
+
+/* DECISION CARDS */
+.decision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 52px; }
+.dc { border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+.dc-tag { font-family: 'DM Mono',monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px; }
+.dc h4 { font-family: 'Lora',serif; font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
+.dc p { font-size: 14px; color: var(--ink3); line-height: 1.75; }
+.dc-or { background: var(--or-bg); border-color: var(--or-bd); }
+.dc-or .dc-tag { color: var(--or2); }
+.dc-dark { background: var(--ink); border-color: var(--ink); }
+.dc-dark h4 { color: #fff; }
+.dc-dark p { color: rgba(255,255,255,.6); }
+.dc-dark .dc-tag { color: rgba(255,122,61,.8); }
+
+/* STATE MACHINE */
+.state-flow { margin-top: 56px; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.sf-header { background: var(--ink); padding: 20px 28px; display: flex; justify-content: space-between; align-items: center; }
+.sf-header h3 { font-family: 'Lora',serif; font-size: 18px; color: #fff; font-weight: 600; }
+.sf-header span { font-family: 'DM Mono',monospace; font-size: 11px; color: rgba(255,255,255,.35); letter-spacing: .12em; text-transform: uppercase; }
+.sf-body { display: grid; grid-template-columns: repeat(4,1fr); }
+.sf-state { padding: 24px 20px; border-right: 1px solid var(--border); }
+.sf-state:last-child { border-right: none; }
+.sf-num { font-family: 'DM Mono',monospace; font-size: 10px; color: var(--ink3); letter-spacing: .1em; margin-bottom: 8px; }
+.sf-label { font-family: 'Lora',serif; font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+.sf-desc { font-size: 12px; color: var(--ink3); line-height: 1.7; }
+.sf-badge { display: inline-block; margin-top: 10px; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-family: 'DM Mono',monospace; }
+.sb-gray { background: var(--bg3); color: var(--ink3); }
+.sb-yellow { background: #fff3cd; color: #856404; }
+.sb-green { background: #d4edda; color: #155724; }
+.sb-red { background: #f8d7da; color: #721c24; }
+.sf-arrows { display: grid; grid-template-columns: repeat(4,1fr); background: var(--bg2); border-top: 1px solid var(--border); }
+.sf-arrow { padding: 12px 20px; font-size: 11px; color: var(--ink3); border-right: 1px solid var(--border); line-height: 1.5; }
+.sf-arrow:last-child { border-right: none; }
+
+/* WIRE FLOW */
+.wire-flow { display: flex; align-items: flex-start; gap: 0; margin-top: 56px; overflow-x: auto; padding-bottom: 12px; }
+.wf-step { flex-shrink: 0; width: 140px; }
+.wf-screen { background: var(--ink); border-radius: 14px; padding: 14px 12px; min-height: 220px; margin: 0 8px; position: relative; }
+.wf-step-num { font-family: 'DM Mono',monospace; font-size: 9px; letter-spacing: .1em; color: var(--ink3); text-transform: uppercase; text-align: center; margin-bottom: 8px; }
+.wf-step-label { font-family: 'DM Mono',monospace; font-size: 10px; color: var(--ink3); text-align: center; margin-top: 8px; line-height: 1.4; }
+.wf-arrow { flex-shrink: 0; width: 24px; display: flex; align-items: center; justify-content: center; margin-top: 90px; }
+.wf-arrow svg { opacity: .3; }
+.wf-el { font-size: 8px; color: rgba(255,255,255,.5); margin-bottom: 6px; }
+.wf-el-h { font-size: 9px; color: rgba(255,255,255,.85); font-weight: 500; margin-bottom: 4px; }
+.wf-bar { height: 4px; background: rgba(255,255,255,.12); border-radius: 2px; margin-bottom: 4px; overflow: hidden; }
+.wf-bar-fill { height: 100%; background: var(--or); border-radius: 2px; }
+.wf-tag { display: inline-block; background: var(--or); color: #fff; font-size: 7px; padding: 1px 5px; border-radius: 3px; font-family: 'DM Mono',monospace; }
+.wf-card-mini { background: rgba(255,255,255,.06); border-radius: 6px; padding: 6px 8px; margin-bottom: 5px; }
+
+/* INFO BOXES */
+.ibox { border-radius: 10px; padding: 20px 24px; margin-top: 14px; border: 1px solid; }
+.ibox .ilabel { font-family: 'DM Mono',monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 7px; opacity: .7; }
+.ibox p { font-size: 14px; color: var(--ink2); line-height: 1.7; }
+.ibox-or { background: var(--or-bg); border-color: var(--or-bd); }
+.ibox-or .ilabel { color: var(--or2); }
+.ibox-gray { background: var(--bg3); border-color: var(--border); }
+.ibox-gray .ilabel { color: var(--ink3); }
+.ibox-dark { background: var(--ink); border-color: var(--ink); }
+.ibox-dark .ilabel { color: rgba(255,122,61,.8); }
+.ibox-dark p { color: rgba(255,255,255,.65); }
+
+/* BITECARD VISUAL */
+.card-showcase { margin-top: 52px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.bite-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; }
+.bite-card svg { margin-bottom: 12px; }
+.bite-card-name { font-family: 'Lora',serif; font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.bite-card-macros { font-family: 'DM Mono',monospace; font-size: 10px; color: var(--ink3); line-height: 1.7; }
+.bc-kcal { font-family: 'Lora',serif; font-size: 18px; font-weight: 700; color: var(--or); margin-bottom: 4px; }
+
+/* API TABLE */
+.api-block { margin-top: 52px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.ab-header { background: var(--bg3); padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+.ab-method { background: var(--or); color: #fff; font-family: 'DM Mono',monospace; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 4px; }
+.ab-endpoint { font-family: 'DM Mono',monospace; font-size: 13px; color: var(--ink); }
+.api-row { display: grid; grid-template-columns: 180px 100px 1fr; border-bottom: 1px solid var(--border); }
+.api-row:last-child { border-bottom: none; }
+.ar-field { font-family: 'DM Mono',monospace; font-size: 11px; color: var(--ink); padding: 12px 16px; background: var(--bg2); border-right: 1px solid var(--border); }
+.ar-type { font-family: 'DM Mono',monospace; font-size: 10px; color: var(--or); padding: 12px 14px; border-right: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; }
+.ar-desc { font-size: 12px; color: var(--ink3); padding: 12px 16px; background: var(--bg); line-height: 1.5; display: flex; align-items: center; }
+.req-label { font-size: 9px; color: var(--or); font-family: 'DM Mono',monospace; letter-spacing: .08em; text-transform: uppercase; }
+
+/* REFLECTION */
+.ref-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 56px; }
+.rc { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 28px; }
+.rc h4 { font-family: 'Lora',serif; font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
+.rc p { font-size: 14px; color: var(--ink3); line-height: 1.8; }
+.rc-hl { background: var(--ink); }
+.rc-hl h4 { color: #fff; }
+.rc-hl p { color: rgba(255,255,255,.65); }
+
+/* CTA */
+.cta-wrap { padding: 0 56px 80px; }
+.cta-inner { background: var(--or-bg); border: 1px solid var(--or-bd); border-radius: 16px; padding: 60px 64px; display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
+.cta-inner h2 { font-family: 'Lora',serif; font-size: clamp(26px,3vw,40px); font-weight: 700; color: var(--ink); margin-bottom: 12px; line-height: 1.2; }
+.cta-inner p { font-size: 16px; color: var(--ink3); max-width: 480px; line-height: 1.7; }
+
+footer { padding: 48px 56px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.fl { font-family: 'Lora',serif; font-size: 17px; font-weight: 600; color: var(--ink); }
+.flinks { display: flex; gap: 28px; align-items: center; }
+.flink { font-size: 14px; color: var(--ink2); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 1px; }
+.fmeta { font-family: 'DM Mono',monospace; font-size: 11px; color: var(--ink3); }
+
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up:nth-child(2) { transition-delay: .08s; }
+.fade-up:nth-child(3) { transition-delay: .16s; }
+
+@media (max-width: 960px) {
+  nav { padding: 16px 24px; } .nav-links { display: none; }
+  section { padding: 72px 24px; } .hero { padding: 100px 24px 64px; }
+  .two-col, .ref-grid, .decision-grid, .card-showcase { grid-template-columns: 1fr; gap: 20px; }
+  .sf-body, .sf-arrows { grid-template-columns: 1fr 1fr; }
+  .cta-inner { grid-template-columns: 1fr; }
+  .cta-wrap { padding: 0 24px 60px; }
+  .wire-flow { flex-direction: column; }
+  .wf-arrow { transform: rotate(90deg); margin: 4px auto; }
+  footer { flex-direction: column; gap: 14px; padding: 36px 24px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <svg viewBox="0 0 20 20" fill="none" width="20" height="20"><path d="M4 10 L10 4 L16 10 L16 16 L4 16 Z" stroke="#1e1c18" stroke-width="1.5" fill="none"/><path d="M7 16 L7 11 L10 8 L13 11 L13 16" stroke="#1e1c18" stroke-width="1.5" fill="none"/></svg>
+    FishBook Studio
+  </div>
+  <ul class="nav-links">
+    <li><a href="#problem">问题</a></li>
+    <li><a href="#decisions">决策</a></li>
+    <li><a href="#flow">流程</a></li>
+    <li><a href="#tech">技术</a></li>
+    <li><a href="#reflection">思考</a></li>
+  </ul>
+  <button class="nav-cta" onclick="history.back()">← 返回作品集</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+
+  <!-- Doodles -->
+  <div class="doodle d-tl">
+    <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+      <circle cx="36" cy="36" r="28" stroke="#1e1c18" stroke-width="1.5" fill="none"/>
+      <path d="M20 36 A16 16 0 0 1 52 36" stroke="#1e1c18" stroke-width="1" fill="none"/>
+      <line x1="36" y1="20" x2="36" y2="52" stroke="#1e1c18" stroke-width="1"/>
+      <circle cx="36" cy="30" r="3" fill="#1e1c18" opacity=".4"/>
+      <text x="22" y="62" font-size="7" fill="#1e1c18" font-family="monospace">Progress Ring</text>
+    </svg>
+  </div>
+  <div class="doodle d-tr">
+    <svg width="80" height="88" viewBox="0 0 80 88" fill="none">
+      <!-- phone outline -->
+      <rect x="10" y="4" width="44" height="72" rx="8" stroke="#1e1c18" stroke-width="1.5" fill="none"/>
+      <rect x="16" y="14" width="32" height="44" rx="2" stroke="#1e1c18" stroke-width="1" fill="none"/>
+      <circle cx="32" cy="6" r="3" fill="#1e1c18" opacity=".3"/>
+      <!-- card in screen -->
+      <rect x="18" y="16" width="28" height="20" rx="2" fill="#1e1c18" opacity=".08"/>
+      <line x1="18" y1="40" x2="46" y2="40" stroke="#1e1c18" stroke-width=".8"/>
+      <line x1="18" y1="44" x2="36" y2="44" stroke="#1e1c18" stroke-width=".8"/>
+      <circle cx="32" cy="68" r="6" stroke="#1e1c18" stroke-width="1.2" fill="none"/>
+      <path d="M29 68 L31 70 L35 65" stroke="#1e1c18" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <text x="4" y="86" font-size="7" fill="#1e1c18" font-family="monospace">BiteCard iOS</text>
+    </svg>
+  </div>
+  <div class="doodle d-ml">
+    <svg width="84" height="68" viewBox="0 0 84 68" fill="none">
+      <text x="2" y="14" font-size="9" fill="#1e1c18" font-family="monospace" font-weight="bold">识别菜名</text>
+      <line x1="2" y1="19" x2="82" y2="19" stroke="#1e1c18" stroke-width=".7"/>
+      <rect x="2" y="24" width="60" height="8" rx="2" fill="#1e1c18" opacity=".12"/>
+      <text x="4" y="31" font-size="7" fill="#1e1c18" font-family="monospace">宫保鸡丁  ·  conf 0.87</text>
+      <text x="2" y="46" font-size="7" fill="#1e1c18" font-family="monospace">不准？点击修改 →</text>
+      <rect x="2" y="52" width="30" height="6" rx="2" fill="#1e1c18" opacity=".07"/>
+      <rect x="34" y="52" width="24" height="6" rx="2" fill="#1e1c18" opacity=".05"/>
+    </svg>
+  </div>
+  <div class="doodle d-mr">
+    <svg width="76" height="80" viewBox="0 0 76 80" fill="none">
+      <!-- food cutout card sketch -->
+      <rect x="4" y="4" width="60" height="60" rx="8" stroke="#1e1c18" stroke-width="1.5" fill="none"/>
+      <!-- bowl shape (simplified food) -->
+      <ellipse cx="34" cy="30" rx="20" ry="14" stroke="#1e1c18" stroke-width="1.2" fill="none"/>
+      <path d="M14 30 Q34 46 54 30" stroke="#1e1c18" stroke-width="1" fill="none"/>
+      <!-- white border hint -->
+      <ellipse cx="34" cy="30" rx="22" ry="16" stroke="#1e1c18" stroke-width=".6" stroke-dasharray="2 3" fill="none"/>
+      <line x1="10" y1="50" x2="58" y2="50" stroke="#1e1c18" stroke-width="1"/>
+      <line x1="10" y1="55" x2="42" y2="55" stroke="#1e1c18" stroke-width="1"/>
+      <text x="4" y="75" font-size="7" fill="#1e1c18" font-family="monospace">抠图 + 白边描边</text>
+    </svg>
+  </div>
+  <div class="doodle d-bl">
+    <svg width="90" height="56" viewBox="0 0 90 56" fill="none">
+      <text x="2" y="12" font-size="8" fill="#1e1c18" font-family="monospace">状态机 · 4-state</text>
+      <line x1="2" y1="16" x2="88" y2="16" stroke="#1e1c18" stroke-width=".7"/>
+      <rect x="2"  y="22" width="14" height="8" rx="2" fill="#1e1c18" opacity=".1"/>
+      <text x="4"  y="29" font-size="6" fill="#1e1c18" font-family="monospace">占位</text>
+      <path d="M17 26 L22 26 M20 23 L22 26 L20 29" stroke="#1e1c18" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <rect x="23" y="22" width="18" height="8" rx="2" fill="#1e1c18" opacity=".1"/>
+      <text x="25" y="29" font-size="6" fill="#1e1c18" font-family="monospace">识别中</text>
+      <path d="M42 26 L47 26 M45 23 L47 26 L45 29" stroke="#1e1c18" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <rect x="48" y="22" width="24" height="8" rx="2" fill="#1e1c18" opacity=".1"/>
+      <text x="50" y="29" font-size="6" fill="#1e1c18" font-family="monospace">已补全营养</text>
+      <text x="2"  y="48" font-size="7" fill="#1e1c18" font-family="monospace">失败 → 可重试</text>
+    </svg>
+  </div>
+  <div class="doodle d-br">
+    <svg width="82" height="58" viewBox="0 0 82 58" fill="none">
+      <text x="2" y="12" font-size="8" fill="#1e1c18" font-family="monospace" font-weight="bold">今日进度</text>
+      <line x1="2" y1="17" x2="80" y2="17" stroke="#1e1c18" stroke-width=".8"/>
+      <text x="2"  y="30" font-size="7" fill="#1e1c18" font-family="monospace">已摄入  1240 kcal</text>
+      <text x="2"  y="40" font-size="7" fill="#1e1c18" font-family="monospace">目标    1800 kcal</text>
+      <text x="2"  y="50" font-size="7" fill="#1e1c18" font-family="monospace">剩余     560 kcal</text>
+      <rect x="56" y="22" width="24" height="32" rx="3" stroke="#1e1c18" stroke-width=".8" fill="none"/>
+      <rect x="58" y="24" width="20" height="22" rx="1" fill="#1e1c18" opacity=".08"/>
+      <rect x="58" y="35" width="20" height="11" rx="1" fill="#1e1c18" opacity=".12"/>
+    </svg>
+  </div>
+
+  <!-- Hero phone illustration -->
+  <svg class="hero-illo" viewBox="0 0 280 220" fill="none">
+    <!-- Phone 1: Today screen -->
+    <rect x="10" y="20" width="100" height="190" rx="16" fill="#111" stroke="#333" stroke-width="1.5"/>
+    <rect x="18" y="36" width="84" height="158" rx="8" fill="#0d0d0d"/>
+    <!-- ring -->
+    <circle cx="60" cy="72" r="24" stroke="#333" stroke-width="5" fill="none"/>
+    <circle cx="60" cy="72" r="24" stroke="#ff7a3d" stroke-width="5" fill="none"
+      stroke-dasharray="100 51" stroke-dashoffset="-13" stroke-linecap="round"/>
+    <text x="60" y="68" font-size="8" fill="white" text-anchor="middle" font-family="monospace">1240</text>
+    <text x="60" y="78" font-size="5" fill="#777" text-anchor="middle" font-family="monospace">kcal</text>
+    <!-- cards -->
+    <rect x="22" y="108" width="76" height="24" rx="6" fill="#1e1e1e"/>
+    <rect x="26" y="113" width="16" height="14" rx="3" fill="#2a2a2a"/>
+    <text x="46" y="122" font-size="6" fill="rgba(255,255,255,.8)" font-family="monospace">宫保鸡丁</text>
+    <text x="46" y="129" font-size="5" fill="#ff7a3d" font-family="monospace">320 kcal</text>
+    <rect x="22" y="136" width="76" height="24" rx="6" fill="#1e1e1e"/>
+    <rect x="26" y="141" width="16" height="14" rx="3" fill="#2a2a2a"/>
+    <text x="46" y="150" font-size="6" fill="rgba(255,255,255,.8)" font-family="monospace">白米饭</text>
+    <text x="46" y="157" font-size="5" fill="#ff7a3d" font-family="monospace">208 kcal</text>
+    <rect x="22" y="164" width="76" height="24" rx="6" fill="#1e1e1e"/>
+    <rect x="26" y="169" width="16" height="14" rx="3" fill="#2a2a2a"/>
+    <text x="46" y="178" font-size="6" fill="rgba(255,255,255,.8)" font-family="monospace">蒸蛋</text>
+    <text x="46" y="185" font-size="5" fill="#ff7a3d" font-family="monospace">156 kcal</text>
+    <!-- fab -->
+    <circle cx="60" cy="204" r="9" fill="#ff7a3d"/>
+    <path d="M56 204 L60 200 L64 204 M60 200 L60 208" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Phone 2: BiteCard preview -->
+    <rect x="128" y="14" width="116" height="196" rx="18" fill="#111" stroke="#333" stroke-width="1.5"/>
+    <rect x="136" y="30" width="100" height="164" rx="10" fill="#0d0d0d"/>
+    <!-- card visual -->
+    <rect x="142" y="38" width="88" height="80" rx="8" fill="#1a1a1a"/>
+    <!-- food bowl (simplified) -->
+    <ellipse cx="186" cy="72" rx="28" ry="20" fill="#2a2a2a"/>
+    <ellipse cx="186" cy="68" rx="24" ry="16" fill="#333"/>
+    <!-- white border effect -->
+    <ellipse cx="186" cy="72" rx="30" ry="22" stroke="white" stroke-width="2" fill="none" opacity=".7"/>
+    <!-- food color hints -->
+    <circle cx="178" cy="66" r="6" fill="#d4502a" opacity=".7"/>
+    <circle cx="190" cy="62" r="5" fill="#e86030" opacity=".6"/>
+    <circle cx="183" cy="74" r="5" fill="#c83818" opacity=".7"/>
+    <!-- food name + macros -->
+    <text x="186" y="130" font-size="9" fill="white" text-anchor="middle" font-family="serif" font-weight="bold">宫保鸡丁</text>
+    <line x1="146" y1="134" x2="226" y2="134" stroke="#333" stroke-width="1"/>
+    <text x="158" y="146" font-size="7" fill="#ff7a3d" text-anchor="middle" font-family="monospace">320</text>
+    <text x="158" y="153" font-size="5" fill="#666" text-anchor="middle" font-family="monospace">kcal</text>
+    <text x="186" y="146" font-size="7" fill="rgba(255,255,255,.6)" text-anchor="middle" font-family="monospace">22g</text>
+    <text x="186" y="153" font-size="5" fill="#666" text-anchor="middle" font-family="monospace">蛋白质</text>
+    <text x="214" y="146" font-size="7" fill="rgba(255,255,255,.6)" text-anchor="middle" font-family="monospace">18g</text>
+    <text x="214" y="153" font-size="5" fill="#666" text-anchor="middle" font-family="monospace">脂肪</text>
+    <!-- share button -->
+    <rect x="152" y="162" width="68" height="18" rx="6" fill="#ff7a3d"/>
+    <text x="186" y="174" font-size="7" fill="white" text-anchor="middle" font-family="monospace">保存卡片</text>
+
+    <!-- Sparkle -->
+    <path d="M118 36 L120 28 L122 36 L130 38 L122 40 L120 48 L118 40 L110 38 Z" fill="#ff7a3d" opacity=".5"/>
+    <path d="M248 68 L249.5 63 L251 68 L256 69.5 L251 71 L249.5 76 L248 71 L243 69.5 Z" fill="#ff7a3d" opacity=".35"/>
+  </svg>
+
+  <div class="eyebrow">Case Study 06 · BiteCard · iOS App · 2025</div>
+  <h1 class="hero-title">记录吃什么，<br>应该是一件<em>好看的事</em></h1>
+  <p class="hero-sub">BiteCard 把「拍照记录饮食」变成了生成一张精美卡片的仪式感——食物主体抠图、白边描边、自动热量计算，一拍即记，不靠自律靠设计。</p>
+  <div class="hero-btns">
+    <button class="btn-p">查看产品设计</button>
+    <a href="#problem" class="btn-g">从问题开始看</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hs"><span class="hs-num">1 张</span><span class="hs-label">拍照生成 BiteCard</span></div>
+    <div class="hs"><span class="hs-num">4 态</span><span class="hs-label">状态机设计</span></div>
+    <div class="hs"><span class="hs-num">云端</span><span class="hs-label">AI 识图 + 抠图</span></div>
+    <div class="hs"><span class="hs-num">MVP</span><span class="hs-label">2 周可用版交付</span></div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="sec-alt" id="problem">
+  <div class="stag">01 · 问题洞察</div>
+  <h2 class="stitle">「记录饮食」<br>为什么<em>总坚持不了</em>？</h2>
+
+  <div class="two-col">
+    <div>
+      <div class="pain-row fade-up">
+        <svg class="pain-icon" width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#1e1c18" stroke-width="1.5" fill="none"/><line x1="14" y1="8" x2="14" y2="15" stroke="#1e1c18" stroke-width="1.8" stroke-linecap="round"/><circle cx="14" cy="19" r="1.5" fill="#1e1c18"/></svg>
+        <div>
+          <h4>录入步骤太多，每次都像做作业</h4>
+          <p>搜索菜名 → 选择匹配项 → 设置克数 → 确认 —— 最少 4 步。用户不是在记录饮食，是在完成一道题。</p>
+        </div>
+      </div>
+      <div class="pain-row fade-up">
+        <svg class="pain-icon" width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#1e1c18" stroke-width="1.5" fill="none"/><path d="M10 10 L18 18 M18 10 L10 18" stroke="#1e1c18" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div>
+          <h4>记录结果太丑，没有完成感</h4>
+          <p>一条文字记录："宫保鸡丁 320kcal"。没有视觉奖励，没有仪式感，坚持几天就会感到无聊，而非成就感。</p>
+        </div>
+      </div>
+      <div class="pain-row fade-up">
+        <svg class="pain-icon" width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#1e1c18" stroke-width="1.5" fill="none"/><path d="M9 18 Q14 10 19 18" stroke="#1e1c18" stroke-width="1.5" fill="none"/><circle cx="14" cy="10" r="2.5" stroke="#1e1c18" stroke-width="1.5" fill="none"/></svg>
+        <div>
+          <h4>指标太多，不知道今天算不算超标</h4>
+          <p>大多数 App 展示热量、蛋白质、脂肪、碳水……用户只想知道一件事：今天的目标达标了吗？</p>
+        </div>
+      </div>
+      <div class="quote-blk fade-up">「记录饮食的失败，不是用户不自律——<br>是工具把这件事做得太无聊、太麻烦。」</div>
+    </div>
+
+    <div class="fade-up">
+      <div class="insight-box">
+        <span class="itag">PM 洞察</span>
+        <h3>把「记录结果」变成一个值得期待的产出</h3>
+        <p>大多数工具在优化「录入效率」，但忽略了「录入结果」本身是否让人有满足感。BiteCard 的核心假设是：如果记录的结果是一张好看的卡片，用户就会把「记录」本身当成一种享受，而不是负担。</p>
+        <br>
+        <p>抠图 + 白边描边不是功能炫技，而是让「每一次记录」都有视觉上的完成感——照片里的食物变成了你专属的食物卡片，这就是黏性的来源。</p>
+      </div>
+      <div class="ibox ibox-or" style="margin-top:14px;">
+        <div class="ilabel">◎ 设计原则</div>
+        <p>最少输入（拍一张照）→ 最好看的输出（一张 BiteCard）→ 最清晰的反馈（今日达标 / 超标）。三个层次，缺一不可。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT DECISIONS -->
+<section id="decisions">
+  <div class="stag">02 · 关键产品决策</div>
+  <h2 class="stitle">每一个<em>设计取舍</em><br>背后的逻辑</h2>
+  <p class="sbody">MVP 不是「做一个精简版」，是「做一个有明确主张的版本」。以下 6 个决策，每一个都可以换一个方向——但我选择了这个方向，并说清楚为什么。</p>
+
+  <div class="decision-grid fade-up">
+    <div class="dc dc-or">
+      <div class="dc-tag">① 拍照优先</div>
+      <h4>「拍照即记」：彻底干掉搜索框</h4>
+      <p>MVP 不做手动搜索食物库。唯一入口是拍照 / 选图，配合 AI 识别 + 候选纠错。放弃搜索是个有争议的决定——但它强制让用户路径只有一条，减少了决策疲劳，也让「记录」变成一个动作而不是一个流程。</p>
+    </div>
+    <div class="dc">
+      <div class="dc-tag">② 卡片即产品</div>
+      <h4>抠图 + 白边描边是「必须成功」的核心能力</h4>
+      <p>PRD 明确定义：抠图失败 = 记录失败。这个严苛的验收标准是有意为之的——如果卡片视觉不好看，产品的核心差异化就消失了。宁可失败率高一点，也不允许输出一张质量差的卡片。</p>
+    </div>
+    <div class="dc">
+      <div class="dc-tag">③ 单一目标</div>
+      <h4>只有一个 kcal 目标，不做餐次、不做净热量</h4>
+      <p>用户最需要的反馈是「今天够了吗」，而不是「早餐吃了多少、午餐超了多少」。餐次分类会增加数据录入成本，也会让进度环变得复杂。MVP 只做一件事做好：今日 kcal 进度。</p>
+    </div>
+    <div class="dc dc-or">
+      <div class="dc-tag">④ 离线强拦截</div>
+      <h4>无网络不允许创建任何记录</h4>
+      <p>AI 识别和抠图都是云端能力，断网情况下根本无法完成记录。与其让用户进入流程然后遭遇失败，不如在入口处就明确拒绝并给出指引。强约束反而更诚实，也减少了「部分失败」的体验碎片。</p>
+    </div>
+    <div class="dc dc-dark">
+      <div class="dc-tag">⑤ 无营养降级</div>
+      <h4>找不到营养数据时，仍允许保存「无营养记录」</h4>
+      <p>如果要求每条记录都必须有完整营养数据，营养库覆盖率不足的中餐品类会产生大量失败。「无营养记录」不计入进度环，但保留了用户的记录行为——用户的记录习惯比数据完整性更重要，先把人留住。</p>
+    </div>
+    <div class="dc">
+      <div class="dc-tag">⑥ 改名 + 候选纠错</div>
+      <h4>不做完整搜索，但提供 5 个本地候选</h4>
+      <p>AI 识别不可能 100% 准确。完整搜索库维护成本高、体验路径长。折中方案：识别结果 + 5 个模糊匹配候选，用户大概率能从候选中找到正确答案。这是用候选列表替代搜索框的最小可行纠错链路。</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATE MACHINE -->
+<section class="sec-alt">
+  <div class="stag">03 · 状态机设计</div>
+  <h2 class="stitle">一条记录的<em>四种状态</em></h2>
+  <p class="sbody">状态机是产品设计的骨架——它定义了每条记录在整个生命周期里的行为和权限。把状态设计清楚，开发才能少踩坑，用户才能看到一致的体验。</p>
+
+  <div class="state-flow fade-up">
+    <div class="sf-header">
+      <h3>FoodRecord 状态机</h3>
+      <span>4 States · MVP v1.0</span>
+    </div>
+    <div class="sf-body">
+      <div class="sf-state">
+        <div class="sf-num">State 01</div>
+        <div class="sf-label">占位</div>
+        <div class="sf-desc">记录已创建，拍照/选图完成，等待云端处理开始。UI 显示骨架屏 / loading 占位。</div>
+        <span class="sf-badge sb-gray">Placeholder</span>
+      </div>
+      <div class="sf-state">
+        <div class="sf-num">State 02</div>
+        <div class="sf-label">识别中</div>
+        <div class="sf-desc">图片已上传，云端正在运行：识别菜名 + 抠图 + 营养映射。进度动画持续显示。</div>
+        <span class="sf-badge sb-yellow">Processing</span>
+      </div>
+      <div class="sf-state">
+        <div class="sf-num">State 03</div>
+        <div class="sf-label">已补全营养</div>
+        <div class="sf-desc">抠图 PNG + 营养数据全部落库，卡片完整展示。此状态记录计入进度环 kcal 统计。</div>
+        <span class="sf-badge sb-green">Complete ✓</span>
+      </div>
+      <div class="sf-state">
+        <div class="sf-num">State 04</div>
+        <div class="sf-label">失败</div>
+        <div class="sf-desc">识别/抠图/网络任一环节失败。展示简化错误信息，用户点「重试」才触发重新处理。</div>
+        <span class="sf-badge sb-red">Failed · Retry</span>
+      </div>
+    </div>
+    <div class="sf-arrows">
+      <div class="sf-arrow">→ 进入 Capture 页，选图完成后立即创建记录，进入「占位」</div>
+      <div class="sf-arrow">→ 图片上传完成即进入「识别中」；不允许在此状态编辑</div>
+      <div class="sf-arrow">→ 进度环 +kcal；可在今日页展示完整卡片；可生成分享图</div>
+      <div class="sf-arrow">→ 仅用户主动点「重试」触发，不自动重试；可允许改名后重试</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:40px;">
+    <div class="ibox ibox-or fade-up">
+      <div class="ilabel">◎ 为什么不自动重试</div>
+      <p>自动重试会导致：重复 API 调用（成本）、用户不清楚发生了什么（体验）。让用户主动触发重试，给了他们改名纠错的机会，也让重试的语义更清晰——是用户决定要不要这条记录。</p>
+    </div>
+    <div class="ibox ibox-gray fade-up">
+      <div class="ilabel">◈ 无营养记录的特殊处理</div>
+      <p>营养库命中失败时，记录仍可保存（状态视为已完成，但 hasNutrition = false），不进入失败态。不计入进度环，但在今日页和历史页照常展示——保留记录行为比强制数据完整更重要。</p>
+    </div>
+  </div>
+</section>
+
+<!-- WIREFLOW -->
+<section id="flow">
+  <div class="stag">04 · 主流程设计</div>
+  <h2 class="stitle">从拍照到<em>卡片生成</em><br>只需五步</h2>
+  <p class="sbody">确认页是体验的核心——它决定用户在「AI 生成结果」和「最终记录」之间的控制感。每个字段的顺序、每个交互的默认值都是产品决策，不是 UI 装饰。</p>
+
+  <div class="wire-flow fade-up">
+
+    <div class="wf-step">
+      <div class="wf-step-num">Step 01</div>
+      <div class="wf-screen">
+        <div class="wf-el-h" style="color:rgba(255,255,255,.6);margin-bottom:8px;">今日页</div>
+        <!-- ring mini -->
+        <svg width="48" height="48" style="margin:0 auto 8px;display:block"><circle cx="24" cy="24" r="18" stroke="#333" stroke-width="4" fill="none"/><circle cx="24" cy="24" r="18" stroke="#ff7a3d" stroke-width="4" fill="none" stroke-dasharray="72 41" stroke-dashoffset="-10" stroke-linecap="round"/><text x="24" y="28" font-size="6" fill="#ccc" text-anchor="middle" font-family="monospace">1240</text></svg>
+        <div class="wf-card-mini"><div style="font-size:7px;color:rgba(255,255,255,.6);">宫保鸡丁  320kcal</div></div>
+        <div class="wf-card-mini"><div style="font-size:7px;color:rgba(255,255,255,.6);">白米饭  208kcal</div></div>
+        <div style="width:24px;height:24px;background:#ff7a3d;border-radius:50%;margin:10px auto 0;display:flex;align-items:center;justify-content:center;">
+          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 2 L5 8 M2 5 L8 5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+      <div class="wf-step-label">点击 (+) 拍照入口</div>
+    </div>
+
+    <div class="wf-arrow"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8 L13 8 M10 5 L13 8 L10 11" stroke="#999" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+
+    <div class="wf-step">
+      <div class="wf-step-num">Step 02</div>
+      <div class="wf-screen" style="align-items:center;justify-content:center;">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="margin-bottom:10px;">
+          <rect x="8" y="16" width="48" height="36" rx="5" stroke="rgba(255,255,255,.3)" stroke-width="1.5" fill="rgba(255,255,255,.05)"/>
+          <circle cx="32" cy="34" r="10" stroke="rgba(255,255,255,.3)" stroke-width="1.5" fill="none"/>
+          <circle cx="32" cy="34" r="5"  fill="rgba(255,255,255,.15)"/>
+          <rect x="24" y="10" width="16" height="8" rx="3" stroke="rgba(255,255,255,.2)" stroke-width="1" fill="none"/>
+        </svg>
+        <div style="font-size:8px;color:rgba(255,255,255,.4);text-align:center;">或从相册选图</div>
+        <div style="margin-top:12px;display:flex;gap:6px;justify-content:center;">
+          <div style="width:32px;height:24px;background:#222;border-radius:3px;border:1px solid #333;"></div>
+          <div style="width:32px;height:24px;background:#222;border-radius:3px;border:1px solid #333;"></div>
+          <div style="width:32px;height:24px;background:#222;border-radius:3px;border:1px solid #333;"></div>
+        </div>
+      </div>
+      <div class="wf-step-label">拍照 / 选图<br>(Capture)</div>
+    </div>
+
+    <div class="wf-arrow"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8 L13 8 M10 5 L13 8 L10 11" stroke="#999" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+
+    <div class="wf-step">
+      <div class="wf-step-num">Step 03</div>
+      <div class="wf-screen">
+        <div class="wf-el-h">确认页</div>
+        <!-- cutout preview -->
+        <div style="background:#1e1e1e;border-radius:6px;padding:6px;margin-bottom:6px;text-align:center;">
+          <svg width="60" height="40" viewBox="0 0 60 40" fill="none"><ellipse cx="30" cy="22" rx="18" ry="12" fill="#2a2a2a"/><ellipse cx="30" cy="20" rx="16" ry="10" fill="#3a2a1a"/><ellipse cx="30" cy="22" rx="20" ry="14" stroke="white" stroke-width="1.5" fill="none" opacity=".6"/><text x="30" y="38" font-size="6" fill="rgba(255,255,255,.4)" text-anchor="middle" font-family="monospace">抠图预览</text></svg>
+        </div>
+        <!-- name -->
+        <div style="background:#1e1e1e;border-radius:4px;padding:5px 8px;margin-bottom:4px;">
+          <div style="font-size:7px;color:#666;">菜名</div>
+          <div style="font-size:8px;color:white;">宫保鸡丁 <span style="color:#ff7a3d;font-size:6px;">编辑</span></div>
+        </div>
+        <!-- slider -->
+        <div style="background:#1e1e1e;border-radius:4px;padding:5px 8px;margin-bottom:4px;">
+          <div style="font-size:7px;color:#666;">克数 100g</div>
+          <div style="height:3px;background:#333;border-radius:2px;margin-top:4px;"><div style="width:50%;height:100%;background:#ff7a3d;border-radius:2px;"></div></div>
+        </div>
+        <!-- nutrition -->
+        <div style="background:#1e1e1e;border-radius:4px;padding:5px 8px;">
+          <div style="font-size:6px;color:#ff7a3d;">320 kcal · P22 F18 C24</div>
+        </div>
+      </div>
+      <div class="wf-step-label">确认 / 纠错<br>(Confirm)</div>
+    </div>
+
+    <div class="wf-arrow"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8 L13 8 M10 5 L13 8 L10 11" stroke="#999" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+
+    <div class="wf-step">
+      <div class="wf-step-num">Step 04</div>
+      <div class="wf-screen" style="align-items:center;justify-content:center;">
+        <div style="text-align:center;">
+          <!-- BiteCard output -->
+          <div style="background:#1e1e1e;border-radius:10px;padding:10px;width:90px;margin:0 auto;">
+            <svg width="68" height="50" viewBox="0 0 68 50" fill="none"><ellipse cx="34" cy="26" rx="20" ry="14" fill="#2a2a2a"/><ellipse cx="34" cy="24" rx="18" ry="12" fill="#3a2a1a"/><ellipse cx="30" cy="20" rx="5" ry="4" fill="#c03020" opacity=".7"/><ellipse cx="38" cy="18" rx="4" ry="3" fill="#d04030" opacity=".6"/><ellipse cx="34" cy="26" rx="22" ry="16" stroke="white" stroke-width="1.5" fill="none" opacity=".7"/></svg>
+            <div style="font-size:8px;color:white;font-family:serif;text-align:center;margin:4px 0 2px;">宫保鸡丁</div>
+            <div style="font-size:7px;color:#ff7a3d;text-align:center;font-family:monospace;">320 kcal</div>
+          </div>
+          <div style="margin-top:8px;font-size:7px;color:rgba(255,255,255,.4);">BiteCard 生成完毕</div>
+        </div>
+      </div>
+      <div class="wf-step-label">卡片生成<br>返回今日页</div>
+    </div>
+
+    <div class="wf-arrow"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8 L13 8 M10 5 L13 8 L10 11" stroke="#999" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+
+    <div class="wf-step">
+      <div class="wf-step-num">Step 05</div>
+      <div class="wf-screen" style="align-items:center;justify-content:center;">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none" style="margin-bottom:8px;display:block;">
+          <circle cx="28" cy="28" r="22" stroke="#333" stroke-width="5" fill="none"/>
+          <circle cx="28" cy="28" r="22" stroke="#ff7a3d" stroke-width="5" fill="none" stroke-dasharray="92 46" stroke-dashoffset="-12" stroke-linecap="round"/>
+          <text x="28" y="24" font-size="7" fill="white" text-anchor="middle" font-family="monospace">1560</text>
+          <text x="28" y="33" font-size="5" fill="#666" text-anchor="middle" font-family="monospace">kcal 已摄入</text>
+          <text x="28" y="42" font-size="5" fill="#ff7a3d" text-anchor="middle" font-family="monospace">剩 240</text>
+        </svg>
+        <div style="font-size:7px;color:rgba(255,255,255,.5);text-align:center;">进度环自动更新<br>新卡片滚动到顶部</div>
+      </div>
+      <div class="wf-step-label">今日页更新<br>进度 +320kcal</div>
+    </div>
+
+  </div>
+
+  <div class="ibox ibox-or fade-up" style="margin-top:40px;max-width:680px;">
+    <div class="ilabel">◎ 确认页的字段顺序为什么这样排</div>
+    <p>图片预览（视觉确认）→ 菜名（最可能需要纠错）→ 克数（对热量影响最大）→ 时间（最少改动）→ 营养表（结果查看）→ 保存。这个顺序遵循「用户最可能要改的东西排最前面」的原则，而不是技术生成顺序。</p>
+  </div>
+</section>
+
+<!-- TECH ARCHITECTURE -->
+<section class="sec-alt" id="tech">
+  <div class="stag">05 · 技术架构决策</div>
+  <h2 class="stitle">端侧轻量，<br>云端<em>承担所有智能</em></h2>
+  <p class="sbody">iOS 端不集成任何 ML 模型，不做端侧推理——所有 AI 能力（识图、抠图、营养映射）全部交给云端，iOS 只负责交互、上传、展示、缓存和重试。</p>
+
+  <div class="two-col">
+    <div>
+      <div class="ibox ibox-gray fade-up">
+        <div class="ilabel">为什么不做端侧推理</div>
+        <p>端侧模型需要下载、占存储、更新困难，且近 5 年 iPhone 跑食物识别 + 实时抠图的速度仍不理想。云端可以随时升级模型，AB 测试不同方案，不需要 App Store 审核周期。<br><br>牺牲的是：无法离线使用。但我们的 MVP 已明确「联网强约束」，这是一致的产品选择。</p>
+      </div>
+      <div class="ibox ibox-or fade-up">
+        <div class="ilabel">◎ 不在 App 内写死大模型 Key</div>
+        <p>所有大模型调用通过自家后端转发——保护 Key 泄露风险，也让后端可以做限流、计费控制、模型灰度切换（OpenAI / Claude / 通义）而不用发版 App。这是一个简单但重要的安全决策。</p>
+      </div>
+    </div>
+    <div class="fade-up">
+      <!-- Architecture diagram -->
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+        <div style="background:var(--ink);padding:16px 20px;font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;">调用链路</div>
+        <div style="padding:24px 20px;display:flex;flex-direction:column;gap:0;">
+          <!-- iOS -->
+          <div style="background:var(--or-bg);border:1px solid var(--or-bd);border-radius:8px;padding:14px 16px;margin-bottom:0;">
+            <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--or2);margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;">iOS App</div>
+            <div style="font-size:12px;color:var(--ink3);">上传图片 + 克数 → 接收 JSON + 抠图 PNG → 展示 / 缓存 / 重试</div>
+          </div>
+          <div style="text-align:center;padding:6px;font-size:11px;color:var(--ink3);">↓ HTTPS</div>
+          <!-- Backend -->
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:0;">
+            <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;">自家后端（建议）</div>
+            <div style="font-size:12px;color:var(--ink3);">鉴权 / 限流 / 计费 / 日志 / Prompt 管理 / 模型路由</div>
+          </div>
+          <div style="text-align:center;padding:6px;font-size:11px;color:var(--ink3);">↓ API</div>
+          <!-- Model -->
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;">
+            <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;">大模型 / 视觉服务</div>
+            <div style="font-size:12px;color:var(--ink3);">识图（100 类）· 抠图 PNG · 营养映射<br><span style="font-size:10px;opacity:.6;">可替换：OpenAI / Claude / 通义 / 文心</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- API spec -->
+  <div class="api-block fade-up">
+    <div class="ab-header">
+      <span class="ab-method">POST</span>
+      <span class="ab-endpoint">/v1/food/analyze</span>
+      <span style="flex:1;"></span>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);">Response: JSON · 必须结构化</span>
+    </div>
+    <div class="api-row">
+      <span class="ar-field">image <span class="req-label">REQ</span></span>
+      <span class="ar-type">file</span>
+      <span class="ar-desc">原图（multipart 或 base64）</span>
+    </div>
+    <div class="api-row">
+      <span class="ar-field">foodName</span>
+      <span class="ar-type">string</span>
+      <span class="ar-desc">Top-1 识别菜名 + 可选 top3 用于纠错候选</span>
+    </div>
+    <div class="api-row">
+      <span class="ar-field">cutoutPngUrl</span>
+      <span class="ar-type">url</span>
+      <span class="ar-desc">透明背景 PNG（食物+盘子）+ 4-8px 白边描边</span>
+    </div>
+    <div class="api-row">
+      <span class="ar-field">nutrition_total</span>
+      <span class="ar-type">object</span>
+      <span class="ar-desc">{kcal, protein_g, fat_g, carbs_g} 按实际克数换算</span>
+    </div>
+    <div class="api-row">
+      <span class="ar-field">confidence</span>
+      <span class="ar-type">number</span>
+      <span class="ar-desc">0–1，低于阈值时 UI 给出「可能不准」提示</span>
+    </div>
+    <div class="api-row">
+      <span class="ar-field">errorCode</span>
+      <span class="ar-type">string?</span>
+      <span class="ar-desc">失败时必填，触发客户端进入失败态 / 重试流程</span>
+    </div>
+  </div>
+</section>
+
+<!-- BITECARD VISUAL -->
+<section>
+  <div class="stag">06 · BiteCard 视觉规格</div>
+  <h2 class="stitle">一张卡片的<br><em>视觉验收标准</em></h2>
+  <p class="sbody">卡片是产品的「完成感来源」。MVP 验收口径：必须完成抠图（透明背景 PNG）+ 白色描边 + 营养表（kcal+P/F/C），三者缺一算失败。</p>
+
+  <div class="card-showcase fade-up">
+    <!-- Card 1 -->
+    <div class="bite-card">
+      <svg width="120" height="100" viewBox="0 0 120 100" fill="none">
+        <!-- checkerboard bg (transparent hint) -->
+        <rect x="10" y="5" width="100" height="80" rx="8" fill="#f0f0f0"/>
+        <rect x="10" y="5" width="10" height="10" fill="#e0e0e0"/><rect x="30" y="5" width="10" height="10" fill="#e0e0e0"/>
+        <rect x="50" y="5" width="10" height="10" fill="#e0e0e0"/><rect x="70" y="5" width="10" height="10" fill="#e0e0e0"/>
+        <rect x="90" y="5" width="10" height="10" fill="#e0e0e0"/>
+        <rect x="20" y="15" width="10" height="10" fill="#e0e0e0"/><rect x="40" y="15" width="10" height="10" fill="#e0e0e0"/>
+        <rect x="60" y="15" width="10" height="10" fill="#e0e0e0"/><rect x="80" y="15" width="10" height="10" fill="#e0e0e0"/>
+        <rect x="100" y="15" width="10" height="10" fill="#e0e0e0"/>
+        <!-- bowl cutout -->
+        <ellipse cx="60" cy="50" rx="34" ry="26" fill="#d4502a"/>
+        <ellipse cx="60" cy="46" rx="30" ry="22" fill="#c84020"/>
+        <ellipse cx="54" cy="40" rx="8" ry="6" fill="#e06030" opacity=".8"/>
+        <ellipse cx="66" cy="38" rx="7" ry="5" fill="#d05020" opacity=".7"/>
+        <!-- white border -->
+        <ellipse cx="60" cy="50" rx="38" ry="30" stroke="white" stroke-width="3.5" fill="none"/>
+      </svg>
+      <div class="bc-kcal">460 kcal</div>
+      <div class="bite-card-name">鱼香肉丝</div>
+      <div class="bite-card-macros">蛋白质 28g · 脂肪 24g<br>碳水 32g</div>
+    </div>
+    <!-- Card 2 -->
+    <div class="bite-card">
+      <svg width="120" height="100" viewBox="0 0 120 100" fill="none">
+        <rect x="10" y="5" width="100" height="80" rx="8" fill="#f0f0f0"/>
+        <rect x="10" y="5" width="10" height="10" fill="#e0e0e0"/><rect x="30" y="5" width="10" height="10" fill="#e0e0e0"/><rect x="50" y="5" width="10" height="10" fill="#e0e0e0"/><rect x="70" y="5" width="10" height="10" fill="#e0e0e0"/><rect x="90" y="5" width="10" height="10" fill="#e0e0e0"/>
+        <rect x="20" y="15" width="10" height="10" fill="#e0e0e0"/><rect x="40" y="15" width="10" height="10" fill="#e0e0e0"/><rect x="60" y="15" width="10" height="10" fill="#e0e0e0"/><rect x="80" y="15" width="10" height="10" fill="#e0e0e0"/><rect x="100" y="15" width="10" height="10" fill="#e0e0e0"/>
+        <!-- rice bowl -->
+        <ellipse cx="60" cy="52" rx="28" ry="10" fill="#b8a070" opacity=".5"/>
+        <ellipse cx="60" cy="46" rx="32" ry="20" fill="#e8d898"/>
+        <ellipse cx="60" cy="42" rx="28" ry="16" fill="#f0e4a8"/>
+        <!-- white border -->
+        <ellipse cx="60" cy="46" rx="36" ry="24" stroke="white" stroke-width="3.5" fill="none"/>
+      </svg>
+      <div class="bc-kcal">208 kcal</div>
+      <div class="bite-card-name">白米饭</div>
+      <div class="bite-card-macros">蛋白质 4g · 脂肪 0.5g<br>碳水 46g</div>
+    </div>
+    <!-- Card 3 -->
+    <div class="bite-card">
+      <svg width="120" height="100" viewBox="0 0 120 100" fill="none">
+        <rect x="10" y="5" width="100" height="80" rx="8" fill="#f0f0f0"/>
+        <rect x="10" y="5" width="10" height="10" fill="#e0e0e0"/><rect x="30" y="5" width="10" height="10" fill="#e0e0e0"/><rect x="50" y="5" width="10" height="10" fill="#e0e0e0"/><rect x="70" y="5" width="10" height="10" fill="#e0e0e0"/><rect x="90" y="5" width="10" height="10" fill="#e0e0e0"/>
+        <rect x="20" y="15" width="10" height="10" fill="#e0e0e0"/><rect x="40" y="15" width="10" height="10" fill="#e0e0e0"/><rect x="60" y="15" width="10" height="10" fill="#e0e0e0"/><rect x="80" y="15" width="10" height="10" fill="#e0e0e0"/><rect x="100" y="15" width="10" height="10" fill="#e0e0e0"/>
+        <!-- egg steamed -->
+        <ellipse cx="60" cy="50" rx="30" ry="22" fill="#f8f0c8"/>
+        <ellipse cx="60" cy="48" rx="26" ry="18" fill="#f4e8a8"/>
+        <circle cx="60" cy="46" rx="10" ry="8" fill="#f0c830" opacity=".7"/>
+        <!-- white border -->
+        <ellipse cx="60" cy="50" rx="34" ry="26" stroke="white" stroke-width="3.5" fill="none"/>
+      </svg>
+      <div class="bc-kcal">156 kcal</div>
+      <div class="bite-card-name">蒸鸡蛋</div>
+      <div class="bite-card-macros">蛋白质 13g · 脂肪 10g<br>碳水 1.5g</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:40px;">
+    <div class="ibox ibox-or fade-up">
+      <div class="ilabel">◎ 为什么保留盘子</div>
+      <p>去掉盘子的抠图看起来「没有重量感」，食物主体会显得漂浮不稳。保留盘子让卡片更像一张真实的食物摄影，而不是贴纸——这是视觉可信度的来源。PRD 明确约定：Mask 前景 = 食物 + 盘子整体。</p>
+    </div>
+    <div class="ibox ibox-gray fade-up">
+      <div class="ilabel">◈ 白边参数的设计逻辑</div>
+      <p>白色描边 4–8px（自适应分辨率）+ 轻微柔化（10–20% blur），既能让食物主体从任意背景中跳出，又不会显得过于硬朗。参数是 MVP 建议值，后续可根据用户反馈 AB 测试不同厚度和柔化程度。</p>
+    </div>
+  </div>
+</section>
+
+<!-- REFLECTION -->
+<section class="sec-alt" id="reflection">
+  <div class="stag">07 · 产品思考</div>
+  <h2 class="stitle">写这份 PRD<br>让我理解了<em>什么</em></h2>
+  <div class="ref-grid">
+    <div class="rc fade-up">
+      <h4>「好看的结果」本身就是产品功能</h4>
+      <p>BiteCard 的抠图卡片不是 UI 装饰，而是让用户产生「完成感」和「分享欲」的核心机制。把视觉结果做好，就是在降低用户流失率——这是产品设计，不是设计稿。</p>
+    </div>
+    <div class="rc fade-up">
+      <h4>状态机的颗粒度决定体验的一致性</h4>
+      <p>四个状态（占位/识别中/已补全/失败）把所有边界情况都框住了：什么时候可以编辑、什么时候计入统计、什么时候可以重试。把这些定义清楚，是 PM 在帮开发避免「每种情况都要单独讨论」的陷阱。</p>
+    </div>
+    <div class="rc-hl rc fade-up">
+      <h4>强约束比兜底逻辑更诚实</h4>
+      <p>「无网络不允许记录」是一个强约束。我可以选择：让用户先拍照、等有网了再上传。但这会引入「离线队列」的同步复杂性和潜在数据丢失风险。MVP 阶段，明确说「不行」比做一个半成品兜底体验更好。<br><br>这个决策的代价是用户体验不够灵活；收益是产品逻辑干净，开发成本低，失败路径明确。</p>
+    </div>
+    <div class="rc fade-up">
+      <h4>端侧轻量是一个产品原则，不只是技术选择</h4>
+      <p>不在 App 里跑模型、不在 App 里写死 Key——这让 iOS 端的职责非常清晰：只负责交互和展示。模型可以随时升级，供应商可以随时切换，不需要发版 App。这种架构设计上的「克制」，来自对产品迭代速度的判断。</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <div class="cta-inner">
+    <div>
+      <h2>从一张好看的卡片<br>开始设计产品逻辑。</h2>
+      <p>BiteCard 是一份从用户痛点出发、有明确产品主张的 MVP PRD。每个「不做什么」都和「做什么」一样重要——离线拦截、无营养降级、不做端侧推理，这些取舍背后的逻辑，就是 PM 判断力的体现。</p>
+    </div>
+    <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+      <!-- mini phone with card -->
+      <rect x="30" y="10" width="80" height="120" rx="14" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+      <rect x="38" y="24" width="64" height="96" rx="8" fill="#0d0d0d"/>
+      <circle cx="70" cy="50" r="20" stroke="#333" stroke-width="4" fill="none"/>
+      <circle cx="70" cy="50" r="20" stroke="#ff7a3d" stroke-width="4" fill="none" stroke-dasharray="82 44" stroke-dashoffset="-10" stroke-linecap="round"/>
+      <text x="70" y="46" font-size="7" fill="white" text-anchor="middle" font-family="monospace">1560</text>
+      <text x="70" y="55" font-size="5" fill="#666" text-anchor="middle" font-family="monospace">kcal</text>
+      <rect x="42" y="76" width="56" height="30" rx="5" fill="#1e1e1e"/>
+      <ellipse cx="56" cy="91" rx="9" ry="7" fill="#333"/>
+      <ellipse cx="56" cy="89" rx="8" ry="6" fill="#3a2a1a"/>
+      <ellipse cx="56" cy="91" rx="11" ry="9" stroke="white" stroke-width="1.5" fill="none" opacity=".7"/>
+      <text x="80" y="89" font-size="6" fill="white" font-family="serif">宫保鸡丁</text>
+      <text x="80" y="97" font-size="5" fill="#ff7a3d" font-family="monospace">320 kcal</text>
+    </svg>
+  </div>
+</div>
+
+<footer>
+  <div class="fl">FishBook Studio</div>
+  <div class="flinks">
+    <a href="index.html" class="flink">← 首页</a>
+    <a href="waikan-case-study.html" class="flink">Project 05</a>
+    <a href="progresslab-case-study.html" class="flink">Project 04</a>
+    <span class="fmeta">Ji Tong · 2025</span>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

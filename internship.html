@@ -1,0 +1,1340 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>实习经历 · JoJo Math 出海团队 · Ji Tong</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --cream: #ffffff;
+        --cream2: #f7f7f7;
+        --cream3: #ededed;
+        --ink: #1e1c18;
+        --ink2: #3a3830;
+        --ink3: #807a6e;
+        --yellow: #f5c842;
+        --green: #3a8c5c;
+        --blue: #3a60c8;
+        --border: rgba(30, 28, 24, 0.1);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--cream);
+        color: var(--ink2);
+        font-family: "DM Sans", sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 0 56px;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-logo {
+        font-family: "Lora", serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .nav-back {
+        font-size: 13px;
+        color: var(--ink3);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .nav-back:hover {
+        color: var(--ink);
+      }
+      .nav-meta {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--ink3);
+        letter-spacing: 0.1em;
+      }
+
+      /* ── HERO ── */
+      .hero {
+        padding: 120px 56px 80px;
+        border-bottom: 1px solid var(--border);
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .hero-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .hero-eyebrow::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      .hero-title {
+        font-family: "Lora", "Noto Serif SC", serif;
+        font-size: clamp(36px, 5.5vw, 72px);
+        font-weight: 700;
+        line-height: 1.08;
+        color: var(--ink);
+        letter-spacing: -0.02em;
+        margin-bottom: 20px;
+      }
+      .hero-title em {
+        font-style: italic;
+        color: var(--ink3);
+      }
+      .hero-sub {
+        font-size: 17px;
+        color: var(--ink3);
+        max-width: 560px;
+        line-height: 1.75;
+        margin-bottom: 44px;
+      }
+
+      .company-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 22px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--cream2);
+        margin-bottom: 14px;
+      }
+      .cb-name {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .cb-role {
+        font-size: 13px;
+        color: var(--ink3);
+      }
+      .cb-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #28c840;
+        flex-shrink: 0;
+        animation: blink 1.8s ease infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+      .cb-status {
+        font-size: 11px;
+        color: #28c840;
+        font-weight: 600;
+      }
+      .cb-divider {
+        width: 1px;
+        height: 30px;
+        background: var(--border);
+      }
+      .cb-time {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--ink3);
+      }
+
+      .hero-metrics {
+        display: flex;
+        gap: 0;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-top: 44px;
+      }
+      .hm {
+        flex: 1;
+        padding: 22px 24px;
+        text-align: center;
+        border-right: 1px solid var(--border);
+      }
+      .hm:last-child {
+        border-right: none;
+      }
+      .hm-num {
+        font-family: "Lora", serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1;
+      }
+      .hm-label {
+        font-size: 12px;
+        color: var(--ink3);
+        margin-top: 5px;
+        line-height: 1.4;
+      }
+
+      /* ── SECTIONS ── */
+      section {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 80px 56px;
+        border-bottom: 1px solid var(--border);
+      }
+      .stag {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+      .stitle {
+        font-family: "Lora", "Noto Serif SC", serif;
+        font-size: clamp(28px, 4vw, 46px);
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        margin-bottom: 20px;
+      }
+      .stitle em {
+        font-style: italic;
+        color: var(--ink3);
+      }
+      .sbody {
+        font-size: 16px;
+        color: var(--ink3);
+        line-height: 1.8;
+        max-width: 600px;
+        margin-bottom: 48px;
+      }
+
+      /* Info boxes */
+      .ibox-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .ibox {
+        padding: 18px 22px;
+        border-radius: 10px;
+        border-left: 3px solid transparent;
+      }
+      .ibox.wide {
+        grid-column: 1 / -1;
+      }
+      .ibox-yellow {
+        background: rgba(245, 200, 66, 0.1);
+        border-color: var(--yellow);
+      }
+      .ibox-green {
+        background: rgba(58, 140, 92, 0.1);
+        border-color: var(--green);
+      }
+      .ibox-blue {
+        background: rgba(58, 96, 200, 0.08);
+        border-color: var(--blue);
+      }
+      .ibox-label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--ink3);
+        margin-bottom: 6px;
+      }
+      .ibox-text {
+        font-size: 13px;
+        color: var(--ink3);
+        line-height: 1.8;
+      }
+
+      /* Module accordion */
+      .module-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .module-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: box-shadow 0.18s;
+      }
+      .module-card:hover {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07);
+      }
+      .mc-head {
+        padding: 22px 26px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        transition: background 0.15s;
+      }
+      .mc-head:hover {
+        background: var(--cream2);
+      }
+      .module-card.open > .mc-head {
+        background: var(--cream2);
+        border-bottom: 1px solid var(--border);
+      }
+      .mc-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .mc-num {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--ink3);
+        letter-spacing: 0.1em;
+        flex-shrink: 0;
+        width: 24px;
+      }
+      .mc-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .mc-desc {
+        font-size: 13px;
+        color: var(--ink3);
+        margin-top: 2px;
+      }
+      .mc-badge {
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+        background: rgba(58, 96, 200, 0.1);
+        color: var(--blue);
+        border: 1px solid rgba(58, 96, 200, 0.18);
+        flex-shrink: 0;
+      }
+      .mc-arrow {
+        font-size: 18px;
+        color: var(--ink3);
+        flex-shrink: 0;
+        transition: transform 0.22s cubic-bezier(0.34, 1.36, 0.64, 1);
+      }
+      .module-card.open .mc-arrow {
+        transform: rotate(90deg);
+      }
+
+      .mc-body {
+        display: none;
+        padding: 28px 26px;
+      }
+      .module-card.open .mc-body {
+        display: block;
+      }
+      .mc-cols {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 36px;
+      }
+      .mc-section-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink3);
+        margin-bottom: 12px;
+      }
+      .mc-text {
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.85;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 14px;
+      }
+      .tag {
+        padding: 3px 10px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 500;
+        background: var(--cream2);
+        color: var(--ink3);
+        border: 1px solid var(--border);
+      }
+      .tag.blue {
+        background: rgba(58, 96, 200, 0.08);
+        color: var(--blue);
+        border-color: rgba(58, 96, 200, 0.16);
+      }
+
+      .result-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+      .result-list li {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        font-size: 14px;
+        color: var(--ink2);
+        line-height: 1.5;
+      }
+      .result-list li::before {
+        content: "";
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--green);
+        flex-shrink: 0;
+        margin-top: 7px;
+      }
+      .result-num {
+        font-weight: 700;
+        color: var(--green);
+      }
+
+      /* Metrics grid */
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--border);
+      }
+      .m-card {
+        padding: 28px 24px;
+        background: var(--cream);
+      }
+      .m-num {
+        font-family: "Lora", serif;
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+      .m-num sup {
+        font-size: 18px;
+        vertical-align: top;
+        margin-top: 6px;
+        display: inline-block;
+      }
+      .m-label {
+        font-size: 13px;
+        color: var(--ink3);
+        margin-top: 8px;
+        line-height: 1.5;
+      }
+      .m-source {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--ink3);
+        opacity: 0.55;
+        margin-top: 4px;
+      }
+
+      /* Reflection */
+      .ref-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+      }
+      .ref-card {
+        padding: 24px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: var(--cream2);
+      }
+      .ref-icon {
+        font-size: 22px;
+        margin-bottom: 12px;
+      }
+      .ref-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 8px;
+      }
+      .ref-text {
+        font-size: 13px;
+        color: var(--ink3);
+        line-height: 1.85;
+      }
+
+      .quote-block {
+        margin-top: 40px;
+        padding: 32px 36px;
+        border-radius: 12px;
+        background: var(--ink);
+        color: var(--cream);
+        font-family: "Lora", serif;
+        font-size: 20px;
+        font-style: italic;
+        line-height: 1.65;
+        letter-spacing: -0.01em;
+      }
+
+      /* Fade-up */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(22px);
+        transition:
+          opacity 0.55s ease,
+          transform 0.55s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* Footer */
+      footer {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 56px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .fl {
+        font-family: "Lora", serif;
+        font-size: 14px;
+        color: var(--ink3);
+      }
+      .flinks {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      .flink {
+        font-size: 13px;
+        color: var(--ink3);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .flink:hover {
+        color: var(--ink);
+      }
+      .fmeta {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--ink3);
+        opacity: 0.6;
+      }
+
+      @media (max-width: 700px) {
+        nav {
+          padding: 0 20px;
+        }
+        .hero,
+        section,
+        footer {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+        .hero {
+          padding-top: 100px;
+        }
+        .hero-metrics {
+          flex-wrap: wrap;
+        }
+        .hm {
+          flex: 0 0 50%;
+          border-bottom: 1px solid var(--border);
+        }
+        .ibox-grid,
+        .mc-cols,
+        .ref-grid {
+          grid-template-columns: 1fr;
+        }
+        .ibox.wide {
+          grid-column: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a class="nav-logo" href="index.html">Ji Tong · FishBook Studio</a>
+      <span class="nav-meta">实习经历 · Internship</span>
+      <a class="nav-back" href="index.html">← 返回首页</a>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <div class="hero">
+      <div class="hero-eyebrow">Internship · 2025</div>
+      <h1 class="hero-title">
+        <br />作为产品实习生<em>独立负责</em>多个核心模块
+      </h1>
+      <p class="hero-sub">
+        叫叫（成都书声科技）旗下儿童数学学习产品 JoJo
+        Math——从台湾起步，拓展至北美及全球 32 个市场。独立负责 Push
+        推送系统、用户激励（邀请码）及注册登录三个 P0
+        模块，并参与原生订阅与支付体系；同时参与 Joen
+        新产品儿童用户测试，覆盖增长、变现与本地化全链路。
+      </p>
+
+      <div class="company-badge">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+            style="flex-shrink: 0"
+          >
+            <rect width="28" height="28" rx="7" fill="#FF6B35" />
+            <text
+              x="14"
+              y="19"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="700"
+              fill="white"
+              font-family="sans-serif"
+            >
+              叫
+            </text>
+          </svg>
+          <div>
+            <div class="cb-name">叫叫 · 成都书声科技有限公司</div>
+            <div class="cb-role">
+              产品实习生（出海方向）· 成都市 · 6000+ 人规模
+            </div>
+          </div>
+        </div>
+        <div class="cb-divider"></div>
+        <div>
+          <div class="cb-time">2025.05 — 2025.08</div>
+          <div style="margin-top: 4px">
+            <a
+              href="https://www.jojoreading.com/aboutV3"
+              target="_blank"
+              style="
+                font-size: 11px;
+                color: var(--blue);
+                text-decoration: none;
+                font-family: &quot;DM Mono&quot;, monospace;
+              "
+              >jojo.com ↗</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-metrics fade-up">
+        <div class="hm">
+          <div class="hm-num">95%+</div>
+          <div class="hm-label">Push 触达率</div>
+        </div>
+        <div class="hm">
+          <div class="hm-num">32</div>
+          <div class="hm-label">订阅上线国家</div>
+        </div>
+        <div class="hm">
+          <div class="hm-num">+15%</div>
+          <div class="hm-label">邀请码新用户</div>
+        </div>
+        <div class="hm">
+          <div class="hm-num">4</div>
+          <div class="hm-label">P0 模块独立交付</div>
+        </div>
+        <div class="hm">
+          <div class="hm-num">+8%</div>
+          <div class="hm-label">数学诊断完成率</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 01 背景 ── -->
+    <section id="overview">
+      <div class="stag">01 · 背景</div>
+      <h2 class="stitle">
+        叫叫出海团队，<br />负责 JoJo Math<em>增长链路</em>
+      </h2>
+      <p class="sbody">
+        叫叫（成都书声科技）是国内头部儿童成长数字内容平台，深耕儿童阅读领域，拥有"小鸡叫叫"系列
+        IP 与叫叫阅读课等核心产品，员工规模超 6000 人。JoJo Math
+        是叫叫旗下面向海外市场的儿童数学学习产品，在台湾 → 北美（美国 /
+        加拿大）等地运营。
+      </p>
+
+      <div class="ibox-grid fade-up">
+        <div class="ibox ibox-yellow">
+          <div class="ibox-label">公司背景</div>
+          <div class="ibox-text">
+            叫叫（成都书声科技），2018 年成立，高新技术企业，员工 6000+
+            人，深耕儿童成长数字内容——阅读、数学、语言、思维多方向布局，是国内儿童教育领域的重要平台。
+          </div>
+        </div>
+        <div class="ibox ibox-blue">
+          <div class="ibox-label">我的角色</div>
+          <div class="ibox-text">
+            产品实习生（出海方向），独立负责 JoJo Math 的 Push
+            推送系统、用户激励增长（邀请码系统）、手机号注册登录三个核心 P0
+            模块，并参与原生订阅与支付体系（iOS/Android IAP + Web 支付），从 PRD
+            到联调上线全程跟进。
+          </div>
+        </div>
+        <div class="ibox ibox-green wide">
+          <div class="ibox-label">核心挑战</div>
+          <div class="ibox-text">
+            儿童教育产品的出海场景比通用 App
+            更复杂——用户是家长，决策链更长；内容需与本地教学体系匹配；多国合规（号段格式、数据隐私、推送权限）要求不一；时区差异影响推送时机与用户行为分析。任何模块都不能照搬国内经验，要在约束中找到最小可用方案，快速上线验证。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PRODUCT PREVIEW ── -->
+    <section id="product" style="padding-top: 0; margin-top: -1px">
+      <div class="stag">产品 · JoJo Math</div>
+      <div
+        style="
+          display: grid;
+          grid-template-columns: 1.2fr 0.8fr;
+          gap: 32px;
+          align-items: start;
+        "
+        class="fade-up"
+      >
+        <div>
+          <h3
+            style="
+              font-family: &quot;Lora&quot;, serif;
+              font-size: 26px;
+              font-weight: 700;
+              color: var(--ink);
+              line-height: 1.2;
+              margin-bottom: 12px;
+            "
+          >
+            儿童数学学习 · 出海版
+          </h3>
+          <p
+            style="
+              font-size: 15px;
+              color: var(--ink3);
+              line-height: 1.85;
+              margin-bottom: 20px;
+            "
+          >
+            JoJo Math
+            是叫叫旗下面向海外家庭的儿童数学启蒙产品，通过科学分阶体系与有趣内容激发孩子的数学兴趣，初期面向台湾市场，后扩展至北美（美国、加拿大）等地。产品以家长为主要决策者，以孩子为使用者，在
+            UI 设计、内容分层与推送策略上都需要同时满足两类用户。
+          </p>
+          <a
+            href="https://www.jojo-math.com/zh-TW"
+            target="_blank"
+            style="
+              display: inline-flex;
+              align-items: center;
+              gap: 8px;
+              padding: 10px 20px;
+              background: var(--ink);
+              color: white;
+              border-radius: 8px;
+              font-size: 14px;
+              text-decoration: none;
+              transition: opacity 0.15s;
+            "
+            onmouseover="this.style.opacity = '.8'"
+            onmouseout="this.style.opacity = '1'"
+          >
+            访问产品主页 ↗
+          </a>
+        </div>
+        <div
+          style="
+            background: var(--cream2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+          "
+        >
+          <div
+            style="
+              font-family: &quot;DM Mono&quot;, monospace;
+              font-size: 10px;
+              letter-spacing: 0.12em;
+              color: var(--ink3);
+              text-transform: uppercase;
+              margin-bottom: 16px;
+            "
+          >
+            产品定位
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                align-items: flex-start;
+                font-size: 13px;
+                color: var(--ink3);
+              "
+            >
+              <span style="color: var(--blue); font-weight: 700; flex-shrink: 0"
+                >→</span
+              >
+              目标用户：3–8 岁儿童 + 家长
+            </div>
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                align-items: flex-start;
+                font-size: 13px;
+                color: var(--ink3);
+              "
+            >
+              <span style="color: var(--blue); font-weight: 700; flex-shrink: 0"
+                >→</span
+              >
+              主要市场：台湾 → 北美（美国 / 加拿大）
+            </div>
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                align-items: flex-start;
+                font-size: 13px;
+                color: var(--ink3);
+              "
+            >
+              <span style="color: var(--blue); font-weight: 700; flex-shrink: 0"
+                >→</span
+              >
+              语言支持：繁中 / 英文 / 西班牙语
+            </div>
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                align-items: flex-start;
+                font-size: 13px;
+                color: var(--ink3);
+              "
+            >
+              <span style="color: var(--blue); font-weight: 700; flex-shrink: 0"
+                >→</span
+              >
+              核心模式：订阅制 + 分阶学习
+            </div>
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                align-items: flex-start;
+                font-size: 13px;
+                color: var(--ink3);
+              "
+            >
+              <span style="color: var(--blue); font-weight: 700; flex-shrink: 0"
+                >→</span
+              >
+              母公司：叫叫（书声科技，6000+人）
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 02 模块 ── -->
+    <section id="modules">
+      <div class="stag">02 · 负责模块</div>
+      <h2 class="stitle">四个 P0 模块，<br />各自<em>从 0 到 1</em></h2>
+      <p class="sbody">
+        在 JoJo Math
+        出海团队中，每个模块都经历完整的产品生命周期——从用户调研、需求定义，到方案设计、上线监控、数据复盘。点击展开查看详情。
+      </p>
+
+      <div class="module-list fade-up">
+        <div class="module-card open" id="mc1">
+          <div class="mc-head" onclick="toggleModule('mc1')">
+            <div class="mc-left">
+              <span class="mc-num">01</span>
+              <div>
+                <div class="mc-name">App Push 推送系统</div>
+                <div class="mc-desc">
+                  JoJo Math · FCM + Lark · 多语言 & 时区适配
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px">
+              <span class="mc-badge">从 0 到 1</span>
+              <span class="mc-arrow">›</span>
+            </div>
+          </div>
+          <div class="mc-body">
+            <div class="mc-cols">
+              <div>
+                <div class="mc-section-label">做了什么 & 关键决策</div>
+                <p class="mc-text">
+                  主导构建 JoJo Math 海外 App
+                  推送体系。初期技术方案采用静态批量推送，但运营团队要求能基于用户实时状态（当日是否已练习、距上次登录天数、诊断进度）做个性化推送——原方案无法支持。
+                </p>
+                <p class="mc-text" style="margin-top: 10px">
+                  与后端协商后，提出折中方案：由后端在每日凌晨批量同步用户状态快照至推送系统，以「准实时」替代「真实时」——在几乎不增加开发成本的前提下，支持按用户状态分层推送。同时为后续真正的事件驱动推送预留了接口扩展路径。方案获得技术与运营双侧认可，按期上线。
+                </p>
+                <p class="mc-text" style="margin-top: 10px">
+                  同步解决多语言文案管理（繁中/英/西班牙语分版本）与时区推送时机适配（北美
+                  PST/EST、台湾 CST 分组策略）。
+                </p>
+                <div class="tags">
+                  <span class="tag blue">FCM</span
+                  ><span class="tag blue">Lark Bot</span
+                  ><span class="tag blue">A/B Test</span>
+                  <span class="tag">多语言文案</span
+                  ><span class="tag">时区适配</span
+                  ><span class="tag">用户状态同步</span>
+                </div>
+              </div>
+              <div>
+                <div class="mc-section-label">上线成果与逻辑链</div>
+                <ul class="result-list">
+                  <li>
+                    推送触达率 <span class="result-num">95%+</span>，A/B
+                    测试稳定值
+                  </li>
+                  <li>
+                    推送点击率 <span class="result-num">23%</span>（行业均值 ≈
+                    5–10%）
+                  </li>
+                  <li>
+                    注册率提升 <span class="result-num">+15%</span> —
+                    对「已下载未完成注册」用户定向推送，带动注册转化
+                  </li>
+                  <li>
+                    数学数学诊断完成率提升 <span class="result-num">+8%</span> —
+                    注册完成后触发诊断引导 Push，提升用户进入核心学习路径的比例
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card" id="mc2">
+          <div class="mc-head" onclick="toggleModule('mc2')">
+            <div class="mc-left">
+              <span class="mc-num">02</span>
+              <div>
+                <div class="mc-name">用户激励增长 · 邀请码系统</div>
+                <div class="mc-desc">
+                  注册兑换体验、权益控制、后台全生命周期管理
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px">
+              <span class="mc-badge">从 0 到 1</span>
+              <span class="mc-arrow">›</span>
+            </div>
+          </div>
+          <div class="mc-body">
+            <div class="mc-cols">
+              <div>
+                <div class="mc-section-label">做了什么</div>
+                <p class="mc-text">
+                  设计并实现注册流程中的邀请码兑换体验、权益控制与人群限制校验机制。搭建后台支持邀请码全生命周期管理（创建
+                  / 配置 / 追踪），与后端配合实现试用期动态发放（兑换成功后 +21
+                  天体验期）、使用限制校验及数据同步至投放追踪平台，支持拉新归因与活动转化追踪。
+                </p>
+                <p class="mc-text" style="margin-top: 10px">
+                  后台邀请码表设计涵盖：活动名称（campaign_name）、有效期、总限量
+                  / 个人限量、目标人群（新用户 / 全部 /
+                  老用户）、权益天数等核心字段，支持运营按场景灵活配置，兑换逻辑在客户端→后端→Lark
+                  三层完成校验与记录同步。
+                </p>
+                <div class="tags">
+                  <span class="tag blue">拉新归因</span
+                  ><span class="tag blue">活动转化追踪</span>
+                  <span class="tag">权益控制</span
+                  ><span class="tag">人群限制校验</span>
+                  <span class="tag">后台管理</span
+                  ><span class="tag">试用期动态发放</span>
+                </div>
+              </div>
+              <div>
+                <div class="mc-section-label">上线成果</div>
+                <ul class="result-list">
+                  <li>
+                    在约
+                    <span class="result-num">4000</span>
+                    用户基数下，邀请码渠道带来新用户增长
+                    <span class="result-num">+15%</span>（约 600 名新用户）
+                  </li>
+                  <li>拉新归因全链路打通，支持区分自然增长与邀请渠道</li>
+                  <li>后台可视化追踪每批邀请码的转化效果</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card" id="mc3">
+          <div class="mc-head" onclick="toggleModule('mc3')">
+            <div class="mc-left">
+              <span class="mc-num">03</span>
+              <div>
+                <div class="mc-name">原生订阅与支付体系 · P0（参与）</div>
+                <div class="mc-desc">
+                  iOS/Android IAP + Web 支付 · 32 国上线 · 完整变现闭环
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px">
+              <span class="mc-badge">参与</span>
+              <span class="mc-arrow">›</span>
+            </div>
+          </div>
+          <div class="mc-body">
+            <div class="mc-cols">
+              <div>
+                <div class="mc-section-label">做了什么 & 关键决策</div>
+                <p class="mc-text">
+                  参与 JoJo Math 出海订阅变现体系的 PRD 与落地——覆盖 iOS（App
+                  Store IAP）与 Android（Google Play IAP）原生订阅，以及 Web
+                  端第三方支付（Airwallex）两套路径。产品形态为 21 天免费试用 +
+                  每 3 个月自动续费，台湾等特定地区独立定价（NT$1,800 / 季）。
+                </p>
+                <p class="mc-text" style="margin-top: 10px">
+                  核心复杂度在于：平台差异巨大——Apple 有 16
+                  天宽限期不可取消、Google 支持暂停订阅（最长 3 个月）、Web
+                  端需后端 Cron
+                  任务主动轮询续费，三套机制必须在产品层面收敛为统一的权益状态模型与
+                  UI 逻辑。设计了「正式学员 / 体验学员 /
+                  非学员」三档用户状态，驱动首页角标、家长中心、强弹引导（benefit_days
+                  ≤ 1/3/7/14 四档触发）的差异化策略。
+                </p>
+                <p class="mc-text" style="margin-top: 10px">
+                  退款流程、取消订阅、跨平台恢复购买、自动续费失败宽限期处理均完整覆盖，并提供
+                  Apollo 远程配置方案（台湾 21 天 / 其他地区 3
+                  天试用）支持灰度上线。
+                </p>
+                <div class="tags">
+                  <span class="tag blue">iOS IAP</span
+                  ><span class="tag blue">Google Play IAP</span
+                  ><span class="tag blue">Airwallex</span>
+                  <span class="tag">Apollo 远程配置</span
+                  ><span class="tag">权益状态机</span
+                  ><span class="tag">退款 / 恢复购买</span>
+                  <span class="tag">多语言 UI（TC/EN/ES/PT）</span>
+                </div>
+              </div>
+              <div>
+                <div class="mc-section-label">上线范围与核心交付</div>
+                <ul class="result-list">
+                  <li>
+                    覆盖 <span class="result-num">32</span> 个国家 /
+                    地区同步上线，含美、英、加、日、德、法、台、港、澳等主要市场
+                  </li>
+                  <li>
+                    完整 PRD 覆盖
+                    <span class="result-num">8</span> 种订阅场景（首订 / 续费 /
+                    取消 / 暂停 / 恢复 / 退款 / 宽限期 / 跨平台）
+                  </li>
+                  <li>
+                    四语言（繁中 / 英 / 西班牙语 / 葡语）UI
+                    文案表、日期格式规范与隐私政策更新全部交付
+                  </li>
+                  <li>
+                    正式 SKU（Apple ID 6747865172）与测试 SKU 联调通过，Apollo
+                    灰度配置按期落地
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card" id="mc4">
+          <div class="mc-head" onclick="toggleModule('mc4')">
+            <div class="mc-left">
+              <span class="mc-num">04</span>
+              <div>
+                <div class="mc-name">手机号验证码注册与登录</div>
+                <div class="mc-desc">多国合规调研、PRD 撰写、完整流程设计</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px">
+              <span class="mc-badge">独立交付</span>
+              <span class="mc-arrow">›</span>
+            </div>
+          </div>
+          <div class="mc-body">
+            <div class="mc-cols">
+              <div>
+                <div class="mc-section-label">做了什么</div>
+                <p class="mc-text">
+                  独立负责需求分析与全链路交付。调研不同国家手机号段格式与合规要求，适配多语言提示与跨时区验证码稳定性方案，完成竞品调研、PRD
+                  撰写与完整流程设计，为三方登录扩展与权限管理奠定基础，全面支持产品出海场景。
+                </p>
+                <p class="mc-text" style="margin-top: 10px">
+                  核心设计要点：带国家码 8–15 位 / 不带国家码 7–11
+                  位的动态校验规则、4 位验证码自动提交、60 秒倒计时冷却、发送前
+                  CAPTCHA
+                  安全验证防刷，以及新用户自动初始化多语言用户名（JOJO小学员 /
+                  Little Learner JO / Pequeño Aprendiz JO 等）。
+                </p>
+                <div class="tags">
+                  <span class="tag blue">多国合规调研</span
+                  ><span class="tag blue">PRD 撰写</span>
+                  <span class="tag">竞品分析</span
+                  ><span class="tag">流程设计</span>
+                  <span class="tag">多语言提示</span
+                  ><span class="tag">跨时区稳定性</span>
+                </div>
+              </div>
+              <div>
+                <div class="mc-section-label">核心价值</div>
+                <ul class="result-list">
+                  <li>覆盖多国合规，支持出海登录场景</li>
+                  <li>为三方登录扩展预留接口</li>
+                  <li>完整 PRD 与流程文档交付</li>
+                  <li>跨时区验证码稳定性方案落地</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card" id="mc5">
+          <div class="mc-head" onclick="toggleModule('mc5')">
+            <div class="mc-left">
+              <span class="mc-num">05</span>
+              <div>
+                <div class="mc-name">用户测试 & 儿童访谈 · Joen MVP</div>
+                <div class="mc-desc">
+                  叫叫新产品 Joen（背单词）· MVP 阶段 · 儿童用户测试
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px">
+              <span class="mc-badge">用户研究</span>
+              <span class="mc-arrow">›</span>
+            </div>
+          </div>
+          <div class="mc-body">
+            <div class="mc-cols">
+              <div>
+                <div class="mc-section-label">做了什么</div>
+                <p class="mc-text">
+                  参与叫叫新产品 Joen（儿童英语背单词 App）的 MVP
+                  用户测试全流程。负责接待真实儿童用户（及陪同家长），主导访谈设计与现场执行——引导孩子自然使用产品、同步观察操作路径与情绪反应，访谈结束后与家长深度沟通使用体验、付费意愿与对功能的期望。测试结论汇入产品迭代优先级决策。
+                </p>
+                <div class="tags">
+                  <span class="tag blue">儿童用户测试</span>
+                  <span class="tag blue">家长访谈</span>
+                  <span class="tag">MVP 验证</span>
+                  <span class="tag">行为观察</span>
+                  <span class="tag">访谈设计</span>
+                  <span class="tag">Joen · 背单词</span>
+                </div>
+              </div>
+              <div>
+                <div class="mc-section-label">核心收获</div>
+                <ul class="result-list">
+                  <li>
+                    直接与低龄用户（和家长）接触，建立对「儿童 +
+                    家长双角色」产品决策链的认知
+                  </li>
+                  <li>
+                    学会观察儿童用户的非语言信号（注意力流失、重复操作、面部表情），弥补儿童无法精准表达的访谈局限
+                  </li>
+                  <li>
+                    掌握如何在不引导答案的前提下，从家长端提取真实付费动机
+                  </li>
+                  <li>测试结论直接影响 Joen MVP 的功能优先级排序</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 03 成果 ── -->
+    <section id="results">
+      <div class="stag">03 · 量化成果</div>
+      <h2 class="stitle">数据说话，<br />每项决策<em>有迹可循</em></h2>
+      <p class="sbody">
+        四个模块上线后的关键指标，均基于 A/B 测试与后台追踪数据。
+      </p>
+
+      <div class="metrics-grid fade-up">
+        <div class="m-card">
+          <div class="m-num">95<sup>%+</sup></div>
+          <div class="m-label">Push 触达率</div>
+          <div class="m-source">FCM + Lark 推送系统上线后</div>
+        </div>
+        <div class="m-card">
+          <div class="m-num">23<sup>%</sup></div>
+          <div class="m-label">推送点击率</div>
+          <div class="m-source">A/B 测试优化后稳定值</div>
+        </div>
+        <div class="m-card">
+          <div class="m-num">+8<sup>%</sup></div>
+          <div class="m-label">数学诊断完成率</div>
+          <div class="m-source">新用户数学水平诊断测试完成率</div>
+        </div>
+        <div class="m-card">
+          <div class="m-num">32<sup> 国</sup></div>
+          <div class="m-label">订阅体系上线范围</div>
+          <div class="m-source">iOS IAP + Google IAP + Web 支付</div>
+        </div>
+        <div class="m-card">
+          <div class="m-num">+15<sup>%</sup></div>
+          <div class="m-label">邀请码新用户</div>
+          <div class="m-source">激励增长机制上线后</div>
+        </div>
+        <div class="m-card">
+          <div class="m-num">4<sup> 项</sup></div>
+          <div class="m-label">P0 模块独立交付</div>
+          <div class="m-source">需求分析 → PRD → 联调上线</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 04 反思 ── -->
+    <section id="reflection">
+      <div class="stag">04 · 成长与反思</div>
+      <h2 class="stitle">在真实战场里，<br />建立<em>产品判断力</em></h2>
+      <p class="sbody">
+        不是实验室里的练习题，每一个决策都要对上线后的数据负责。
+      </p>
+
+      <div class="ref-grid fade-up">
+        <div class="ref-card">
+          <div class="ref-icon">🌍</div>
+          <div class="ref-title">出海视野</div>
+          <div class="ref-text">
+            从台湾出发，延伸至北美乃至全球 32
+            个市场——时区、语言、合规要求、平台规则、家长行为习惯，每个市场都有截然不同的约束。第一次从产品设计层面直面国际化复杂度：PST/EST
+            双时区推送分组、北美 COPPA 儿童隐私合规、Apple / Google
+            订阅平台差异、繁中/英/西/葡多套文案管理。学会在约束里找最优解。
+          </div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">💳</div>
+          <div class="ref-title">增长与变现的完整视角</div>
+          <div class="ref-text">
+            订阅系统让我第一次完整经历「变现产品」的设计复杂度——不只是界面，而是权益状态机、平台差异抹平、退款流程、宽限期策略、多平台恢复购买。意识到增长（Push
+            /
+            邀请码）和变现（订阅）必须协同设计：试用期触达率直接影响转化漏斗的起点。
+          </div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">📊</div>
+          <div class="ref-title">数据驱动决策</div>
+          <div class="ref-text">
+            Push 系统上线后实时监控触达率与点击率，用 A/B
+            测试量化每个设计选择的真实效果。不凭感觉说话，数字才是最有说服力的产品语言。
+          </div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">🔗</div>
+          <div class="ref-title">全链路思维</div>
+          <div class="ref-text">
+            从需求调研、PRD
+            撰写、流程设计到后端联调、上线监控，独立跑通完整链路。建立了「产品不只是原型」的认知——交付是起点，数据是终点。
+          </div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">🧒</div>
+          <div class="ref-title">儿童用户研究的特殊性</div>
+          <div class="ref-text">
+            Joen MVP
+            测试让我意识到：儿童无法精确表达感受，产品判断必须来自行为观察，而非问卷。家长才是付费决策者，他们的顾虑和期待才是真正的产品需求入口。这改变了我对「用户访谈」的理解——不同用户群需要完全不同的研究方法。
+          </div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">🚀</div>
+          <div class="ref-title">创业团队节奏</div>
+          <div class="ref-text">
+            在资源有限的早期团队里，学会快速判断优先级、接受不完美但可迭代的方案。速度和质量都是产品力的一部分，不能只要一个。
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-block fade-up">
+        「从 Push 到订阅，从台湾到 32 个国家——<br />叫叫的这段经历让我第一次系统接触出海产品的增长与变现全貌：好产品既要懂数据，又要懂人，还要懂钱是怎么来的。」
+      </div>
+    </section>
+
+    <!-- ── Footer ── -->
+    <footer>
+      <div class="fl">FishBook Studio</div>
+      <div class="flinks">
+        <a href="index.html" class="flink">← 首页</a>
+        <a href="https://www.jojo-math.com/zh-TW" target="_blank" class="flink"
+          >JoJo Math ↗</a
+        >
+        <a href="fishbook-case-study.html" class="flink">Second Brain</a>
+        <span class="fmeta">Ji Tong · 2025</span>
+      </div>
+    </footer>
+
+    <script>
+      function toggleModule(id) {
+        document.getElementById(id).classList.toggle("open");
+      }
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.07 },
+      );
+      document.querySelectorAll(".fade-up").forEach((el) => obs.observe(el));
+    </script>
+  </body>
+</html>

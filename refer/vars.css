@@ -1,0 +1,278 @@
+/* Figma Styles of your File */
+:root {
+  /* Colors */
+  --materials-ultrathick: rgba(246, 246, 246, 0.84);
+  --materials-thick: rgba(246, 246, 246, 0.72);
+  --materials-medium: rgba(246, 246, 246, 0.6);
+  --materials-thin: rgba(246, 246, 246, 0.48);
+  --materials-ultrathin: rgba(246, 246, 246, 0.36);
+  --materials-ultrathick-dark: rgba(0, 0, 0, 0.5);
+  --materials-thick-dark: rgba(0, 0, 0, 0.4);
+  --materials-medium-dark: rgba(0, 0, 0, 0.29);
+  --materials-thin-dark: rgba(0, 0, 0, 0.2);
+  --materials-ultrathin-dark: rgba(0, 0, 0, 0.1);
+
+  /* Fonts */
+  --large-title-regular-font-family: SfPro-Regular, sans-serif;
+  --large-title-regular-font-size: 26px;
+  --large-title-regular-line-height: 32px;
+  --large-title-regular-font-weight: 400;
+  --large-title-regular-font-style: normal;
+  --large-title-emphasized-font-family: SfPro-Bold, sans-serif;
+  --large-title-emphasized-font-size: 26px;
+  --large-title-emphasized-line-height: 32px;
+  --large-title-emphasized-font-weight: 700;
+  --large-title-emphasized-font-style: normal;
+  --title-1-regular-font-family: SfPro-Regular, sans-serif;
+  --title-1-regular-font-size: 22px;
+  --title-1-regular-line-height: 26px;
+  --title-1-regular-font-weight: 400;
+  --title-1-regular-font-style: normal;
+  --title-1-emphasized-font-family: SfPro-Bold, sans-serif;
+  --title-1-emphasized-font-size: 22px;
+  --title-1-emphasized-line-height: 26px;
+  --title-1-emphasized-font-weight: 700;
+  --title-1-emphasized-font-style: normal;
+  --title-2-regular-font-family: SfPro-Regular, sans-serif;
+  --title-2-regular-font-size: 17px;
+  --title-2-regular-line-height: 22px;
+  --title-2-regular-font-weight: 400;
+  --title-2-regular-font-style: normal;
+  --title-2-emphasized-font-family: Inter-Bold, sans-serif;
+  --title-2-emphasized-font-size: 17px;
+  --title-2-emphasized-line-height: 22px;
+  --title-2-emphasized-font-weight: 700;
+  --title-2-emphasized-font-style: normal;
+  --title-3-regular-font-family: SfPro-Regular, sans-serif;
+  --title-3-regular-font-size: 15px;
+  --title-3-regular-line-height: 20px;
+  --title-3-regular-font-weight: 400;
+  --title-3-regular-font-style: normal;
+  --title-3-emphasized-font-family: SfPro-Semibold, sans-serif;
+  --title-3-emphasized-font-size: 15px;
+  --title-3-emphasized-line-height: 20px;
+  --title-3-emphasized-font-weight: 600;
+  --title-3-emphasized-font-style: normal;
+  --headline-regular-font-family: SfPro-Bold, sans-serif;
+  --headline-regular-font-size: 13px;
+  --headline-regular-line-height: 16px;
+  --headline-regular-font-weight: 700;
+  --headline-regular-font-style: normal;
+  --headline-emphasized-font-family: SfPro-Heavy, sans-serif;
+  --headline-emphasized-font-size: 13px;
+  --headline-emphasized-line-height: 16px;
+  --headline-emphasized-font-weight: 400;
+  --headline-emphasized-font-style: normal;
+  --body-regular-font-family: SfPro-Regular, sans-serif;
+  --body-regular-font-size: 13px;
+  --body-regular-line-height: 16px;
+  --body-regular-font-weight: 400;
+  --body-regular-font-style: normal;
+  --body-emphasized-font-family: SfPro-Semibold, sans-serif;
+  --body-emphasized-font-size: 13px;
+  --body-emphasized-line-height: 16px;
+  --body-emphasized-font-weight: 600;
+  --body-emphasized-font-style: normal;
+  --callout-regular-font-family: SfPro-Regular, sans-serif;
+  --callout-regular-font-size: 12px;
+  --callout-regular-line-height: 15px;
+  --callout-regular-font-weight: 400;
+  --callout-regular-font-style: normal;
+  --callout-emphasized-font-family: SfPro-Semibold, sans-serif;
+  --callout-emphasized-font-size: 12px;
+  --callout-emphasized-line-height: 15px;
+  --callout-emphasized-font-weight: 600;
+  --callout-emphasized-font-style: normal;
+  --subheadline-regular-font-family: SfPro-Regular, sans-serif;
+  --subheadline-regular-font-size: 11px;
+  --subheadline-regular-line-height: 14px;
+  --subheadline-regular-font-weight: 400;
+  --subheadline-regular-font-style: normal;
+  --subheadline-emphasized-font-family: SfPro-Semibold, sans-serif;
+  --subheadline-emphasized-font-size: 11px;
+  --subheadline-emphasized-line-height: 14px;
+  --subheadline-emphasized-font-weight: 600;
+  --subheadline-emphasized-font-style: normal;
+  --footnote-regular-font-family: SfPro-Regular, sans-serif;
+  --footnote-regular-font-size: 10px;
+  --footnote-regular-line-height: 13px;
+  --footnote-regular-font-weight: 400;
+  --footnote-regular-font-style: normal;
+  --footnote-emphasized-font-family: SfPro-Semibold, sans-serif;
+  --footnote-emphasized-font-size: 10px;
+  --footnote-emphasized-line-height: 13px;
+  --footnote-emphasized-font-weight: 600;
+  --footnote-emphasized-font-style: normal;
+  --caption-1-regular-font-family: SfPro-Regular, sans-serif;
+  --caption-1-regular-font-size: 10px;
+  --caption-1-regular-line-height: 13px;
+  --caption-1-regular-font-weight: 400;
+  --caption-1-regular-font-style: normal;
+  --caption-1-emphasized-font-family: SfPro-Medium, sans-serif;
+  --caption-1-emphasized-font-size: 10px;
+  --caption-1-emphasized-line-height: 13px;
+  --caption-1-emphasized-font-weight: 500;
+  --caption-1-emphasized-font-style: normal;
+  --caption-2-regular-font-family: SfPro-Medium, sans-serif;
+  --caption-2-regular-font-size: 10px;
+  --caption-2-regular-line-height: 13px;
+  --caption-2-regular-font-weight: 500;
+  --caption-2-regular-font-style: normal;
+  --caption-2-emphasized-font-family: SfPro-Semibold, sans-serif;
+  --caption-2-emphasized-font-size: 10px;
+  --caption-2-emphasized-line-height: 13px;
+  --caption-2-emphasized-font-weight: 600;
+  --caption-2-emphasized-font-style: normal;
+
+  /* Effects */
+}
+/* Figma Color Variables of your File */
+:root,
+[data-appearance-mode="light"] {
+  /* light */
+  --accents-red: #ff383c;
+  --accents-orange: #ff8d28;
+  --accents-yellow: #ffcc00;
+  --accents-green: #34c759;
+  --accents-mint: #00c8b3;
+  --accents-teal: #00c3d0;
+  --accents-cyan: #00c0e8;
+  --accents-blue: #0088ff;
+  --accents-indigo: #6155f5;
+  --accents-purple: #cb30e0;
+  --accents-pink: #ff2d55;
+  --accents-brown: #ac7f5e;
+  --fills-opaque-primary: rgba(0, 0, 0, 0.1);
+  --fills-opaque-secondary: rgba(0, 0, 0, 0.08);
+  --fills-opaque-tertiary: rgba(0, 0, 0, 0.05);
+  --fills-opaque-quaternary: rgba(0, 0, 0, 0.03);
+  --fills-opaque-quinary: rgba(0, 0, 0, 0.02);
+  --fills-vibrant-use-plus-lighter-or-darker-primary: #d9d9d9;
+  --fills-vibrant-use-plus-lighter-or-darker-secondary: #e6e6e6;
+  --fills-vibrant-use-plus-lighter-or-darker-tertiary: #f2f2f2;
+  --fills-vibrant-use-plus-lighter-or-darker-quaternary: #f7f7f7;
+  --fills-vibrant-use-plus-lighter-or-darker-quinary: #fbfbfb;
+  --labels-primary: rgba(0, 0, 0, 0.85);
+  --labels-secondary: rgba(0, 0, 0, 0.5);
+  --labels-tertiary: rgba(0, 0, 0, 0.25);
+  --labels-quaternary: rgba(0, 0, 0, 0.1);
+  --labels-quinary: rgba(0, 0, 0, 0.05);
+  --labels-white: #ffffff;
+  --labels-vibrant-use-plus-lighter-or-darker-primary: #1a1a1a;
+  --labels-vibrant-use-plus-lighter-or-darker-secondary: #727272;
+  --labels-vibrant-use-plus-lighter-or-darker-tertiary: #bfbfbf;
+  --labels-vibrant-use-plus-lighter-or-darker-quaternary: #d9d9d9;
+  --labels-vibrant-use-plus-lighter-or-darker-quinary: #e6e6e6;
+  --material-ultra-thick: rgba(246, 246, 246, 0.84);
+  --material-thick: rgba(246, 246, 246, 0.72);
+  --material-medium: rgba(246, 246, 246, 0.6);
+  --material-thin: rgba(246, 246, 246, 0.48);
+  --material-ultra-thin: rgba(246, 246, 246, 0.36);
+  --grays-black: #000000;
+  --grays-white: #ffffff;
+  --labels-seximal: rgba(0, 0, 0, 0.03);
+  --grays-gray: #8e8e93;
+  --glyphs-neutral-idle: var(
+    --labels-vibrant-use-plus-lighter-or-darker-primary
+  );
+  --glyphs-neutral-disabled: var(
+    --labels-vibrant-use-plus-lighter-or-darker-tertiary
+  );
+  --glyphs-primary-idle: #ffffff;
+  --glyphs-primary-disabeld: rgba(255, 255, 255, 0.5);
+  --accents-vibrant-red: #f52f32;
+  --accents-vibrant-orange: #f58625;
+  --accents-vibrant-yellow: #f5c200;
+  --accents-vibrant-green: #26bf4d;
+  --accents-vibrant-mint: #00bda9;
+  --accents-vibrant-teal: #00b3bf;
+  --accents-vibrant-cyan: #00abcf;
+  --accents-vibrant-blue: #0078f0;
+  --accents-vibrant-indigo: #5c50e6;
+  --accents-vibrant-purple: #b72bc9;
+  --accents-vibrant-pink: #f5234b;
+  --accents-vibrant-brown: #9e7354;
+  --separator-vibrant: rgba(60, 60, 67, 0.29);
+  --controls-tint: #0d6fff;
+  --controls-destructive-red: #ff383c;
+}
+
+[data-appearance-mode="dark"] {
+  /* dark */
+  --accents-red: #ff4245;
+  --accents-orange: #ff9230;
+  --accents-yellow: #ffd600;
+  --accents-green: #30d158;
+  --accents-mint: #00dac3;
+  --accents-teal: #00d2e0;
+  --accents-cyan: #3cd3fe;
+  --accents-blue: #0091ff;
+  --accents-indigo: #6d7cff;
+  --accents-purple: #db34f2;
+  --accents-pink: #ff375f;
+  --accents-brown: #b78a66;
+  --fills-opaque-primary: rgba(255, 255, 255, 0.1);
+  --fills-opaque-secondary: rgba(255, 255, 255, 0.08);
+  --fills-opaque-tertiary: rgba(255, 255, 255, 0.05);
+  --fills-opaque-quaternary: rgba(255, 255, 255, 0.03);
+  --fills-opaque-quinary: rgba(255, 255, 255, 0.02);
+  --fills-vibrant-use-plus-lighter-or-darker-primary: #242424;
+  --fills-vibrant-use-plus-lighter-or-darker-secondary: #141414;
+  --fills-vibrant-use-plus-lighter-or-darker-tertiary: #0d0d0d;
+  --fills-vibrant-use-plus-lighter-or-darker-quaternary: #090909;
+  --fills-vibrant-use-plus-lighter-or-darker-quinary: #070707;
+  --labels-primary: rgba(255, 255, 255, 0.85);
+  --labels-secondary: rgba(255, 255, 255, 0.55);
+  --labels-tertiary: rgba(255, 255, 255, 0.25);
+  --labels-quaternary: rgba(255, 255, 255, 0.1);
+  --labels-quinary: rgba(255, 255, 255, 0.05);
+  --labels-white: #ffffff;
+  --labels-vibrant-use-plus-lighter-or-darker-primary: #f5f5f5;
+  --labels-vibrant-use-plus-lighter-or-darker-secondary: #8a8a8a;
+  --labels-vibrant-use-plus-lighter-or-darker-tertiary: #404040;
+  --labels-vibrant-use-plus-lighter-or-darker-quaternary: #262626;
+  --labels-vibrant-use-plus-lighter-or-darker-quinary: #111111;
+  --material-ultra-thick: rgba(40, 40, 40, 0.8);
+  --material-thick: rgba(40, 40, 40, 0.7);
+  --material-medium: rgba(40, 40, 40, 0.6);
+  --material-thin: rgba(40, 40, 40, 0.5);
+  --material-ultra-thin: rgba(40, 40, 40, 0.4);
+  --grays-black: #000000;
+  --grays-white: #ffffff;
+  --labels-seximal: rgba(255, 255, 255, 0.03);
+  --grays-gray: #98989f;
+  --glyphs-neutral-idle: var(
+    --labels-vibrant-use-plus-lighter-or-darker-primary
+  );
+  --glyphs-neutral-disabled: var(
+    --labels-vibrant-use-plus-lighter-or-darker-tertiary
+  );
+  --glyphs-primary-idle: #ffffff;
+  --glyphs-primary-disabeld: rgba(255, 255, 255, 0.5);
+  --accents-vibrant-red: #ff4747;
+  --accents-vibrant-orange: #ff9e33;
+  --accents-vibrant-yellow: #ffe014;
+  --accents-vibrant-green: #3bdb63;
+  --accents-vibrant-mint: #2de0cd;
+  --accents-vibrant-teal: #2dd7e0;
+  --accents-vibrant-cyan: #47d8fc;
+  --accents-vibrant-blue: #0a99ff;
+  --accents-vibrant-indigo: #7163ff;
+  --accents-vibrant-purple: #e647fc;
+  --accents-vibrant-pink: #ff4169;
+  --accents-vibrant-brown: #c29672;
+  --separator-vibrant: #404042;
+  --controls-tint: #000000;
+  --controls-destructive-red: #000000;
+}
+
+:root,
+[data-kit-mode="mode-1"] {
+  /* mode-1 */
+  --component-fill: #f5f5f5;
+  --component-stroke: var(--accents-indigo);
+  --subcomponent-fill: #aaaaaa;
+  --subcomponent-stroke: rgba(0, 0, 0, 0.4);
+  --section-fill: #f5f5f5;
+  --section-stroke: rgba(0, 0, 0, 0.4);
+}

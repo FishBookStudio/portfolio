@@ -1,0 +1,1771 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FishBook Studio — Case Study · Ji Tong</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --cream: #ffffff;
+        --cream2: #f7f7f7;
+        --cream3: #ededed;
+        --ink: #1e1c18;
+        --ink2: #3a3830;
+        --ink3: #807a6e;
+        --yellow: #f5c842;
+        --yellow2: #3a2f0a;
+        --green: #4a8c5c;
+        --pink: #e8607a;
+        --blue: #4a6fd4;
+        --border: rgba(30, 28, 24, 0.1);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--cream);
+        color: var(--ink2);
+        font-family: "DM Sans", sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 18px 56px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-logo {
+        font-family: "Lora", serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-logo svg {
+        width: 20px;
+        height: 20px;
+      }
+      .nav-links {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-size: 15px;
+        color: var(--ink2);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--ink);
+      }
+      .nav-cta {
+        background: var(--ink);
+        color: var(--cream);
+        border: none;
+        padding: 9px 22px;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+      }
+
+      /* ── HERO ── */
+      .hero {
+        min-height: 100vh;
+        padding: 120px 56px 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* Scattered doodles */
+      .doodle {
+        position: absolute;
+        opacity: 0.18;
+        pointer-events: none;
+      }
+      .doodle-tl {
+        top: 140px;
+        left: 60px;
+        transform: rotate(-12deg);
+      }
+      .doodle-tr {
+        top: 160px;
+        right: 80px;
+        transform: rotate(8deg);
+      }
+      .doodle-bl {
+        bottom: 120px;
+        left: 100px;
+        transform: rotate(-5deg);
+      }
+      .doodle-br {
+        bottom: 80px;
+        right: 80px;
+        transform: rotate(15deg);
+      }
+      .doodle-ml {
+        top: 50%;
+        left: 40px;
+        transform: translateY(-50%) rotate(-8deg);
+      }
+      .doodle-mr {
+        top: 45%;
+        right: 40px;
+        transform: translateY(-50%) rotate(10deg);
+      }
+
+      .hero-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 32px;
+      }
+      .hero-illustration {
+        width: 220px;
+        height: 180px;
+        margin-bottom: 32px;
+      }
+      .hero-title {
+        font-family: "Lora", "Noto Serif SC", serif;
+        font-size: clamp(44px, 6vw, 88px);
+        font-weight: 700;
+        line-height: 1.05;
+        color: var(--ink);
+        max-width: 820px;
+        margin-bottom: 20px;
+        letter-spacing: -0.02em;
+      }
+      .hero-sub {
+        font-size: 18px;
+        color: var(--ink3);
+        max-width: 520px;
+        line-height: 1.7;
+        margin-bottom: 44px;
+      }
+      .hero-btn {
+        background: var(--ink);
+        color: var(--cream);
+        border: none;
+        padding: 14px 36px;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        margin-bottom: 72px;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .hero-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 24px rgba(30, 28, 24, 0.15);
+      }
+
+      /* Logo row like university logos */
+      .hero-metrics {
+        display: flex;
+        gap: 56px;
+        align-items: center;
+        border-top: 1px solid var(--border);
+        padding-top: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .hero-metric {
+        text-align: center;
+      }
+      .hero-metric-num {
+        font-family: "Lora", serif;
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1;
+        display: block;
+      }
+      .hero-metric-label {
+        font-size: 13px;
+        color: var(--ink3);
+        margin-top: 4px;
+        display: block;
+      }
+
+      /* ── SECTION ── */
+      section {
+        padding: 100px 56px;
+      }
+
+      .section-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-tag::before {
+        content: "+";
+        color: var(--ink3);
+        font-size: 14px;
+      }
+
+      .section-title {
+        font-family: "Lora", "Noto Serif SC", serif;
+        font-size: clamp(34px, 4vw, 60px);
+        font-weight: 700;
+        line-height: 1.1;
+        color: var(--ink);
+        margin-bottom: 18px;
+        letter-spacing: -0.02em;
+      }
+      .section-title em {
+        font-style: italic;
+      }
+      .section-body {
+        font-size: 17px;
+        color: var(--ink3);
+        max-width: 560px;
+        line-height: 1.8;
+      }
+
+      /* ── PAIN SECTION ── */
+      .pain-section {
+        background: var(--cream2);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+      }
+      .pain-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        margin-top: 56px;
+      }
+
+      .pain-list {
+        display: flex;
+        flex-direction: column;
+      }
+      .pain-item {
+        display: flex;
+        gap: 24px;
+        padding: 28px 0;
+        border-bottom: 1px solid var(--border);
+        align-items: flex-start;
+      }
+      .pain-item:last-of-type {
+        border-bottom: none;
+      }
+      .pain-icon {
+        flex-shrink: 0;
+        margin-top: 3px;
+      }
+      .pain-content h4 {
+        font-family: "Lora", serif;
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 5px;
+      }
+      .pain-content p {
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.65;
+      }
+
+      .quote-block {
+        margin-top: 36px;
+        padding: 28px 32px;
+        font-family: "Lora", serif;
+        font-size: 22px;
+        font-style: italic;
+        color: var(--ink);
+        line-height: 1.5;
+        border-left: 3px solid var(--ink);
+      }
+
+      /* Market card */
+      .market-card {
+        background: var(--cream);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 36px;
+      }
+      .market-card h3 {
+        font-family: "Lora", serif;
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 24px;
+        line-height: 1.25;
+      }
+      .market-item {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.55;
+      }
+      .market-item:last-child {
+        border-bottom: none;
+      }
+      .market-item::before {
+        content: "→";
+        color: var(--ink);
+        flex-shrink: 0;
+        font-weight: 500;
+      }
+
+      .opp-banner {
+        margin-top: 20px;
+        background: var(--ink);
+        border-radius: 10px;
+        padding: 28px 30px;
+      }
+      .opp-banner p {
+        font-family: "Lora", serif;
+        font-size: 18px;
+        color: var(--cream);
+        line-height: 1.55;
+        font-weight: 500;
+      }
+
+      /* ── PRODUCT ── */
+      .product-intro {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        margin-top: 56px;
+        align-items: start;
+      }
+
+      .module-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 28px;
+      }
+      .module-card {
+        background: var(--cream2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 20px;
+        transition:
+          background 0.2s,
+          transform 0.2s;
+      }
+      .module-card:hover {
+        background: var(--cream);
+        transform: translateY(-2px);
+      }
+      .module-card h4 {
+        font-family: "Lora", serif;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 5px;
+      }
+      .module-card p {
+        font-size: 12px;
+        color: var(--ink3);
+        line-height: 1.55;
+      }
+      .module-illo {
+        margin-bottom: 10px;
+      }
+
+      /* Workflow */
+      .workflow-card {
+        background: var(--ink);
+        border-radius: 12px;
+        padding: 36px;
+      }
+      .workflow-card h3 {
+        font-family: "Lora", serif;
+        font-size: 18px;
+        color: var(--cream);
+        margin-bottom: 24px;
+      }
+      .wf-step {
+        display: flex;
+        gap: 16px;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        align-items: flex-start;
+      }
+      .wf-step:last-child {
+        border-bottom: none;
+      }
+      .wf-letter {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--cream);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Lora", serif;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--ink);
+        flex-shrink: 0;
+      }
+      .wf-text h5 {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--cream);
+        margin-bottom: 2px;
+      }
+      .wf-time {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: rgba(242, 237, 227, 0.35);
+        letter-spacing: 0.05em;
+        margin-left: 8px;
+      }
+      .wf-text p {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        line-height: 1.4;
+      }
+
+
+      /* AI feature */
+      .ai-box {
+        margin-top: 60px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 260px 1fr;
+      }
+      .ai-left {
+        background: var(--blue);
+        padding: 40px 28px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .ai-left-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: rgba(255, 255, 255, 0.55);
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .ai-left h3 {
+        font-family: "Lora", serif;
+        font-size: 22px;
+        color: #fff;
+        line-height: 1.3;
+      }
+      .ai-right {
+        padding: 36px;
+        background: var(--cream);
+      }
+      .ai-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .ai-card {
+        background: var(--cream2);
+        border-radius: 8px;
+        padding: 18px;
+        border: 1px solid var(--border);
+      }
+      .ai-card h5 {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .ai-card p {
+        font-size: 12px;
+        color: var(--ink3);
+        line-height: 1.6;
+      }
+
+      /* ── OPERATION ── */
+      .op-section {
+        background: var(--cream2);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .flywheel {
+        margin-top: 56px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .fly-step {
+        padding: 32px 24px;
+        border-right: 1px solid var(--border);
+        background: var(--cream);
+        transition: background 0.2s;
+      }
+      .fly-step:last-child {
+        border-right: none;
+      }
+      .fly-step:hover {
+        background: var(--cream3);
+      }
+      .fly-num {
+        font-family: "Lora", serif;
+        font-size: 52px;
+        font-weight: 700;
+        color: var(--cream3);
+        line-height: 1;
+        margin-bottom: 10px;
+      }
+      .fly-step h4 {
+        font-family: "Lora", serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .fly-step p {
+        font-size: 13px;
+        color: var(--ink3);
+        line-height: 1.55;
+      }
+      .fly-tags {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .fly-tags span {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--green);
+        letter-spacing: 0.04em;
+      }
+
+      .platform-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 36px;
+      }
+      .plat-card {
+        background: var(--cream);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 24px;
+        transition: box-shadow 0.2s;
+      }
+      .plat-card:hover {
+        box-shadow: 0 6px 20px rgba(30, 28, 24, 0.07);
+      }
+      .plat-card.star {
+        border-color: var(--ink);
+      }
+      .plat-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .plat-name {
+        font-family: "Lora", serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .plat-badge {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        padding: 3px 8px;
+        border-radius: 4px;
+        text-transform: uppercase;
+      }
+      .badge-main {
+        background: var(--ink);
+        color: var(--cream);
+      }
+      .badge-sec {
+        background: var(--cream2);
+        color: var(--ink3);
+      }
+      .plat-role {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--green);
+        letter-spacing: 0.04em;
+        margin-bottom: 8px;
+      }
+      .plat-card p {
+        font-size: 13px;
+        color: var(--ink3);
+        line-height: 1.65;
+      }
+
+      /* ── RESULTS ── */
+      .results-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-top: 56px;
+        margin-bottom: 40px;
+      }
+      .res-card {
+        padding: 40px 28px;
+        border-right: 1px solid var(--border);
+        background: var(--cream);
+        transition: background 0.2s;
+      }
+      .res-card:last-child {
+        border-right: none;
+      }
+      .res-card:hover {
+        background: var(--cream2);
+      }
+      .res-num {
+        font-family: "Lora", serif;
+        font-size: 52px;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1;
+        margin-bottom: 5px;
+      }
+      .res-num small {
+        font-size: 28px;
+        color: var(--green);
+      }
+      .res-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        color: var(--ink3);
+        text-transform: uppercase;
+      }
+      .res-sub {
+        font-size: 11px;
+        color: var(--border);
+        margin-top: 3px;
+        color: #b4ae9f;
+      }
+
+      /* Yellow CTA strip (like Opennote) */
+      .cta-strip {
+        background: var(--yellow);
+        border-radius: 16px;
+        padding: 56px 60px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 40px;
+        align-items: center;
+        margin: 0 56px 80px;
+      }
+      .cta-left h2 {
+        font-family: "Lora", serif;
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--yellow2);
+        line-height: 1.2;
+        margin-bottom: 10px;
+      }
+      .cta-left p {
+        font-size: 16px;
+        color: rgba(58, 47, 10, 0.65);
+      }
+      .cta-illo {
+        width: 180px;
+      }
+
+      /* Testimonials */
+      .testi-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .testi-card {
+        background: var(--cream2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 24px;
+        transition: background 0.2s;
+      }
+      .testi-card:hover {
+        background: var(--cream3);
+      }
+      .testi-card p {
+        font-family: "Lora", serif;
+        font-size: 15px;
+        font-style: italic;
+        color: var(--ink2);
+        line-height: 1.75;
+        margin-bottom: 14px;
+      }
+      .testi-meta {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        color: var(--ink3);
+      }
+
+      /* ── REFLECTION ── */
+      .ref-section {
+        background: var(--cream2);
+        border-top: 1px solid var(--border);
+      }
+      .ref-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 56px;
+      }
+      .ref-card {
+        background: var(--cream);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 28px;
+      }
+      .ref-card h4 {
+        font-family: "Lora", serif;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 10px;
+        line-height: 1.3;
+      }
+      .ref-card p {
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.8;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        padding: 56px;
+        border-top: 1px solid var(--border);
+        background: var(--cream);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .foot-logo {
+        font-family: "Lora", serif;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .foot-link {
+        font-size: 14px;
+        color: var(--ink2);
+        text-decoration: none;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1px;
+        transition: border-color 0.2s;
+      }
+      .foot-link:hover {
+        border-color: var(--ink);
+      }
+      .foot-meta {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--ink3);
+      }
+
+      /* ── FADE ── */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--cream);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 2px;
+      }
+
+      @media (max-width: 900px) {
+        nav {
+          padding: 16px 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        section {
+          padding: 72px 24px;
+        }
+        .hero {
+          padding: 100px 24px 64px;
+        }
+        .pain-layout,
+        .product-intro,
+        .ref-grid {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+        .results-grid,
+        .flywheel {
+          grid-template-columns: 1fr 1fr;
+        }
+        .testi-grid,
+        .platform-row {
+          grid-template-columns: 1fr;
+        }
+        .ai-box {
+          grid-template-columns: 1fr;
+        }
+        .cta-strip {
+          grid-template-columns: 1fr;
+          margin: 0 24px 60px;
+        }
+        footer {
+          flex-direction: column;
+          gap: 16px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <div class="nav-logo">
+        <svg viewBox="0 0 20 20" fill="none">
+          <path
+            d="M4 10 L10 4 L16 10 L16 16 L4 16 Z"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <path
+            d="M7 16 L7 11 L10 8 L13 11 L13 16"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+          />
+        </svg>
+        FishBook Studio
+      </div>
+      <ul class="nav-links">
+        <li><a href="#pain">洞察</a></li>
+        <li><a href="#product">产品</a></li>
+        <li><a href="#operation">运营</a></li>
+        <li><a href="#results">成果</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <!-- Scattered doodles -->
+      <div class="doodle doodle-tl">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <path
+            d="M20 60 Q30 20 60 30 Q70 50 40 65 Q25 72 20 60Z"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <path
+            d="M35 35 Q45 25 55 35"
+            stroke="#1e1c18"
+            stroke-width="1.2"
+            fill="none"
+          />
+          <circle cx="32" cy="42" r="2" fill="#1e1c18" />
+          <circle cx="48" cy="38" r="2" fill="#1e1c18" />
+          <path
+            d="M36 50 Q40 55 44 50"
+            stroke="#1e1c18"
+            stroke-width="1.2"
+            fill="none"
+          />
+        </svg>
+      </div>
+      <div class="doodle doodle-tr">
+        <svg width="90" height="60" viewBox="0 0 90 60" fill="none">
+          <path
+            d="M10 30 L25 10 L45 20 L65 8 L80 25 L65 45 L45 38 L25 50 Z"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+            stroke-dasharray="4,3"
+          />
+          <text
+            x="38"
+            y="34"
+            font-size="11"
+            fill="#1e1c18"
+            font-family="serif"
+            transform="rotate(-8,45,30)"
+          >
+            OKR
+          </text>
+        </svg>
+      </div>
+      <div class="doodle doodle-ml">
+        <svg width="70" height="90" viewBox="0 0 70 90" fill="none">
+          <rect
+            x="8"
+            y="10"
+            width="54"
+            height="70"
+            rx="3"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <line
+            x1="18"
+            y1="28"
+            x2="52"
+            y2="28"
+            stroke="#1e1c18"
+            stroke-width="1"
+          />
+          <line
+            x1="18"
+            y1="38"
+            x2="52"
+            y2="38"
+            stroke="#1e1c18"
+            stroke-width="1"
+          />
+          <line
+            x1="18"
+            y1="48"
+            x2="40"
+            y2="48"
+            stroke="#1e1c18"
+            stroke-width="1"
+          />
+          <circle
+            cx="18"
+            cy="60"
+            r="3"
+            stroke="#1e1c18"
+            stroke-width="1.2"
+            fill="none"
+          />
+          <line
+            x1="24"
+            y1="60"
+            x2="44"
+            y2="60"
+            stroke="#1e1c18"
+            stroke-width="1"
+          />
+        </svg>
+      </div>
+      <div class="doodle doodle-mr">
+        <svg width="80" height="70" viewBox="0 0 80 70" fill="none">
+          <ellipse
+            cx="40"
+            cy="32"
+            rx="28"
+            ry="20"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <path
+            d="M28 32 Q40 18 52 32 Q40 46 28 32Z"
+            stroke="#1e1c18"
+            stroke-width="1.2"
+            fill="none"
+          />
+          <circle
+            cx="40"
+            cy="32"
+            r="5"
+            stroke="#1e1c18"
+            stroke-width="1.2"
+            fill="none"
+          />
+          <line
+            x1="40"
+            y1="52"
+            x2="40"
+            y2="62"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+          />
+          <line
+            x1="28"
+            y1="65"
+            x2="52"
+            y2="65"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+          />
+        </svg>
+      </div>
+      <div class="doodle doodle-bl">
+        <svg width="70" height="60" viewBox="0 0 70 60" fill="none">
+          <path
+            d="M10 50 L10 10 L60 10"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <path
+            d="M10 40 L25 25 L38 35 L52 15"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+            stroke-linejoin="round"
+          />
+          <circle cx="52" cy="15" r="3" fill="#1e1c18" />
+        </svg>
+      </div>
+      <div class="doodle doodle-br">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <circle
+            cx="40"
+            cy="35"
+            r="22"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <path
+            d="M30 30 Q32 22 40 22 Q48 22 50 30 Q52 38 44 42 L40 50"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <circle cx="40" cy="56" r="2.5" fill="#1e1c18" />
+        </svg>
+      </div>
+
+      <div class="hero-eyebrow">
+        Case Study 01 · FishBook Studio · 2024–2025
+      </div>
+      <h1 class="hero-title">一个人，从零<br />做到商业闭环</h1>
+      <p class="hero-sub">
+        独立设计并运营 Notion 人生管理系统产品体系，打通「内容 → 产品 →
+        变现」完整链路。
+      </p>
+      <div class="hero-metrics">
+        <div class="hero-metric">
+          <span class="hero-metric-num">13万</span>
+          <span class="hero-metric-label">年度 GMV</span>
+        </div>
+        <div class="hero-metric">
+          <span class="hero-metric-num">4500+</span>
+          <span class="hero-metric-label">付费用户</span>
+        </div>
+        <div class="hero-metric">
+          <span class="hero-metric-num">1000万+</span>
+          <span class="hero-metric-label">内容曝光量</span>
+        </div>
+        <div class="hero-metric">
+          <span class="hero-metric-num">1w+</span>
+          <span class="hero-metric-label">全网粉丝</span>
+        </div>
+        <div class="hero-metric">
+          <span class="hero-metric-num">20+</span>
+          <span class="hero-metric-label">上线产品</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAIN -->
+    <section class="pain-section" id="pain">
+      <div class="section-tag">01 · 用户洞察</div>
+      <h2 class="section-title">工具越换越多，<br />掌控感却越来越少</h2>
+
+      <div class="pain-layout">
+        <div>
+          <div class="pain-item fade-up">
+            <div class="pain-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <circle cx="14" cy="14" r="12" stroke="#1e1c18" stroke-width="1.5" fill="none"/>
+                <path d="M9 14 L13 18 L19 10" stroke="#1e1c18" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="pain-content">
+              <h4>信息碎片化：五个 App 管不好一件事</h4>
+              <p>便利贴记待办、微信收藏文章、备忘录存灵感、浏览器书签堆资源——每个工具各管一块，互不相通。想找一件事，要翻遍五个地方，认知负担极高。</p>
+            </div>
+          </div>
+          <div class="pain-item fade-up">
+            <div class="pain-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <circle cx="14" cy="14" r="12" stroke="#1e1c18" stroke-width="1.5" fill="none"/>
+                <path d="M14 8 L14 15 L18 15" stroke="#1e1c18" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="pain-content">
+              <h4>执行断层：「想清楚」和「做起来」之间有一道墙</h4>
+              <p>目标写在便签上，任务散在 Todo App，复盘又要另开一个文档。「今天该做什么」每次都要重新想，意志力在决策中消耗殆尽，真正的深度工作时间所剩无几。</p>
+            </div>
+          </div>
+          <div class="pain-item fade-up">
+            <div class="pain-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <circle cx="14" cy="14" r="12" stroke="#1e1c18" stroke-width="1.5" fill="none"/>
+                <path d="M9 18 Q14 9 19 18" stroke="#1e1c18" stroke-width="1.5" fill="none"/>
+                <line x1="14" y1="12" x2="14" y2="19" stroke="#1e1c18" stroke-width="1.2"/>
+              </svg>
+            </div>
+            <div class="pain-content">
+              <h4>知识沉没：读了就忘，学了就散</h4>
+              <p>书读了几十本，课买了一摞，Kindle 上全是划线，Notion 里全是 Inbox。知识没有彼此连接、没有定期激活，只是在「收藏夹」里安静地过期。真正需要用时，大脑里空空如也。</p>
+            </div>
+          </div>
+          <div class="pain-item fade-up">
+            <div class="pain-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <circle cx="14" cy="14" r="12" stroke="#1e1c18" stroke-width="1.5" fill="none"/>
+                <line x1="9" y1="14" x2="19" y2="14" stroke="#1e1c18" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="14" y1="9" x2="14" y2="19" stroke="#1e1c18" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="pain-content">
+              <h4>习惯失守：打卡 App 换了一个又一个</h4>
+              <p>习惯追踪器下载了七八个，最长坚持不超过三周。问题不在自律，在于打卡数据和目标、任务完全割裂——不知道「今天的习惯」服务于「哪个人生目标」，内在动机无从建立。</p>
+            </div>
+          </div>
+          <div class="quote-block fade-up">
+            「不是工具太少，而是工具之间从不说话——我的生活被切成了一片片孤岛。」
+          </div>
+        </div>
+
+        <div class="fade-up">
+          <div class="market-card">
+            <h3>为什么是 Notion？All-in-One 的结构性优势</h3>
+            <div class="market-item">
+              <strong>一个数据库，打通四套系统：</strong>目标 → 项目 → 任务 → 知识 → 习惯，全部关联，任何一条记录都能追溯上下文
+            </div>
+            <div class="market-item">
+              <strong>视图即工作流：</strong>同一数据用看板管进度、用日历看时间、用表格做复盘——不需要在多个 App 之间切换，减少上下文切换成本
+            </div>
+            <div class="market-item">
+              <strong>块结构天然适合知识组织：</strong>笔记、任务、数据库可以嵌套引用，知识不再是孤立条目，而是活的网络
+            </div>
+            <div class="market-item">
+              <strong>市场时机：</strong>2024年8月 Notion 中文版正式上线，国内用户突破增长期，中文优质体系化模板极度匮乏
+            </div>
+            <div class="market-item">
+              <strong>竞品分析：</strong>头部 IP 粉丝 3–10w+，但产品普遍「单点好用、体系断裂」，无法形成闭环——这是我们的入口
+            </div>
+          </div>
+          <div class="opp-banner">
+            <p>
+              不做「又一个模板」——做用户的第二大脑操作系统：目标、任务、知识、习惯四套系统深度关联，在 Notion 里真正跑通生活闭环。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT -->
+    <section id="product">
+      <div class="section-tag">02 · 产品设计</div>
+      <h2 class="section-title">Second Brain —<br />你的人生操作系统</h2>
+      <p class="section-body">
+        以「让知识真正流动」为核心理念，整合目标管理、任务执行、知识沉淀、习惯追踪四大系统。
+      </p>
+
+      <div class="product-intro">
+        <div>
+          <p
+            style="
+              font-size: 15px;
+              color: var(--ink3);
+              line-height: 1.85;
+              margin-bottom: 28px;
+            "
+          >
+            作为重度 Notion 用户，从 2022
+            年备考阶段开始探索效率提升路径。通过亲身试验与竞品研究，识别出「碎片化模板」的核心缺陷：模块孤立、无法形成闭环、学习成本高。2024年夏正式启动
+            Fishbook Studio。
+          </p>
+          <div class="module-grid">
+            <div class="module-card fade-up">
+              <div class="module-illo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <circle
+                    cx="16"
+                    cy="12"
+                    r="8"
+                    stroke="#1e1c18"
+                    stroke-width="1.5"
+                    fill="none"
+                  />
+                  <path
+                    d="M10 12 L14 16 L22 8"
+                    stroke="#1e1c18"
+                    stroke-width="1.5"
+                    fill="none"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="16"
+                    y1="20"
+                    x2="16"
+                    y2="28"
+                    stroke="#1e1c18"
+                    stroke-width="1.5"
+                  />
+                  <line
+                    x1="10"
+                    y1="28"
+                    x2="22"
+                    y2="28"
+                    stroke="#1e1c18"
+                    stroke-width="1.5"
+                  />
+                </svg>
+              </div>
+              <h4>愿景 & OKR 系统</h4>
+              <p>从愿景逆推年度目标，每周复盘自动追踪进度</p>
+            </div>
+            <div class="module-card fade-up">
+              <div class="module-illo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <rect
+                    x="4"
+                    y="6"
+                    width="24"
+                    height="20"
+                    rx="3"
+                    stroke="#1e1c18"
+                    stroke-width="1.5"
+                    fill="none"
+                  />
+                  <line
+                    x1="10"
+                    y1="13"
+                    x2="22"
+                    y2="13"
+                    stroke="#1e1c18"
+                    stroke-width="1.2"
+                  />
+                  <line
+                    x1="10"
+                    y1="18"
+                    x2="18"
+                    y2="18"
+                    stroke="#1e1c18"
+                    stroke-width="1.2"
+                  />
+                  <circle cx="8" cy="13" r="1.5" fill="#1e1c18" />
+                  <circle cx="8" cy="18" r="1.5" fill="#1e1c18" />
+                </svg>
+              </div>
+              <h4>项目 + 任务闭环</h4>
+              <p>打开就知道该做什么，开始计时，完成自动归档</p>
+            </div>
+            <div class="module-card fade-up">
+              <div class="module-illo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <rect
+                    x="5"
+                    y="4"
+                    width="16"
+                    height="22"
+                    rx="2"
+                    stroke="#1e1c18"
+                    stroke-width="1.5"
+                    fill="none"
+                  />
+                  <rect
+                    x="11"
+                    y="6"
+                    width="16"
+                    height="22"
+                    rx="2"
+                    fill="#ededed"
+                    stroke="#1e1c18"
+                    stroke-width="1.5"
+                  />
+                  <line
+                    x1="15"
+                    y1="13"
+                    x2="23"
+                    y2="13"
+                    stroke="#1e1c18"
+                    stroke-width="1"
+                  />
+                  <line
+                    x1="15"
+                    y1="18"
+                    x2="23"
+                    y2="18"
+                    stroke="#1e1c18"
+                    stroke-width="1"
+                  />
+                </svg>
+              </div>
+              <h4>PARA 知识沉淀</h4>
+              <p>书影音播客资源，按主题聚合，读过的不散落</p>
+            </div>
+            <div class="module-card fade-up">
+              <div class="module-illo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <rect
+                    x="4"
+                    y="18"
+                    width="5"
+                    height="10"
+                    rx="1"
+                    fill="#4a8c5c"
+                    stroke="#1e1c18"
+                    stroke-width="1.2"
+                  />
+                  <rect
+                    x="12"
+                    y="12"
+                    width="5"
+                    height="16"
+                    rx="1"
+                    fill="#4a8c5c"
+                    stroke="#1e1c18"
+                    stroke-width="1.2"
+                  />
+                  <rect
+                    x="20"
+                    y="7"
+                    width="5"
+                    height="21"
+                    rx="1"
+                    fill="#4a8c5c"
+                    stroke="#1e1c18"
+                    stroke-width="1.2"
+                  />
+                  <path
+                    d="M6 16 L14 10 L22 5"
+                    stroke="#1e1c18"
+                    stroke-width="1.5"
+                    fill="none"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
+              <h4>习惯打卡 + 自动统计</h4>
+              <p>周月年热力图，数字告诉你真正的进步</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="workflow-card">
+            <h3>5步工作流：从「想到」到「完成」</h3>
+            <div class="wf-step">
+              <div class="wf-letter">A</div>
+              <div class="wf-text">
+                <h5>
+                  捕捉 · Capture <span class="wf-time">随时 / 30秒内</span>
+                </h5>
+                <p>想到什么就丢进收集箱，先记不判断</p>
+              </div>
+            </div>
+            <div class="wf-step">
+              <div class="wf-letter">B</div>
+              <div class="wf-text">
+                <h5>
+                  组织 · Organize <span class="wf-time">每天 / 5分钟</span>
+                </h5>
+                <p>清空收集箱，判断类型，打标签补日期</p>
+              </div>
+            </div>
+            <div class="wf-step">
+              <div class="wf-letter">C</div>
+              <div class="wf-text">
+                <h5>
+                  执行 · Execute
+                  <span class="wf-time">每天 / 只看一个地方</span>
+                </h5>
+                <p>打开任务页，开始就启动计时，复盘有依据</p>
+              </div>
+            </div>
+            <div class="wf-step">
+              <div class="wf-letter">D</div>
+              <div class="wf-text">
+                <h5>
+                  复盘 · Review <span class="wf-time">每周 / 20分钟</span>
+                </h5>
+                <p>看统计、看习惯、清收集箱、补项目任务</p>
+              </div>
+            </div>
+            <div class="wf-step">
+              <div class="wf-letter">E</div>
+              <div class="wf-text">
+                <h5>归档 · Archive <span class="wf-time">每月一次</span></h5>
+                <p>完结项目移入归档，日常视图只看正在发生的事</p>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+            <div class="price-note">
+              一次购买 · 终身使用 · Notion 免费账号即可运行
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPERATION -->
+    <section class="op-section" id="operation">
+      <div class="section-tag">03 · 内容运营</div>
+      <h2 class="section-title">内容即获客，<br />产品即留存</h2>
+      <p class="section-body">
+        设计「内容 → 信任 →
+        转化」的完整飞轮：用教程建立认知，用产品交付价值，用口碑驱动增长。
+      </p>
+
+      <div class="flywheel fade-up">
+        <div class="fly-step">
+          <div class="fly-num">01</div>
+          <h4>用户洞察</h4>
+          <p>通过竞品分析与自身经历，识别「碎片化模板」核心缺陷</p>
+          <div class="fly-tags">
+            <span>竞品分析数据库</span>
+            <span>用户痛点地图</span>
+            <span>市场空白定位</span>
+          </div>
+        </div>
+        <div class="fly-step">
+          <div class="fly-num">02</div>
+          <h4>产品设计</h4>
+          <p>从0建立完整产品体系，制定标准化流程，独立完成设计到交付</p>
+          <div class="fly-tags">
+            <span>Figma 原型</span>
+            <span>Notion 数据库搭建</span>
+            <span>HTML/CSS 组件</span>
+          </div>
+        </div>
+        <div class="fly-step">
+          <div class="fly-num">03</div>
+          <h4>内容运营</h4>
+          <p>多平台分发教程与产品演示，建立品牌信任感，沉淀高质量流量</p>
+          <div class="fly-tags">
+            <span>小红书主阵地</span>
+            <span>B站视频教程</span>
+            <span>公众号深度内容</span>
+          </div>
+        </div>
+        <div class="fly-step">
+          <div class="fly-num">04</div>
+          <h4>商业变现</h4>
+          <p>电商 + 私域双轨运营，GA4 数据驱动迭代，完成完整商业闭环</p>
+          <div class="fly-tags">
+            <span>淘宝 / 小红书店铺</span>
+            <span>GA4 埋点分析</span>
+            <span>私域社群运营</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 36px">
+        <div class="section-tag" style="margin-bottom: 16px">平台策略</div>
+        <div class="platform-row">
+          <div class="plat-card star">
+            <div class="plat-head">
+              <span class="plat-name">小红书</span>
+              <span class="plat-badge badge-main">主战场</span>
+            </div>
+            <div class="plat-role">用户增长核心 · 最高转化率</div>
+            <p>
+              利用备考笔记积累的粉丝基础冷启动；「知识分享 +
+              模板变现」双线并行；持续打磨封面设计、文案结构与发布时间，提升点击率与收藏转化比。
+            </p>
+          </div>
+          <div class="plat-card">
+            <div class="plat-head">
+              <span class="plat-name">B站</span>
+              <span class="plat-badge badge-sec">教学渠道</span>
+            </div>
+            <div class="plat-role">视频曝光 · 互动沉淀</div>
+            <p>
+              定期输出 Notion
+              教程与功能演示，提升产品认知度；弹幕与评论高频互动；B站工房挂载商品引导转化。
+            </p>
+          </div>
+          <div class="plat-card">
+            <div class="plat-head">
+              <span class="plat-name">公众号</span>
+              <span class="plat-badge badge-sec">私域沉淀</span>
+            </div>
+            <div class="plat-role">高质量用户 · 深度内容</div>
+            <p>
+              发布模板设计理念、知识管理方法等长文内容；黄金推送时段（晚8-9点）精细化运营；嵌入私域二维码及购买入口。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results">
+      <div class="section-tag">04 · 项目成果</div>
+      <h2 class="section-title">不只是模板，<br />是已被验证的工作方式</h2>
+
+      <div class="results-grid">
+        <div class="res-card fade-up">
+          <div class="res-num">13<small>万</small></div>
+          <div class="res-label">年度 GMV</div>
+          <div class="res-sub">产品上线约一年</div>
+        </div>
+        <div class="res-card fade-up">
+          <div class="res-num">4500<small>+</small></div>
+          <div class="res-label">付费用户</div>
+          <div class="res-sub">全平台累计</div>
+        </div>
+        <div class="res-card fade-up">
+          <div class="res-num">1000<small>万+</small></div>
+          <div class="res-label">内容曝光</div>
+          <div class="res-sub">多平台总计</div>
+        </div>
+        <div class="res-card fade-up">
+          <div class="res-num">20<small>+</small></div>
+          <div class="res-label">上线产品</div>
+          <div class="res-sub">模板 · 组件 · 工具</div>
+        </div>
+      </div>
+
+      <div class="testi-grid fade-up">
+        <div class="testi-card">
+          <p>
+            「用了两周，第一次感觉自己的大脑真的空了下来。任务不会忘，知识有地方放，每天打开就知道做什么。」
+          </p>
+          <div class="testi-meta">— 产品经理，使用 14 天后</div>
+        </div>
+        <div class="testi-card">
+          <p>
+            「周复盘改变了我对时间的感知。以前觉得一周什么都没做，现在数据告诉我推进了多少——成就感很真实。」
+          </p>
+          <div class="testi-meta">— 自由职业者，使用 1 个月后</div>
+        </div>
+        <div class="testi-card">
+          <p>
+            「不是功能最多的模板，是最能让我持续用下去的那一个。设计很克制，工作流很顺。」
+          </p>
+          <div class="testi-meta">— 研究生，使用 3 个月后</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA strip like Opennote yellow section -->
+    <div class="cta-strip">
+      <div class="cta-left">
+        <h2>Your ideas deserve<br />better tools</h2>
+        <p>不管你在学什么、做什么，Second Brain 都能让它真正流动起来。</p>
+      </div>
+      <svg
+        class="cta-illo"
+        viewBox="0 0 180 140"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <!-- Three people sketches -->
+        <circle
+          cx="45"
+          cy="45"
+          r="18"
+          stroke="#3a2f0a"
+          stroke-width="2"
+          fill="none"
+        />
+        <path
+          d="M27 80 Q45 68 63 80 L63 110 L27 110 Z"
+          stroke="#3a2f0a"
+          stroke-width="2"
+          fill="none"
+        />
+        <circle cx="45" cy="42" r="6" fill="#3a2f0a" />
+
+        <circle
+          cx="95"
+          cy="40"
+          r="18"
+          stroke="#3a2f0a"
+          stroke-width="2"
+          fill="none"
+        />
+        <path
+          d="M77 78 Q95 65 113 78 L113 108 L77 108 Z"
+          stroke="#3a2f0a"
+          stroke-width="2"
+          fill="none"
+        />
+        <circle cx="95" cy="37" r="6" fill="#3a2f0a" />
+
+        <circle
+          cx="145"
+          cy="45"
+          r="18"
+          stroke="#3a2f0a"
+          stroke-width="2"
+          fill="none"
+        />
+        <path
+          d="M127 83 Q145 70 163 83 L163 113 L127 113 Z"
+          stroke="#3a2f0a"
+          stroke-width="2"
+          fill="none"
+        />
+        <circle cx="145" cy="42" r="6" fill="#3a2f0a" />
+
+        <!-- Smile lines -->
+        <path
+          d="M38 50 Q45 56 52 50"
+          stroke="#3a2f0a"
+          stroke-width="1.5"
+          fill="none"
+        />
+        <path
+          d="M88 44 Q95 50 102 44"
+          stroke="#3a2f0a"
+          stroke-width="1.5"
+          fill="none"
+        />
+        <path
+          d="M138 51 Q145 57 152 51"
+          stroke="#3a2f0a"
+          stroke-width="1.5"
+          fill="none"
+        />
+
+        <!-- floating symbols -->
+        <text x="22" y="28" font-size="14" fill="#3a2f0a" opacity="0.5">✦</text>
+        <text x="155" y="25" font-size="12" fill="#3a2f0a" opacity="0.5">
+          ε
+        </text>
+        <text x="75" y="18" font-size="11" fill="#3a2f0a" opacity="0.4">
+          OKR
+        </text>
+      </svg>
+    </div>
+
+    <!-- REFLECTION -->
+    <section class="ref-section">
+      <div class="section-tag">05 · 产品思考</div>
+      <h2 class="section-title">我学到了什么</h2>
+      <div class="ref-grid">
+        <div class="ref-card fade-up">
+          <h4>用户不买「功能」，买「我能成为的样子」</h4>
+          <p>
+            Second Brain
+            用户的购买动机是「我想成为一个有掌控感的人」，而非「我需要任务工具」。产品文案围绕情感诉求展开，转化率远高于功能堆砌型产品。
+          </p>
+        </div>
+        <div class="ref-card fade-up">
+          <h4>内容是最高效的产品教育</h4>
+          <p>
+            教程视频让用户在购买前已理解产品逻辑，显著降低售后问题和退款率。「先教育再销售」让转化质量更高，用户留存和口碑传播也更好。
+          </p>
+        </div>
+        <div class="ref-card fade-up">
+          <h4>定价是产品信号，不只是价格</h4>
+          <p>
+            初期定价过低反而让用户质疑产品价值。调整到 ¥99/179/399 三档后，Pro
+            档成为最受欢迎选择——价格分层帮助用户决策，也传递了「认真做产品」的信号。
+          </p>
+        </div>
+        <div class="ref-card fade-up">
+          <h4>数据埋点是迭代的眼睛</h4>
+          <p>
+            GA4 全站埋点分析发现「AI
+            功能介绍」区域跳出率最低、停留最久，由此决定将 AI 增强作为 v2.0
+            核心卖点，次月转化率明显提升。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="foot-logo">FishBook Studio</div>
+      <div style="display: flex; gap: 28px; align-items: center">
+        <a
+          href="https://new-website-ochre-phi.vercel.app/"
+          class="foot-link"
+          target="_blank"
+          >品牌官网 →</a
+        >
+        <span class="foot-meta">Ji Tong · 2024–2025</span>
+      </div>
+    </footer>
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document
+        .querySelectorAll(".fade-up")
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,5200 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Ji Tong · FishBook Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- 样式参考: refer (macOS 26 Community) -->
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap");
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        min-height: 100%;
+        -webkit-font-smoothing: antialiased;
+      }
+      html {
+        overflow-x: hidden;
+      }
+      body {
+        overflow: hidden;
+      }
+      @media (max-width: 768px) {
+        body {
+          overflow: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+      }
+
+      /* ── refer 设计变量：浅色 ── */
+      [data-appearance-mode="light"] {
+        --labels-primary: rgba(0, 0, 0, 0.85);
+        --labels-secondary: rgba(0, 0, 0, 0.5);
+        --labels-tertiary: rgba(0, 0, 0, 0.25);
+        --labels-quaternary: rgba(0, 0, 0, 0.1);
+        --fills-opaque-primary: rgba(0, 0, 0, 0.1);
+        --fills-opaque-secondary: rgba(0, 0, 0, 0.08);
+        --fills-opaque-tertiary: rgba(0, 0, 0, 0.05);
+        --fills-opaque-quaternary: rgba(0, 0, 0, 0.03);
+        --material-thick: rgba(246, 246, 246, 0.72);
+        --material-medium: rgba(246, 246, 246, 0.6);
+        --material-thin: rgba(246, 246, 246, 0.48);
+        --separator-vibrant: rgba(60, 60, 67, 0.29);
+        --body-font-size: 13px;
+        --body-line-height: 16px;
+        --headline-font-size: 13px;
+        --title-3-font-size: 15px;
+        --subheadline-font-size: 11px;
+        --caption-font-size: 10px;
+        --accent-blue: #0078f0;
+      }
+
+      /* ── refer 设计变量：深色 ── */
+      [data-appearance-mode="dark"] {
+        --labels-primary: rgba(255, 255, 255, 0.85);
+        --labels-secondary: rgba(255, 255, 255, 0.55);
+        --labels-tertiary: rgba(255, 255, 255, 0.25);
+        --labels-quaternary: rgba(255, 255, 255, 0.1);
+        --fills-opaque-primary: rgba(255, 255, 255, 0.1);
+        --fills-opaque-secondary: rgba(255, 255, 255, 0.08);
+        --fills-opaque-tertiary: rgba(255, 255, 255, 0.05);
+        --fills-opaque-quaternary: rgba(255, 255, 255, 0.03);
+        --material-thick: rgba(40, 40, 40, 0.7);
+        --material-medium: rgba(40, 40, 40, 0.6);
+        --material-thin: rgba(40, 40, 40, 0.5);
+        --separator-vibrant: #404042;
+        --body-font-size: 13px;
+        --body-line-height: 16px;
+        --headline-font-size: 13px;
+        --title-3-font-size: 15px;
+        --subheadline-font-size: 11px;
+        --caption-font-size: 10px;
+        --accent-blue: #0a84ff;
+      }
+
+      body {
+        font-family:
+          -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+        font-size: var(--body-font-size, 13px);
+        line-height: var(--body-line-height, 16px);
+        user-select: none;
+        background: #ede8df;
+      }
+      [data-appearance-mode="dark"] body,
+      body[data-appearance-mode="dark"] {
+        background: #1a1714;
+      }
+      /* ══════════════════════════════════════════
+         WALLPAPER  ·  Modern Clean
+      ══════════════════════════════════════════ */
+      @keyframes wp-blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      #wallpaper {
+        position: fixed;
+        inset: 34px 0 0 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+        font-family: -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif;
+        /* Warm off-white — feels like premium paper */
+        background: #f0ede8;
+      }
+      body[data-appearance-mode="dark"] #wallpaper {
+        background: #141210;
+      }
+
+      /* Layer 1: very subtle dot grid */
+      #wallpaper::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background-image: radial-gradient(
+          circle,
+          rgba(0, 0, 0, 0.07) 1px,
+          transparent 1px
+        );
+        background-size: 28px 28px;
+      }
+      body[data-appearance-mode="dark"] #wallpaper::after {
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.05) 1px,
+          transparent 1px
+        );
+      }
+
+      /* ─── LAYOUT GRID ─── */
+      .wp-grid {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        height: calc(100% - 24px); /* minus bottom bar */
+        position: relative;
+        z-index: 2;
+      }
+
+      /* ─── LEFT: Profile panel ─── */
+      .wp-left {
+        display: flex;
+        flex-direction: column;
+        padding: 28px 18px 20px;
+        border-right: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.35);
+        gap: 0;
+        overflow: hidden;
+      }
+      body[data-appearance-mode="dark"] .wp-left {
+        background: rgba(255, 255, 255, 0.03);
+        border-right-color: rgba(255, 255, 255, 0.07);
+      }
+
+      /* Photo: 真实照片在上层，占位符在背景 */
+      .wp-photo {
+        width: 100%;
+        aspect-ratio: 3/4;
+        max-height: 180px;
+        background: rgba(0, 0, 0, 0.04);
+        border: 1px dashed rgba(0, 0, 0, 0.13);
+        border-radius: 6px;
+        margin-bottom: 14px;
+        flex-shrink: 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .wp-photo-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+      }
+      .wp-photo-placeholder {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        z-index: 0;
+      }
+      body[data-appearance-mode="dark"] .wp-photo {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+      .wp-photo-icon {
+        opacity: 0.18;
+      }
+      .wp-photo-txt {
+        font-size: 8px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.28);
+      }
+      body[data-appearance-mode="dark"] .wp-photo-txt {
+        color: rgba(255, 255, 255, 0.22);
+      }
+      .wp-cursor {
+        display: inline-block;
+        width: 1.5px;
+        height: 9px;
+        background: rgba(0, 0, 0, 0.3);
+        vertical-align: middle;
+        margin-left: 1px;
+        animation: wp-blink 1.1s step-start infinite;
+      }
+      body[data-appearance-mode="dark"] .wp-cursor {
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      .wp-name {
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: -0.015em;
+        color: rgba(0, 0, 0, 0.78);
+        line-height: 1.25;
+        margin-bottom: 2px;
+      }
+      body[data-appearance-mode="dark"] .wp-name {
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .wp-name-en {
+        font-size: 10px;
+        color: rgba(0, 0, 0, 0.3);
+        letter-spacing: 0.02em;
+      }
+      body[data-appearance-mode="dark"] .wp-name-en {
+        color: rgba(255, 255, 255, 0.24);
+      }
+
+      /* ─── RIGHT COLUMN ─── */
+      .wp-right-col {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      /* ── 上: Case Studies — open, no grid ── */
+      .wp-right-top {
+        flex: 1;
+        min-height: 0;
+        padding: 28px 36px 24px;
+        display: flex;
+        flex-direction: column;
+      }
+      .wp-section-label {
+        font-size: 9px;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.28);
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      body[data-appearance-mode="dark"] .wp-section-label {
+        color: rgba(255, 255, 255, 0.2);
+      }
+      .wp-section-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.08);
+      }
+      body[data-appearance-mode="dark"] .wp-section-label::after {
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      /* The open zone where icons land — no grid lines */
+      .wp-open-zone {
+        flex: 1;
+        min-height: 0;
+        position: relative;
+      }
+
+      /* ── 下: Skills+Edu & Contact — fixed short height ── */
+      .wp-right-bottom {
+        flex-shrink: 0;
+        height: 130px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.18);
+      }
+      body[data-appearance-mode="dark"] .wp-right-bottom {
+        border-top-color: rgba(255, 255, 255, 0.06);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .wp-bzone {
+        padding: 16px 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        overflow: hidden;
+      }
+      .wp-bzone:first-child {
+        border-right: 1px solid rgba(0, 0, 0, 0.07);
+      }
+      body[data-appearance-mode="dark"] .wp-bzone:first-child {
+        border-right-color: rgba(255, 255, 255, 0.05);
+      }
+      .wp-bzone-label {
+        font-size: 8.5px;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.28);
+        margin-bottom: 2px;
+      }
+      body[data-appearance-mode="dark"] .wp-bzone-label {
+        color: rgba(255, 255, 255, 0.2);
+      }
+      .wp-bzone-sub {
+        font-size: 9px;
+        color: rgba(0, 0, 0, 0.2);
+        line-height: 1.5;
+      }
+      body[data-appearance-mode="dark"] .wp-bzone-sub {
+        color: rgba(255, 255, 255, 0.13);
+      }
+
+      /* ─── BOTTOM BAR ─── */
+      .wp-bottom-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 24px;
+        border-top: 1px solid rgba(0, 0, 0, 0.07);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        pointer-events: none;
+        z-index: 3;
+      }
+      body[data-appearance-mode="dark"] .wp-bottom-bar {
+        border-top-color: rgba(255, 255, 255, 0.05);
+      }
+      .wp-bottom-bar span {
+        font-size: 8px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.2);
+      }
+      body[data-appearance-mode="dark"] .wp-bottom-bar span {
+        color: rgba(255, 255, 255, 0.13);
+      }
+
+      /* Make icons and windows sit ABOVE wallpaper */
+      #desktop {
+        z-index: 2;
+      }
+      #menubar {
+        z-index: 9999;
+      }
+      .window {
+        z-index: 100;
+      }
+      .icon {
+        z-index: 2;
+      }
+      /* ── MENU BAR (refer) ── */
+      #menubar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 34px;
+        z-index: 9999;
+        background: var(--material-thick, rgba(40, 40, 40, 0.7));
+        backdrop-filter: blur(60px) saturate(180%);
+        -webkit-backdrop-filter: blur(60px) saturate(180%);
+        border-bottom: 1px solid
+          var(--separator-vibrant, rgba(255, 255, 255, 0.08));
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5px 10px;
+      }
+      .ml {
+        display: flex;
+        align-items: center;
+        gap: 0;
+      }
+      .mi {
+        padding: 4px 11px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        font-size: var(--body-font-size, 13px);
+        font-weight: 600;
+        color: var(--labels-primary, rgba(255, 255, 255, 0.9));
+        border-radius: 4px;
+        cursor: default;
+        white-space: nowrap;
+        letter-spacing: -0.01em;
+        transition: background 0.12s ease;
+      }
+      .mi:hover,
+      .mi.open {
+        background: var(--fills-opaque-primary, rgba(255, 255, 255, 0.1));
+      }
+      .mr {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .mc {
+        font-size: var(--body-font-size, 13px);
+        font-weight: 600;
+        color: var(--labels-primary);
+      }
+      .menu-bar-icon {
+        color: var(--labels-secondary);
+        opacity: 0.9;
+      }
+      .theme-toggle {
+        padding: 2px 8px !important;
+        font-size: 14px !important;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+
+      /* ── DROPDOWN (refer) ── */
+      .dd {
+        position: fixed;
+        top: 34px;
+        z-index: 99999;
+        background: var(--material-thick, rgba(40, 40, 40, 0.8));
+        backdrop-filter: blur(64px) saturate(180%);
+        -webkit-backdrop-filter: blur(64px) saturate(180%);
+        border: 1px solid var(--separator-vibrant, rgba(255, 255, 255, 0.08));
+        border-radius: 12px;
+        min-width: 215px;
+        box-shadow:
+          0 16px 48px rgba(0, 0, 0, 0.35),
+          0 0 0 1px rgba(0, 0, 0, 0.23);
+        padding: 6px;
+        display: none;
+      }
+      .dd.open {
+        display: block;
+      }
+      .ddi {
+        padding: 6px 12px;
+        font-size: var(--body-font-size, 13px);
+        font-weight: 500;
+        color: var(--labels-primary);
+        border-radius: 8px;
+        cursor: default;
+        letter-spacing: -0.01em;
+      }
+      .ddi:hover {
+        background: var(--fills-opaque-primary);
+      }
+      .dds {
+        border-top: 1px solid var(--separator-vibrant);
+        margin: 4px 0;
+      }
+      .ddl {
+        padding: 4px 12px 2px;
+        font-size: var(--subheadline-font-size, 11px);
+        font-weight: 700;
+        color: var(--labels-secondary);
+        letter-spacing: 0.04em;
+      }
+
+      /* ── DESKTOP ── */
+      #desktop {
+        position: fixed;
+        inset: 34px 0 0 0;
+        z-index: 2;
+        overflow: hidden;
+        background: transparent;
+      }
+
+      /* 图标层：与墙纸框架一致 200px + 1fr，右侧分 top(1fr) + bottom(130px) */
+      .desk-icon-layer {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        grid-template-rows: 1fr;
+        pointer-events: none;
+      }
+      .desk-icon-layer > * {
+        pointer-events: auto;
+      }
+      .desk-left {
+        position: relative;
+      }
+      .desk-right {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        padding-bottom: 32px; /* 底部两栏相对框架上移，与底边留出间距 */
+      }
+      .desk-right-top {
+        flex: 1;
+        min-height: 0;
+        position: relative;
+      }
+      .desk-right-bottom {
+        flex-shrink: 0;
+        height: 130px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        position: relative;
+      }
+      .desk-bzone {
+        position: relative;
+      }
+      /* 左侧列图标：相对 .desk-left 百分比，整体下移 */
+      .icon-pos-about {
+        left: 27%;
+        top: 36%;
+      }
+      .icon-pos-cv {
+        left: 27%;
+        top: 54%;
+      }
+      .icon-pos-fishbook {
+        left: 27%;
+        top: 68%;
+      }
+      /* 底部 Skills 区：相对 .desk-bzone-skills */
+      .desk-bzone-skills .icon {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .icon-pos-skills {
+        left: 31%;
+      }
+      .icon-pos-edu {
+        left: 50%;
+      }
+      .icon-pos-internship {
+        left: 65%;
+      }
+      /* 底部 Contact 区 */
+      .desk-bzone-contact .icon {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .icon-pos-contact {
+        left: 6%;
+      }
+      .icon-pos-xhs {
+        left: 36%;
+      }
+      .icon-pos-taobao {
+        left: 52%;
+      }
+      .icon-pos-wechat {
+        left: 67%;
+      }
+      /* Case study 文件夹：相对 .desk-right-top 百分比，2 行 4 列随框架缩放 */
+      .desk-right-top .icon-pos-cs1 {
+        left: 12%;
+        top: 8%;
+      }
+      .desk-right-top .icon-pos-cs2 {
+        left: 32%;
+        top: 8%;
+      }
+      .desk-right-top .icon-pos-cs3 {
+        left: 52%;
+        top: 8%;
+      }
+      .desk-right-top .icon-pos-cs4 {
+        left: 72%;
+        top: 8%;
+      }
+      .desk-right-top .icon-pos-cs5 {
+        left: 12%;
+        top: 38%;
+      }
+      .desk-right-top .icon-pos-cs6 {
+        left: 32%;
+        top: 38%;
+      }
+      .desk-right-top .icon-pos-cs7 {
+        left: 52%;
+        top: 38%;
+      }
+
+      /* ════════════════════════
+   ICON — macOS style
+════════════════════════ */
+      .icon {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        width: 80px;
+        padding: 6px 4px 5px;
+        border-radius: 8px;
+        cursor: default;
+        transition: background 0.12s;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+      .icon:hover .icon-gfx {
+        transform: scale(1.06);
+      }
+      .icon:hover .icon-gfx {
+        transition: transform 180ms cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+      .icon-gfx {
+        transition: transform 180ms cubic-bezier(0.25, 0.8, 0.25, 1);
+        display: flex;
+      }
+      .icon-gfx img.folder-icon {
+        display: block;
+        object-fit: contain;
+      }
+      /* folder 尺寸大于小红书/淘宝等 64×64 图标 */
+      .icon-feat .icon-gfx img.folder-icon {
+        width: 120px;
+        height: 101px;
+      }
+      .icon-gfx img.folder-icon-brief,
+      .icon-gfx svg.folder-icon-brief {
+        width: 96px;
+        height: 83px;
+        display: block;
+      }
+      .icon-gfx svg.folder-icon-brief {
+        object-fit: contain;
+      }
+      /* 实习经历：与教育经历一致 64×64 圆角背景 */
+      .icon-gfx-internship {
+        width: 64px;
+        height: 64px;
+        border-radius: 14px;
+        background: linear-gradient(145deg, #5b8fb9 0%, #7ba3c7 100%);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      /* 使用图片时去掉蓝底，不露出上下边 */
+      .icon-gfx-internship:has(img) {
+        background: transparent;
+        box-shadow: none;
+      }
+      .icon-gfx-internship svg.folder-icon-brief {
+        width: 48px;
+        height: 46px;
+      }
+      .prow-ic {
+        object-fit: contain;
+      }
+      img.prow-ic {
+        width: 34px;
+        height: 30px;
+      }
+      .icon.sel {
+        background: rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+      .icon.sel .icon-lbl-wrap {
+        background: rgba(10, 132, 255, 0.48);
+        border-radius: 6px;
+        padding: 1px 6px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .icon.click .icon-gfx {
+        transform: scale(0.92);
+        transition: transform 80ms;
+      }
+      .icon.dragging {
+        opacity: 0.85;
+        z-index: 9999 !important;
+        cursor: grabbing !important;
+        transition: none !important;
+        filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.38));
+      }
+      .icon.dragging .icon-gfx {
+        transform: scale(1.08) !important;
+        transition: none !important;
+      }
+
+      .icon-lbl-wrap {
+        padding: 2px 4px;
+        margin-top: 5px;
+      }
+      .icon-lbl {
+        font-size: var(--subheadline-font-size, 11px);
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.72);
+        text-align: center;
+        line-height: 16px;
+        display: block;
+        max-width: 78px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        letter-spacing: -0.01em;
+        text-shadow: none;
+      }
+      body[data-appearance-mode="dark"] .icon-lbl {
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .icon-sub {
+        font-size: var(--caption-font-size, 10px);
+        color: rgba(0, 0, 0, 0.38);
+        text-align: center;
+        display: block;
+        letter-spacing: 0.01em;
+        margin-top: 1px;
+        text-shadow: none;
+      }
+      body[data-appearance-mode="dark"] .icon-sub {
+        color: rgba(255, 255, 255, 0.45);
+      }
+
+      /* FEATURED icon is wider */
+      .icon-feat {
+        width: 108px;
+      }
+      .icon-feat .icon-lbl {
+        max-width: 104px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .icon-feat.sel .icon-lbl-wrap {
+        padding: 1px 7px;
+      }
+
+      /* ════════════════════════
+   WINDOW (refer: 26px radius, material shadow)
+════════════════════════ */
+      .window {
+        position: absolute;
+        border-radius: 26px;
+        overflow: hidden;
+        background: var(--material-thick, rgba(40, 40, 40, 0.75));
+        backdrop-filter: blur(80px) saturate(180%);
+        -webkit-backdrop-filter: blur(80px) saturate(180%);
+        border: 1px solid var(--separator-vibrant, rgba(255, 255, 255, 0.08));
+        box-shadow:
+          0 16px 48px rgba(0, 0, 0, 0.35),
+          0 0 0 1px rgba(0, 0, 0, 0.23);
+        z-index: 100;
+        display: none;
+        transform-origin: center center;
+      }
+      .window.open {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .window.opening {
+        animation: winOpen 220ms cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+      }
+      @keyframes winOpen {
+        from {
+          opacity: 0;
+          transform: scale(0.92);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .window.minimized .wb,
+      .window.minimized .fwb,
+      .window.minimized .ws,
+      .window.minimized .browser-shell .browser-frame {
+        display: none !important;
+      }
+      .window.minimized .wtb {
+        border-bottom: none;
+      }
+      .window.minimized {
+        height: auto !important;
+        min-height: 0 !important;
+      }
+      .window.maximized {
+        top: 34px !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: calc(100vh - 34px) !important;
+        border-radius: 16px 16px 0 0;
+      }
+      .window.maximized .window-resize-handle,
+      .window.minimized .window-resize-handle {
+        display: none !important;
+      }
+      @media (max-width: 768px) {
+        .window.maximized {
+          top: calc(44px + env(safe-area-inset-top)) !important;
+          height: calc(100vh - 44px - env(safe-area-inset-top)) !important;
+        }
+      }
+
+      /* 窗口右下角拖拽调整尺寸（仿真实电脑窗口） */
+      .window-resize-handle {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 20px;
+        height: 20px;
+        cursor: nwse-resize;
+        z-index: 5;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      .window-resize-handle::after {
+        content: "";
+        position: absolute;
+        right: 4px;
+        bottom: 4px;
+        width: 12px;
+        height: 12px;
+        background: linear-gradient(
+          135deg,
+          transparent 0%,
+          transparent 45%,
+          rgba(255, 255, 255, 0.25) 45%,
+          rgba(255, 255, 255, 0.25) 55%,
+          transparent 55%
+        );
+        border-radius: 0 0 4px 0;
+        pointer-events: none;
+      }
+      .window-resize-handle:hover::after {
+        background: linear-gradient(
+          135deg,
+          transparent 0%,
+          transparent 45%,
+          rgba(255, 255, 255, 0.45) 45%,
+          rgba(255, 255, 255, 0.45) 55%,
+          transparent 55%
+        );
+      }
+
+      /* Title bar (refer: 32px height, window controls 14px) */
+      .wtb {
+        height: 40px;
+        padding: 4px 8px 4px 10px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        cursor: move;
+        flex-shrink: 0;
+        border-bottom: 1px solid var(--separator-vibrant);
+        background: var(--fills-opaque-quaternary, rgba(255, 255, 255, 0.03));
+      }
+      .tl {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        cursor: pointer;
+        flex-shrink: 0;
+        border: 0.5px solid rgba(0, 0, 0, 0.1);
+        position: relative;
+        transition:
+          filter 0.12s,
+          transform 0.12s;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .tl::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        transition: opacity 0.12s;
+      }
+      .wtb:hover .tl::before {
+        opacity: 1;
+      }
+      .tl:hover {
+        filter: brightness(1.15);
+        transform: translateY(-0.3px);
+      }
+      .tl-r {
+        background: #ff736a;
+      }
+      .tl-r::before {
+        content: "×";
+      }
+      .tl-y {
+        background: #febc2e;
+      }
+      .tl-y::before {
+        content: "–";
+        transform: translateY(-1px);
+      }
+      .tl-g {
+        background: #19c332;
+      }
+      .tl-g::before {
+        content: "▣";
+        font-size: 8px;
+      }
+      .wt {
+        flex: 1;
+        text-align: center;
+        font-size: var(--title-3-font-size, 15px);
+        font-weight: 700;
+        color: var(--labels-secondary);
+        letter-spacing: -0.01em;
+      }
+
+      .wb {
+        padding: 18px 22px;
+        font-size: var(--body-font-size, 13px);
+        color: var(--labels-secondary);
+        line-height: var(--body-line-height, 16px);
+        flex: 1;
+        overflow-y: auto;
+      }
+      .ws {
+        overflow-y: auto;
+        flex: 1;
+      }
+      .ws::-webkit-scrollbar {
+        width: 12px;
+      }
+      .ws::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 1000px;
+      }
+      .ws::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.22);
+      }
+
+      /* about (refer typography) */
+      .ar {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 5px;
+        align-items: baseline;
+      }
+      .ak {
+        color: var(--labels-tertiary);
+        min-width: 72px;
+        flex-shrink: 0;
+        font-size: var(--caption-font-size, 10px);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        font-weight: 500;
+      }
+      .av {
+        color: var(--labels-primary);
+        font-size: var(--body-font-size, 13px);
+      }
+      .adiv {
+        border-top: 1px solid var(--separator-vibrant);
+        margin: 12px 0;
+      }
+      .atag {
+        display: inline-block;
+        background: rgba(10, 132, 255, 0.25);
+        color: var(--accent-blue, #0a84ff);
+        border: 1px solid rgba(10, 132, 255, 0.2);
+        padding: 2px 9px;
+        font-size: var(--caption-font-size, 10px);
+        border-radius: 20px;
+        margin: 2px 2px 0 0;
+        font-weight: 600;
+      }
+
+      /* project list (refer) — 放大 */
+      .psec {
+        padding: 18px 14px 8px 22px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: var(--labels-secondary);
+        border-bottom: 1px solid var(--separator-vibrant);
+      }
+      .prow {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 18px;
+        border-bottom: 1px solid var(--fills-opaque-quaternary);
+        cursor: default;
+        transition: background 0.1s;
+      }
+      .prow:hover {
+        background: var(--fills-opaque-primary);
+      }
+      .prow:last-child {
+        border-bottom: none;
+      }
+      .prow-ic {
+        width: 34px;
+        flex-shrink: 0;
+        filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+      }
+      .prow-left {
+        flex: 1;
+      }
+      .prow-n {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--labels-primary);
+        margin-bottom: 3px;
+      }
+      .prow-d {
+        font-size: 14px;
+        color: var(--labels-secondary);
+        line-height: 1.5;
+      }
+      .prow-t {
+        display: flex;
+        gap: 5px;
+        margin-top: 5px;
+        flex-wrap: wrap;
+      }
+      .ptag {
+        font-size: 11px;
+        background: var(--fills-opaque-secondary);
+        color: var(--labels-secondary);
+        padding: 3px 8px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        font-weight: 500;
+      }
+      .ptag-b {
+        background: rgba(10, 132, 255, 0.2);
+        color: var(--accent-blue, #0a84ff);
+        border-color: rgba(10, 132, 255, 0.18);
+      }
+      .pa {
+        color: var(--labels-tertiary);
+        font-size: 13px;
+        margin-top: 2px;
+      }
+
+      /* education window (教育经历) — 避免 flex:1 在无高度容器内折叠为 0 */
+      .wb-edu {
+        padding: 20px 22px 24px;
+        max-width: 520px;
+        min-height: 320px;
+      }
+      /* 教育经历窗口打开时确保内容区显示（防止被 minimized 等规则误伤） */
+      .window.open#win-education .wb-edu {
+        display: block !important;
+      }
+      .edu-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #a080b0;
+        letter-spacing: 0.02em;
+        margin-bottom: 8px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid rgba(160, 128, 176, 0.45);
+        display: inline-block;
+      }
+      .edu-entry {
+        position: relative;
+        margin-bottom: 28px;
+        padding-right: 12px;
+      }
+      .edu-entry:last-child {
+        margin-bottom: 0;
+      }
+      .edu-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 8px 16px;
+        margin-bottom: 6px;
+      }
+      .edu-school-wrap {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .edu-school {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--labels-primary);
+        letter-spacing: -0.01em;
+      }
+      .edu-tag {
+        display: inline-block;
+        background: rgba(58, 140, 200, 0.22);
+        color: #5a9fd4;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 6px;
+        letter-spacing: 0.02em;
+      }
+      .edu-right {
+        text-align: right;
+        flex-shrink: 0;
+      }
+      .edu-date {
+        font-size: 12px;
+        color: var(--labels-secondary);
+        margin-bottom: 2px;
+      }
+      .edu-loc {
+        font-size: 11px;
+        color: var(--labels-tertiary);
+      }
+      .edu-meta {
+        font-size: 13px;
+        color: var(--labels-secondary);
+        line-height: 1.55;
+        margin-bottom: 4px;
+      }
+      .edu-detail {
+        font-size: 13px;
+        color: var(--labels-secondary);
+        line-height: 1.55;
+        margin-bottom: 6px;
+      }
+      .edu-highlight {
+        font-weight: 700;
+        color: var(--labels-primary);
+      }
+      .edu-courses {
+        font-size: 12px;
+        color: var(--labels-tertiary);
+        line-height: 1.6;
+      }
+      .edu-diamond {
+        position: absolute;
+        right: -8px;
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+        width: 80px;
+        height: 80px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 4px;
+        pointer-events: none;
+      }
+
+      /* 微信 — iOS 风格图片查看器 */
+      .window-wechat .wb {
+        padding: 0;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.85);
+        display: flex;
+        flex-direction: column;
+      }
+      .wechat-viewer {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        position: relative;
+      }
+      .wechat-viewer-img-wrap {
+        overflow: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        min-height: 200px;
+      }
+      .wechat-viewer-img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        transition: transform 0.2s ease-out;
+        display: block;
+      }
+      .wechat-zoom-bar {
+        flex-shrink: 0;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        background: rgba(0, 0, 0, 0.5);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .wechat-zoom-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s;
+      }
+      .wechat-zoom-btn:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+      .wechat-zoom-label {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+        min-width: 36px;
+        text-align: center;
+      }
+
+      /* skills (refer) */
+      .sg {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .sc {
+        background: var(--fills-opaque-quaternary);
+        border: 1px solid var(--separator-vibrant);
+        padding: 12px 14px;
+        border-radius: 8px;
+      }
+      .sct {
+        font-size: var(--subheadline-font-size, 11px);
+        font-weight: 700;
+        color: var(--accent-blue, #0a84ff);
+        letter-spacing: 0.04em;
+        margin-bottom: 9px;
+      }
+      .stl {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      .stg {
+        font-size: var(--caption-font-size, 10px);
+        font-weight: 500;
+        background: var(--fills-opaque-secondary);
+        padding: 2px 7px;
+        color: var(--labels-secondary);
+        border-radius: 8px;
+      }
+
+      /* contact (refer) */
+      .crow {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 9px 0;
+        border-bottom: 1px solid var(--separator-vibrant);
+      }
+      .crow:last-child {
+        border-bottom: none;
+      }
+      .ci {
+        width: 28px;
+        height: 28px;
+        background: var(--fills-opaque-secondary);
+        border-radius: 8px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--labels-secondary);
+      }
+      .ci svg {
+        stroke: currentColor;
+      }
+      .ci svg [fill] {
+        fill: currentColor;
+      }
+      .cl {
+        font-size: var(--caption-font-size, 10px);
+        font-weight: 500;
+        color: var(--labels-tertiary);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .cv {
+        color: var(--labels-primary);
+        font-size: var(--body-font-size, 13px);
+      }
+
+      /* featured detail window (refer: sidebar 18px radius, folder 24px row) */
+      .fwb {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+        min-height: 0;
+      }
+      .fws {
+        width: 230px;
+        flex-shrink: 0;
+        padding: 10px;
+        border-radius: 18px;
+        margin: 8px 0 8px 8px;
+        background: var(--material-medium);
+        overflow-y: auto;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+      }
+      .fwi {
+        padding: 0 12px;
+        height: 28px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--labels-primary);
+        border-radius: 5px;
+        cursor: default;
+        display: flex;
+        align-items: center;
+        transition:
+          background 0.12s,
+          color 0.12s;
+      }
+      .fwi:hover {
+        background: var(--fills-opaque-primary);
+        color: var(--labels-primary);
+      }
+      .fwi.act {
+        background: var(--fills-opaque-primary);
+        color: var(--accent-blue, #0a84ff);
+        font-weight: 500;
+      }
+      .fwm {
+        flex: 1;
+        overflow-y: auto;
+        padding: 22px 24px;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.62);
+        line-height: 1.8;
+      }
+      .fwm::-webkit-scrollbar {
+        width: 5px;
+      }
+      .fwm::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+      }
+      .fwm h3 {
+        font-family: "Noto Serif SC", serif;
+        font-size: var(--title-3-font-size, 15px);
+        font-weight: 700;
+        color: var(--labels-primary);
+        margin-bottom: 10px;
+        line-height: 1.4;
+      }
+      .fwm h4 {
+        font-size: var(--subheadline-font-size, 11px);
+        font-weight: 700;
+        color: var(--labels-tertiary);
+        margin: 14px 0 5px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      .fwm p {
+        color: var(--labels-secondary);
+        margin-bottom: 8px;
+        line-height: var(--body-line-height, 16px);
+        font-size: var(--body-font-size, 13px);
+      }
+      .ft {
+        display: inline-block;
+        background: rgba(10, 132, 255, 0.2);
+        color: var(--accent-blue, #0a84ff);
+        border: 1px solid rgba(10, 132, 255, 0.16);
+        padding: 2px 9px;
+        font-size: var(--caption-font-size, 10px);
+        border-radius: 20px;
+        margin: 3px 3px 0 0;
+        font-weight: 600;
+      }
+      .fs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 12px 0;
+      }
+      .fsc {
+        background: var(--fills-opaque-quaternary);
+        border: 1px solid var(--separator-vibrant);
+        padding: 8px 14px;
+        text-align: center;
+        border-radius: 8px;
+        flex: 1;
+        min-width: 70px;
+      }
+      .fsn {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--accent-blue, #0a84ff);
+        display: block;
+        font-family: "Noto Serif SC", serif;
+        line-height: 1.2;
+      }
+      .fsl {
+        font-size: var(--caption-font-size, 10px);
+        color: var(--labels-tertiary);
+        display: block;
+        margin-top: 2px;
+      }
+      .fdv {
+        border-top: 1px solid var(--separator-vibrant);
+        margin: 12px 0;
+      }
+      .fg4 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin: 10px 0;
+      }
+      .fg4c {
+        background: var(--fills-opaque-quaternary);
+        border: 1px solid var(--separator-vibrant);
+        padding: 10px 12px;
+        border-radius: 8px;
+      }
+      .fg4s {
+        font-size: var(--caption-font-size, 10px);
+        font-weight: 500;
+        color: var(--labels-tertiary);
+        margin-bottom: 3px;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+      .fg4h {
+        font-size: var(--body-font-size, 13px);
+        font-weight: 600;
+        color: var(--labels-primary);
+        margin-bottom: 4px;
+      }
+      .fg4p {
+        font-size: var(--body-font-size, 13px);
+        color: var(--labels-secondary);
+        line-height: 1.5;
+      }
+      .obtn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(10, 132, 255, 0.28);
+        color: var(--accent-blue, #0a84ff);
+        border: 1px solid rgba(10, 132, 255, 0.22);
+        font-size: var(--subheadline-font-size, 11px);
+        font-weight: 600;
+        padding: 6px 16px;
+        cursor: default;
+        margin-top: 10px;
+        border-radius: 8px;
+        transition: background 0.12s;
+      }
+      .obtn:hover {
+        background: rgba(10, 132, 255, 0.42);
+      }
+
+      /* browser shell window (iframe case-study browser) */
+      .browser-shell {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .browser-bar {
+        height: 32px;
+        padding: 4px 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px solid var(--separator-vibrant);
+        background: var(--material-thin, rgba(40, 40, 40, 0.5));
+      }
+      .browser-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--fills-opaque-secondary);
+        opacity: 0.7;
+      }
+      .browser-url {
+        flex: 1;
+        height: 24px;
+        border-radius: 999px;
+        background: var(--fills-opaque-quaternary, rgba(255, 255, 255, 0.05));
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        font-size: 11px;
+        color: var(--labels-secondary);
+      }
+      .browser-url span {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .browser-frame {
+        flex: 1;
+        width: 100%;
+        border: none;
+        background: rgba(0, 0, 0, 0.03);
+      }
+      /* PDF 查看器窗口 */
+      .window-pdf .wb {
+        display: flex;
+        flex-direction: column;
+      }
+      .pdf-frame {
+        flex: 1;
+        width: 100%;
+        min-height: 400px;
+        border: none;
+        background: #525659;
+      }
+      .window-pdf.maximized .pdf-frame {
+        min-height: calc(100vh - 74px);
+      }
+      @media (max-width: 768px) {
+        .window-pdf {
+          left: 5vw !important;
+          top: calc(44px + env(safe-area-inset-top) + 5vh) !important;
+          width: 90vw !important;
+          height: calc(90vh - 44px - env(safe-area-inset-top)) !important;
+        }
+      }
+
+      /* right-click (refer) */
+      #ctx {
+        position: fixed;
+        z-index: 99999;
+        background: var(--material-thick);
+        backdrop-filter: blur(64px) saturate(180%);
+        -webkit-backdrop-filter: blur(64px) saturate(180%);
+        border: 1px solid var(--separator-vibrant);
+        border-radius: 12px;
+        min-width: 182px;
+        display: none;
+        padding: 6px;
+        box-shadow:
+          0 16px 48px rgba(0, 0, 0, 0.35),
+          0 0 0 1px rgba(0, 0, 0, 0.23);
+        font-size: var(--body-font-size, 13px);
+      }
+      .cxi {
+        padding: 6px 12px;
+        font-weight: 500;
+        color: var(--labels-primary);
+        border-radius: 8px;
+        cursor: default;
+        letter-spacing: -0.01em;
+      }
+      .cxi:hover {
+        background: var(--fills-opaque-primary);
+      }
+      .cxs {
+        border-top: 1px solid var(--separator-vibrant);
+        margin: 4px 0;
+      }
+
+      /* ════════════════════════
+   移动端适配
+═══════════════════════ */
+      @media (max-width: 768px) {
+        #menubar {
+          height: 44px;
+          padding: 0 12px;
+          padding-top: env(safe-area-inset-top);
+        }
+        .mi {
+          padding: 8px 8px;
+          min-height: 44px;
+          min-width: 36px;
+          justify-content: center;
+          font-size: 12px;
+        }
+        .ml {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+        .ml::-webkit-scrollbar {
+          display: none;
+        }
+        .mr .menu-bar-icon {
+          display: none;
+        }
+        .mc {
+          font-size: 12px;
+        }
+        #desktop {
+          position: relative;
+          overflow-y: auto;
+          overflow-x: hidden;
+          height: calc(100vh - 44px - env(safe-area-inset-top));
+          padding-bottom: env(safe-area-inset-bottom);
+          -webkit-overflow-scrolling: touch;
+        }
+        .dd {
+          top: 44px;
+          left: 0 !important;
+          right: 0;
+          min-width: auto;
+          max-width: 100%;
+          margin: 0 12px;
+        }
+        .window {
+          left: 50% !important;
+          right: auto !important;
+          width: min(calc(100vw - 24px), 900px) !important;
+          max-width: calc(100vw - 24px);
+          max-height: calc(100vh - 60px - env(safe-area-inset-top));
+          transform: translateX(-50%);
+        }
+        .window.open {
+          transform: translateX(-50%);
+        }
+        #wweb {
+          width: min(calc(100vw - 24px), 900px) !important;
+          max-height: calc(100vh - 60px);
+        }
+        .browser-frame {
+          min-height: 50vh;
+        }
+        .wt {
+          font-size: 12px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 50%;
+        }
+        .wb,
+        .ws {
+          padding: 12px 14px;
+          font-size: 14px;
+        }
+        .prow {
+          padding: 12px 14px;
+          min-height: 48px;
+        }
+        .prow-n {
+          font-size: 14px;
+        }
+        .prow-d {
+          font-size: 12px;
+        }
+        .fws {
+          width: 140px;
+        }
+        .fwm {
+          padding: 12px 14px;
+          font-size: 14px;
+        }
+        #ctx {
+          left: 12px !important;
+          right: 12px;
+          min-width: auto;
+          max-width: calc(100vw - 24px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        /* 桌面图标：网格布局，避免溢出 */
+        #desktop {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+          padding: 16px;
+          padding-top: 56px;
+          justify-items: center;
+          align-content: start;
+        }
+        .icon {
+          position: static !important;
+          width: 64px;
+          min-width: 64px;
+          margin: 0 !important;
+          left: auto !important;
+          right: auto !important;
+          top: auto !important;
+        }
+        .icon-feat {
+          width: 80px;
+          min-width: 80px;
+          grid-column: span 1;
+        }
+        /* 移动端 folder 仍大于 64×64 的 app 图标 */
+        .icon-feat .icon-gfx img.folder-icon {
+          width: 88px;
+          height: 76px;
+        }
+        .icon-gfx img.folder-icon-brief {
+          width: 80px;
+          height: 69px;
+        }
+        .icon-feat .icon-lbl {
+          max-width: 76px;
+          font-size: 11px;
+        }
+        .icon-lbl {
+          max-width: 60px;
+          font-size: 11px;
+        }
+        .icon-lbl-wrap {
+          padding: 3px 2px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .ml .mi:first-child {
+          padding: 8px 6px;
+          font-size: 11px;
+        }
+        .window {
+          width: calc(100vw - 16px) !important;
+          max-width: none;
+          left: 50% !important;
+          right: auto !important;
+          transform: translateX(-50%);
+        }
+        #wweb {
+          width: calc(100vw - 16px) !important;
+        }
+        .fwb {
+          flex-direction: column;
+        }
+        .fws {
+          width: 100%;
+          height: auto;
+          max-height: 120px;
+          border-right: none;
+          border-bottom: 1px solid var(--separator-vibrant);
+          flex-direction: row;
+          flex-wrap: wrap;
+          padding: 8px;
+        }
+      }
+      /* Dark mode wallpaper text fixes */
+      body[data-appearance-mode="dark"] .wp-proj-zone [style*="color:#1A1714"],
+      body[data-appearance-mode="dark"] .wp-panel [style*="color:#1A1714"] {
+        color: rgba(245, 240, 232, 0.85) !important;
+      }
+      body[data-appearance-mode="dark"] #wallpaper .wp-panel:not(.wp-right) {
+        background: rgba(22, 20, 16, 0.62) !important;
+      }
+      /* Ensure wallpaper fills properly */
+      #wallpaper .wp-grid {
+        height: calc(100% - 28px);
+      }
+      /* Cursor blink for photo */
+      @keyframes wp-blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+      .wp-cursor {
+        display: inline-block;
+        width: 1px;
+        height: 11px;
+        background: rgba(139, 115, 85, 0.7);
+        animation: wp-blink 1.2s step-start infinite;
+        vertical-align: middle;
+        margin-left: 1px;
+      }
+
+      /* Project grid slots */
+      .wp-slot {
+        display: flex;
+        align-items: flex-end;
+        padding: 10px 14px;
+        min-height: 0;
+        position: relative;
+      }
+      .wp-slot-n {
+        font-family: "Playfair Display", serif;
+        font-size: 11px;
+        font-weight: 700;
+        color: rgba(26, 23, 20, 0.14);
+        letter-spacing: 0.06em;
+        line-height: 1;
+      }
+      body[data-appearance-mode="dark"] .wp-slot-n {
+        color: rgba(245, 240, 232, 0.1);
+      }
+      body[data-appearance-mode="dark"] .wp-slot {
+        border-color: rgba(245, 240, 232, 0.06) !important;
+      }
+      .wp-edu-slot {
+        background: rgba(26, 23, 20, 0.03);
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+      }
+      body[data-appearance-mode="dark"] .wp-edu-slot {
+        background: rgba(245, 240, 232, 0.03);
+      }
+      /* Vertical label columns */
+      .wp-col-vert {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        font-size: 7.5px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        font-weight: 500;
+      }
+      .wp-col-skills {
+        background: rgba(235, 229, 218, 0.5);
+        border-left: 1px solid rgba(26, 23, 20, 0.09);
+        border-right: 1px solid rgba(26, 23, 20, 0.09);
+        color: rgba(139, 115, 85, 0.7);
+        padding: 0 !important;
+        align-items: center;
+        justify-content: center;
+      }
+      body[data-appearance-mode="dark"] .wp-col-skills {
+        background: rgba(28, 25, 20, 0.5);
+        border-color: rgba(245, 240, 232, 0.07);
+      }
+      body[data-appearance-mode="dark"] .wp-col-skills {
+        background: rgba(28, 25, 20, 0.5);
+        border-color: rgba(245, 240, 232, 0.07);
+      }
+      /* Hero: 去掉 stats, 保持简洁 */
+      .wp-center {
+        padding: 36px 28px 32px !important;
+        max-width: none !important;
+        justify-content: flex-start !important;
+        gap: 0 !important;
+        border-right: 1.5px solid rgba(26, 23, 20, 0.18) !important;
+      }
+      body[data-appearance-mode="dark"] .wp-center {
+        border-right-color: rgba(245, 240, 232, 0.1) !important;
+      }
+      /* proj-zone 覆盖旧 grid 样式 */
+      .wp-proj-zone {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 28px 32px !important;
+        gap: 0 !important;
+        background: rgba(240, 235, 226, 0.42) !important;
+        border-right: 1px solid rgba(26, 23, 20, 0.09);
+      }
+      body[data-appearance-mode="dark"] .wp-proj-zone {
+        background: rgba(20, 18, 14, 0.42) !important;
+        border-right-color: rgba(245, 240, 232, 0.07);
+      }
+      .wp-proj-grid {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(4, 1fr);
+        border: 1px solid rgba(26, 23, 20, 0.09);
+        overflow: hidden;
+        min-height: 0;
+      }
+      body[data-appearance-mode="dark"] .wp-proj-grid {
+        border-color: rgba(245, 240, 232, 0.07);
+      }
+      .wp-proj-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        padding-bottom: 16px;
+        margin-bottom: 20px;
+        border-bottom: 1.5px solid rgba(26, 23, 20, 0.13);
+      }
+      body[data-appearance-mode="dark"] .wp-proj-header {
+        border-color: rgba(245, 240, 232, 0.1);
+      }
+      .wp-proj-headline {
+        font-family: "Playfair Display", serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1714;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+      }
+      body[data-appearance-mode="dark"] .wp-proj-headline {
+        color: rgba(245, 240, 232, 0.9);
+      }
+      .wp-proj-count {
+        font-size: 8px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(139, 115, 85, 0.7);
+      }
+
+      /* ── RIGHT COLUMN: 上下分区 ── */
+      .wp-right-col {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+      }
+      /* 上区：Case Studies — 占约 65% */
+      .wp-right-top {
+        flex: 65;
+        display: flex;
+        flex-direction: column;
+        padding: 28px 36px 20px;
+        border-bottom: 1.5px solid rgba(26, 23, 20, 0.13);
+        overflow: hidden;
+      }
+      body[data-appearance-mode="dark"] .wp-right-top {
+        border-bottom-color: rgba(245, 240, 232, 0.1);
+      }
+      /* 下区：Skills & Contact — 占约 35% */
+      .wp-right-bottom {
+        flex: 35;
+        display: flex;
+        align-items: stretch;
+        overflow: hidden;
+      }
+      .wp-bottom-zones {
+        display: flex;
+        width: 100%;
+        height: 100%;
+      }
+      .wp-bzone {
+        flex: 1;
+        padding: 18px 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .wp-bzone-skills {
+        border-right: 1px solid rgba(26, 23, 20, 0.09);
+        background: rgba(238, 232, 222, 0.4);
+      }
+      .wp-bzone-contact {
+        background: rgba(232, 226, 216, 0.3);
+      }
+      body[data-appearance-mode="dark"] .wp-bzone-skills {
+        background: rgba(28, 25, 20, 0.4);
+        border-right-color: rgba(245, 240, 232, 0.07);
+      }
+      body[data-appearance-mode="dark"] .wp-bzone-contact {
+        background: rgba(24, 22, 18, 0.3);
+      }
+      /* proj-grid: 3行（上区65%约450px → 每行~130px） */
+      .wp-proj-grid {
+        grid-template-rows: repeat(3, 1fr) !important;
+      }
+
+      body[data-appearance-mode="dark"] .wp-proj-grid {
+        border-color: rgba(245, 240, 232, 0.07) !important;
+      }
+      body[data-appearance-mode="dark"] .wp-slot {
+        border-color: rgba(245, 240, 232, 0.06) !important;
+      }
+      /* Ensure wp-right-bottom divider is visible */
+      .wp-right-top {
+        background: rgba(242, 237, 228, 0.38);
+      }
+      body[data-appearance-mode="dark"] .wp-right-top {
+        background: rgba(20, 18, 14, 0.38);
+      }
+
+      /* ════════════════════════════════════════════
+         增强响应式设计 - 多屏幕适配
+      ════════════════════════════════════════════ */
+
+      /* 移动端分栏标题 - 默认隐藏 */
+      .mobile-section-title {
+        display: none;
+      }
+
+      /* ── 大屏幕 (1200px+) ── */
+      @media (min-width: 1200px) {
+        .wp-grid {
+          grid-template-columns: 220px 1fr;
+        }
+        .icon-feat .icon-gfx img.folder-icon {
+          width: 130px;
+          height: 110px;
+        }
+      }
+
+      /* ── 平板横屏 / 小桌面 (1024px - 1199px) ── */
+      @media (max-width: 1199px) and (min-width: 1024px) {
+        .wp-grid {
+          grid-template-columns: 180px 1fr;
+        }
+        .wp-left {
+          padding: 24px 14px 18px;
+        }
+        .wp-photo {
+          max-height: 160px;
+        }
+        .wp-right-top {
+          padding: 24px 28px 18px;
+        }
+        .icon-feat .icon-gfx img.folder-icon {
+          width: 110px;
+          height: 93px;
+        }
+        .desk-icon-layer {
+          grid-template-columns: 180px 1fr;
+        }
+      }
+
+      /* ── 平板竖屏 (768px - 1023px) ── */
+      @media (max-width: 1023px) and (min-width: 769px) {
+        .wp-grid {
+          grid-template-columns: 160px 1fr;
+        }
+        .wp-left {
+          padding: 20px 12px 16px;
+        }
+        .wp-photo {
+          max-height: 140px;
+        }
+        .wp-name {
+          font-size: 14px;
+        }
+        .wp-name-en {
+          font-size: 9px;
+        }
+        .wp-right-top {
+          padding: 20px 24px 16px;
+        }
+        .wp-bzone {
+          padding: 14px 20px;
+        }
+        .wp-section-label {
+          font-size: 8px;
+        }
+        .icon-feat .icon-gfx img.folder-icon {
+          width: 100px;
+          height: 84px;
+        }
+        .icon-gfx img.folder-icon-brief {
+          width: 80px;
+          height: 69px;
+        }
+        .desk-icon-layer {
+          grid-template-columns: 160px 1fr;
+        }
+        .desk-right-top .icon-pos-cs1,
+        .desk-right-top .icon-pos-cs5 {
+          left: 8%;
+        }
+        .desk-right-top .icon-pos-cs2,
+        .desk-right-top .icon-pos-cs6 {
+          left: 28%;
+        }
+        .desk-right-top .icon-pos-cs3,
+        .desk-right-top .icon-pos-cs7 {
+          left: 48%;
+        }
+        .desk-right-top .icon-pos-cs4 {
+          left: 68%;
+        }
+      }
+
+      /* ── 手机 (768px以下) - 完全重构布局：两列 + 分栏 ── */
+      @media (max-width: 768px) {
+        /* 隐藏复杂的墙纸网格背景 */
+        #wallpaper .wp-grid {
+          display: none;
+        }
+        #wallpaper {
+          background: linear-gradient(180deg, #f0ede8 0%, #e8e4dc 100%);
+        }
+        body[data-appearance-mode="dark"] #wallpaper {
+          background: linear-gradient(180deg, #141210 0%, #1a1714 100%);
+        }
+
+        /* 桌面图标层 - 移动端flex布局 */
+        .desk-icon-layer {
+          display: flex !important;
+          flex-direction: column;
+          padding: 0;
+          gap: 0;
+        }
+
+        /* 分区容器通用样式 - 仅设置基础属性 */
+        .desk-right,
+        .desk-right-bottom {
+          display: contents !important;
+        }
+
+        /* 分区标题样式 */
+        .mobile-section-title {
+          display: block !important;
+          width: 100%;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: rgba(0, 0, 0, 0.35);
+          text-align: left;
+          padding: 12px 0 8px;
+          margin: 0;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        body[data-appearance-mode="dark"] .mobile-section-title {
+          color: rgba(255, 255, 255, 0.35);
+          border-bottom-color: rgba(255, 255, 255, 0.08);
+        }
+
+        /* 隐藏桌面端的分区标题 */
+        .desktop-only {
+          display: none !important;
+        }
+
+        /* 桌面区域布局 */
+        #desktop {
+          display: flex !important;
+          flex-direction: column;
+          gap: 0;
+          padding: 0 16px;
+          padding-top: calc(50px + env(safe-area-inset-top));
+          padding-bottom: calc(24px + env(safe-area-inset-bottom));
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        /* 各分区样式 */
+        .desk-left {
+          order: 1;
+          display: grid !important;
+          grid-template-columns: repeat(3, 1fr);
+          grid-auto-rows: min-content;
+          gap: 12px 16px;
+          padding: 16px;
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: 16px;
+          margin: 8px 0;
+          /* 重置高度限制 */
+          flex: none !important;
+          height: auto !important;
+          min-height: auto !important;
+          position: relative !important;
+        }
+        body[data-appearance-mode="dark"] .desk-left {
+          background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* 关于我区域内的图标 - 重置所有定位 */
+        .desk-left .icon,
+        .desk-left .icon.icon-pos-about,
+        .desk-left .icon.icon-pos-cv,
+        .desk-left .icon.icon-pos-fishbook {
+          position: static !important;
+          width: 100% !important;
+          max-width: none !important;
+          min-width: 0 !important;
+          margin: 0 !important;
+          left: auto !important;
+          right: auto !important;
+          top: auto !important;
+          transform: none !important;
+          flex: none !important;
+          justify-self: center;
+        }
+
+        /* 关于我区域分栏标题 */
+        .desk-left .mobile-section-title {
+          grid-column: span 3;
+        }
+
+        .desk-right-top {
+          order: 2;
+          display: grid !important;
+          grid-template-columns: repeat(2, 1fr);
+          grid-auto-rows: min-content;
+          gap: 12px 16px;
+          padding: 16px;
+          background: rgba(255, 255, 255, 0.25);
+          border-radius: 16px;
+          margin: 8px 0;
+          overflow: visible;
+          /* 重置桌面端的高度限制 */
+          flex: none !important;
+          height: auto !important;
+          min-height: auto !important;
+          max-height: none !important;
+          position: relative !important;
+        }
+        body[data-appearance-mode="dark"] .desk-right-top {
+          background: rgba(255, 255, 255, 0.04);
+        }
+
+        /* 作品集区域内的图标 - 重置所有定位 */
+        .desk-right-top .icon,
+        .desk-right-top .icon-feat,
+        .desk-right-top .icon.icon-pos-cs1,
+        .desk-right-top .icon.icon-pos-cs2,
+        .desk-right-top .icon.icon-pos-cs3,
+        .desk-right-top .icon.icon-pos-cs4,
+        .desk-right-top .icon.icon-pos-cs5,
+        .desk-right-top .icon.icon-pos-cs6,
+        .desk-right-top .icon.icon-pos-cs7,
+        .desk-right-top .icon-feat.icon-pos-cs1,
+        .desk-right-top .icon-feat.icon-pos-cs2,
+        .desk-right-top .icon-feat.icon-pos-cs3 {
+          position: static !important;
+          width: 100% !important;
+          max-width: none !important;
+          min-width: 0 !important;
+          margin: 0 !important;
+          left: auto !important;
+          right: auto !important;
+          top: auto !important;
+          transform: none !important;
+          flex: none !important;
+          justify-self: center;
+        }
+
+        .desk-right-bottom {
+          order: 3;
+          display: contents !important;
+        }
+
+        .desk-bzone-skills {
+          order: 4;
+          display: grid !important;
+          grid-template-columns: repeat(3, 1fr);
+          grid-auto-rows: min-content;
+          gap: 12px 16px;
+          padding: 16px 20px;
+          background: rgba(238, 232, 222, 0.5);
+          border-radius: 16px;
+          margin: 8px 0;
+          /* 重置高度限制 */
+          flex: none !important;
+          height: auto !important;
+          min-height: auto !important;
+          position: relative !important;
+        }
+        body[data-appearance-mode="dark"] .desk-bzone-skills {
+          background: rgba(255, 255, 255, 0.04);
+        }
+
+        /* 技能区域内的图标 - 重置所有定位 */
+        .desk-bzone-skills .icon,
+        .desk-bzone-skills .icon.icon-pos-skills,
+        .desk-bzone-skills .icon.icon-pos-edu,
+        .desk-bzone-skills .icon.icon-pos-internship {
+          position: static !important;
+          width: 100% !important;
+          max-width: none !important;
+          min-width: 0 !important;
+          margin: 0 !important;
+          left: auto !important;
+          right: auto !important;
+          top: auto !important;
+          transform: none !important;
+          flex: none !important;
+          justify-self: center;
+        }
+
+        .desk-bzone-contact {
+          order: 5;
+          display: grid !important;
+          grid-template-columns: repeat(2, 1fr);
+          grid-auto-rows: min-content;
+          gap: 12px 16px;
+          padding: 16px;
+          background: rgba(232, 226, 216, 0.4);
+          border-radius: 16px;
+          margin: 8px 0;
+          /* 重置高度限制 */
+          flex: none !important;
+          height: auto !important;
+          min-height: auto !important;
+          position: relative !important;
+        }
+        body[data-appearance-mode="dark"] .desk-bzone-contact {
+          background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* 联系方式区域内的图标 - 重置所有定位 */
+        .desk-bzone-contact .icon,
+        .desk-bzone-contact .icon.icon-pos-contact,
+        .desk-bzone-contact .icon.icon-pos-xhs,
+        .desk-bzone-contact .icon.icon-pos-taobao,
+        .desk-bzone-contact .icon.icon-pos-wechat {
+          position: static !important;
+          width: 100% !important;
+          max-width: none !important;
+          min-width: 0 !important;
+          margin: 0 !important;
+          left: auto !important;
+          right: auto !important;
+          top: auto !important;
+          transform: none !important;
+          flex: none !important;
+          justify-self: center;
+        }
+
+        /* 图标基础样式 */
+        .icon {
+          position: static !important;
+          width: 100%;
+          max-width: 140px;
+          min-width: 80px;
+          margin: 0 !important;
+          left: auto !important;
+          right: auto !important;
+          top: auto !important;
+          transform: none !important;
+        }
+
+        .icon-feat {
+          width: 100%;
+          max-width: 140px;
+          min-width: 80px;
+        }
+
+        .icon-feat .icon-gfx img.folder-icon {
+          width: 80px;
+          height: 69px;
+        }
+
+        .icon-gfx img.folder-icon-brief,
+        .icon-gfx svg.folder-icon-brief {
+          width: 72px;
+          height: 62px;
+        }
+
+        .icon-lbl {
+          max-width: 100%;
+          font-size: 11px;
+          line-height: 1.35;
+          white-space: normal;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .icon-sub {
+          display: block;
+          font-size: 9px;
+          color: rgba(0, 0, 0, 0.4);
+          margin-top: 2px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        body[data-appearance-mode="dark"] .icon-sub {
+          color: rgba(255, 255, 255, 0.4);
+        }
+
+        .icon-lbl-wrap {
+          padding: 4px 2px;
+          margin-top: 6px;
+        }
+
+        /* 图标图片大小 */
+        .icon-gfx img[width="64"] {
+          width: 60px !important;
+          height: 60px !important;
+        }
+
+        .icon-gfx-internship {
+          width: 60px;
+          height: 60px;
+          border-radius: 14px;
+        }
+
+        /* 窗口样式 */
+        .window {
+          top: calc(50px + env(safe-area-inset-top)) !important;
+          left: 8px !important;
+          right: 8px !important;
+          width: auto !important;
+          max-width: none !important;
+          max-height: calc(
+            100vh - 60px - env(safe-area-inset-top) -
+              env(safe-area-inset-bottom)
+          ) !important;
+          transform: none !important;
+          border-radius: 20px;
+        }
+
+        .window.open {
+          transform: none !important;
+        }
+
+        .wtb {
+          height: 48px;
+          padding: 6px 12px;
+        }
+
+        .tl {
+          width: 16px;
+          height: 16px;
+        }
+
+        .wt {
+          font-size: 14px;
+        }
+
+        .wb,
+        .ws {
+          padding: 16px;
+          font-size: 15px;
+          line-height: 1.5;
+        }
+
+        /* 浏览器窗口 */
+        #wweb {
+          left: 4px !important;
+          right: 4px !important;
+          width: auto !important;
+          max-height: calc(100vh - 56px - env(safe-area-inset-top)) !important;
+        }
+
+        .browser-frame {
+          min-height: 60vh;
+        }
+
+        /* 项目行 */
+        .prow {
+          padding: 14px 16px;
+          gap: 14px;
+        }
+
+        .prow-ic {
+          width: 40px !important;
+          height: 36px !important;
+        }
+
+        .prow-n {
+          font-size: 15px;
+          margin-bottom: 4px;
+        }
+
+        .prow-d {
+          font-size: 13px;
+          line-height: 1.4;
+        }
+      }
+
+      /* ── 小手机 (480px以下) ── */
+      @media (max-width: 480px) {
+        #desktop {
+          padding: 0 12px;
+          padding-top: calc(48px + env(safe-area-inset-top));
+        }
+
+        .desk-left {
+          gap: 12px 16px;
+          padding: 14px 16px;
+        }
+
+        .desk-right-top {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px 12px;
+          padding: 14px;
+        }
+
+        .desk-bzone-skills {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px 12px;
+          padding: 14px;
+        }
+
+        .desk-bzone-contact {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px 12px;
+          padding: 14px;
+        }
+
+        .icon-feat .icon-gfx img.folder-icon {
+          width: 68px;
+          height: 59px;
+        }
+
+        .icon-gfx img.folder-icon-brief,
+        .icon-gfx svg.folder-icon-brief {
+          width: 60px;
+          height: 52px;
+        }
+
+        .icon-gfx img[width="64"] {
+          width: 52px !important;
+          height: 52px !important;
+        }
+
+        .icon-gfx-internship {
+          width: 52px;
+          height: 52px;
+          border-radius: 12px;
+        }
+
+        .icon-lbl {
+          font-size: 10px;
+        }
+
+        .icon-sub {
+          font-size: 8px;
+        }
+
+        .mobile-section-title {
+          font-size: 10px;
+          padding: 10px 0 6px;
+        }
+
+        /* 菜单栏 */
+        #menubar {
+          height: 48px;
+        }
+
+        .mi {
+          padding: 6px;
+          font-size: 11px;
+          min-height: 40px;
+        }
+
+        .mc {
+          font-size: 11px;
+        }
+
+        /* 窗口 */
+        .window {
+          left: 4px !important;
+          right: 4px !important;
+          border-radius: 16px;
+        }
+
+        .wtb {
+          height: 44px;
+          padding: 4px 10px;
+          gap: 6px;
+        }
+
+        .tl {
+          width: 14px;
+          height: 14px;
+        }
+
+        .wt {
+          font-size: 13px;
+        }
+
+        .wb,
+        .ws {
+          padding: 14px 12px;
+          font-size: 14px;
+        }
+
+        /* 下拉菜单 */
+        .dd {
+          margin: 0 8px;
+          padding: 4px;
+          border-radius: 10px;
+        }
+
+        .ddi {
+          padding: 10px 12px;
+          font-size: 14px;
+        }
+
+        .ddl {
+          font-size: 10px;
+        }
+      }
+
+      /* ── 超小屏幕 (360px以下) ── */
+      @media (max-width: 360px) {
+        #desktop {
+          padding: 0 8px;
+        }
+
+        .desk-left {
+          gap: 8px 10px;
+          padding: 12px;
+          margin: 6px 0;
+          border-radius: 12px;
+        }
+
+        .desk-right-top,
+        .desk-bzone-contact {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 8px 10px;
+          padding: 12px;
+          margin: 6px 0;
+          border-radius: 12px;
+        }
+
+        .desk-bzone-skills {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 8px 10px;
+          padding: 12px;
+          margin: 6px 0;
+          border-radius: 12px;
+        }
+
+        .icon-feat .icon-gfx img.folder-icon {
+          width: 56px;
+          height: 48px;
+        }
+
+        .icon-gfx img.folder-icon-brief,
+        .icon-gfx svg.folder-icon-brief {
+          width: 52px;
+          height: 45px;
+        }
+
+        .icon-gfx img[width="64"] {
+          width: 46px !important;
+          height: 46px !important;
+        }
+
+        .icon-gfx-internship {
+          width: 46px;
+          height: 46px;
+          border-radius: 10px;
+        }
+
+        .icon-lbl {
+          font-size: 9px;
+        }
+
+        .icon-sub {
+          display: none;
+        }
+
+        .mobile-section-title {
+          font-size: 9px;
+        }
+
+        .mi {
+          padding: 4px;
+          font-size: 10px;
+        }
+      }
+
+      /* ── 横屏模式 ── */
+      @media (max-width: 768px) and (orientation: landscape) {
+        #desktop {
+          padding-top: calc(48px + env(safe-area-inset-top));
+        }
+
+        .desk-right-top {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        .desk-bzone-skills {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .desk-bzone-contact {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        .icon-feat .icon-gfx img.folder-icon {
+          width: 64px;
+          height: 55px;
+        }
+
+        .window {
+          max-height: calc(100vh - 52px - env(safe-area-inset-top)) !important;
+        }
+
+        #wweb {
+          max-height: calc(100vh - 48px - env(safe-area-inset-top)) !important;
+        }
+
+        .browser-frame {
+          min-height: 40vh;
+        }
+
+        /* 横屏分栏标题调整 */
+        .desk-right-top .mobile-section-title {
+          grid-column: span 4 !important;
+        }
+
+        .desk-bzone-contact .mobile-section-title {
+          grid-column: span 4 !important;
+        }
+      }
+
+      /* ── 高分辨率屏幕优化 ── */
+      @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .icon-gfx img {
+          image-rendering: -webkit-optimize-contrast;
+        }
+      }
+
+      /* ── 深色模式下的移动端修复 ── */
+      @media (max-width: 768px) {
+        body[data-appearance-mode="dark"] .icon-lbl {
+          color: rgba(255, 255, 255, 0.9);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+      }
+
+      /* ── 触摸设备优化 ── */
+      @media (hover: none) and (pointer: coarse) {
+        .icon:hover .icon-gfx {
+          transform: none;
+        }
+
+        .icon:active .icon-gfx {
+          transform: scale(0.95);
+        }
+
+        .tl:hover {
+          filter: none;
+          transform: none;
+        }
+
+        .tl:active {
+          filter: brightness(0.9);
+          transform: scale(0.95);
+        }
+
+        .mi:hover {
+          background: none;
+        }
+
+        .mi:active {
+          background: var(--fills-opaque-primary, rgba(255, 255, 255, 0.1));
+        }
+
+        .prow:hover {
+          background: none;
+        }
+
+        .prow:active {
+          background: var(--fills-opaque-primary);
+        }
+      }
+
+      /* ── 打印样式 ── */
+      @media print {
+        #menubar,
+        .dd,
+        .window {
+          display: none !important;
+        }
+
+        #wallpaper,
+        #desktop {
+          position: static;
+        }
+
+        body {
+          overflow: visible;
+        }
+      }
+    </style>
+  </head>
+  <body data-appearance-mode="light">
+    <!-- ── MENU BAR ── -->
+    <div id="menubar">
+      <div class="ml">
+        <span
+          class="mi"
+          style="font-size: 15px; font-weight: 600; padding: 2px 12px 2px 4px"
+          >⌘</span
+        >
+        <div class="mi" id="mb0" onclick="tDD('dd0', 'mb0')">纪彤</div>
+        <div class="mi" id="mb1" onclick="tDD('dd1', 'mb1')">作品集</div>
+        <div class="mi" id="mb2" onclick="oW('win-skills')">能力</div>
+        <div class="mi" id="mb3" onclick="oW('win-contact')">联系</div>
+      </div>
+      <div class="mr">
+        <div
+          class="mi theme-toggle"
+          id="theme-toggle"
+          onclick="toggleTheme()"
+          title="切换浅色/深色"
+        >
+          ☀️
+        </div>
+        <svg
+          class="menu-bar-icon"
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <rect
+            x="2"
+            y="2"
+            width="20"
+            height="20"
+            rx="5"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="4"
+            stroke="currentColor"
+            stroke-width="1.8"
+          />
+          <circle cx="17" cy="7" r="1.5" fill="currentColor" />
+        </svg>
+        <svg
+          class="menu-bar-icon"
+          width="14"
+          height="12"
+          viewBox="0 0 28 22"
+          fill="none"
+        >
+          <path
+            d="M1 5 C7 1 21 1 27 5 M4 10 C9 7 19 7 24 10 M8 15 C11 13 17 13 20 15 M14 20 L14 20"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+          />
+        </svg>
+        <div class="mc" id="clock">--:--</div>
+      </div>
+    </div>
+
+    <!-- Dropdowns -->
+    <div class="dd" id="dd0">
+      <div
+        class="ddi"
+        onclick="
+          oW('win-about');
+          cDD();
+        "
+      >
+        关于 FishBook Studio
+      </div>
+      <div
+        class="ddi"
+        onclick="
+          oW('win-cv');
+          cDD();
+        "
+      >
+        简历.pdf
+      </div>
+      <div
+        class="ddi"
+        onclick="
+          oF('internship');
+          cDD();
+        "
+      >
+        实习经历
+      </div>
+      <div class="dds"></div>
+      <div
+        class="ddi"
+        onclick="
+          oW('win-contact');
+          cDD();
+        "
+      >
+        联系方式
+      </div>
+      <div
+        class="ddi"
+        onclick="
+          oW('win-education');
+          cDD();
+        "
+      >
+        教育经历
+      </div>
+      <div
+        class="ddi"
+        onclick="
+          window.open('https://new-website-ochre-phi.vercel.app/', '_blank');
+          cDD();
+        "
+      >
+        访问官网 ↗
+      </div>
+    </div>
+    <div class="dd" id="dd1">
+      <div class="ddl">⭐ 重点项目</div>
+      <div
+        class="ddi"
+        onclick="
+          oF('notion');
+          cDD();
+        "
+      >
+        01 · Second Brain — Notion
+      </div>
+      <div
+        class="ddi"
+        onclick="
+          oF('viral');
+          cDD();
+        "
+      >
+        02 · ViralNote 爆款生成器
+      </div>
+      <div
+        class="ddi"
+        onclick="
+          oF('bite');
+          cDD();
+        "
+      >
+        06 · BiteCard iOS
+      </div>
+      <div class="dds"></div>
+      <div class="ddl">其他项目</div>
+      <div
+        class="ddi"
+        onclick="
+          oF('yt');
+          cDD();
+        "
+      >
+        03 · YouTube → Notion
+      </div>
+      <div
+        class="ddi"
+        onclick="
+          oF('progress');
+          cDD();
+        "
+      >
+        04 · Progress Lab
+      </div>
+      <div
+        class="ddi"
+        onclick="
+          oF('waikan');
+          cDD();
+        "
+      >
+        05 · 外刊阅览室
+      </div>
+      <div
+        class="ddi"
+        onclick="
+          oF('markflow');
+          cDD();
+        "
+      >
+        07 · MarkFlow
+      </div>
+      <div class="dds"></div>
+      <div
+        class="ddi"
+        onclick="
+          oW('win-projects');
+          cDD();
+        "
+      >
+        全部作品 (7)…
+      </div>
+    </div>
+
+    <!-- ── WALLPAPER ── -->
+    <div id="wallpaper">
+      <div class="wp-grid">
+        <!-- LEFT: Profile -->
+        <div class="wp-left">
+          <div class="wp-photo">
+            <img src="pictures/myphoto.JPG" alt="纪彤" class="wp-photo-img" />
+            <div class="wp-photo-placeholder">
+              <svg
+                class="wp-photo-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <circle
+                  cx="12"
+                  cy="8"
+                  r="4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M4 20c0-4 3.6-7 8-7s8 3 8 7"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <div class="wp-photo-txt">
+                Photo<span class="wp-cursor"></span>
+              </div>
+            </div>
+          </div>
+          <div class="wp-name">纪彤</div>
+          <div class="wp-name-en">Ji Tong</div>
+        </div>
+
+        <!-- RIGHT: top = Case Studies open zone / bottom = Skills+Edu & Contact -->
+        <div class="wp-right-col">
+          <!-- 上：Case Studies — open area, icons float freely, no grid lines -->
+          <div class="wp-right-top">
+            <div class="wp-section-label">
+              Case Studies <span style="opacity: 0.55">· 7</span>
+            </div>
+            <div class="wp-open-zone">
+              <!-- icons land here -->
+            </div>
+          </div>
+
+          <!-- 下：Skills + Education  |  Contact  — 130px tall -->
+          <div class="wp-right-bottom">
+            <!-- 左格: Skills & Education 合并 -->
+            <div class="wp-bzone">
+              <div class="wp-bzone-label">Skills &amp; Education</div>
+              <div class="wp-bzone-sub">
+                UESTC 控制工程 硕士<br />JNU 自动化 本科 · 翻译双学位
+              </div>
+            </div>
+
+            <!-- 右格: Contact -->
+            <div class="wp-bzone">
+              <div class="wp-bzone-label">Contact</div>
+              <div class="wp-bzone-sub">
+                小红书 · 淘宝 · WeChat<br />FishBook Studio
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wp-bottom-bar">
+        <span>FishBook Studio</span>
+        <span>纪彤 · Ji Tong · 2025</span>
+        <span>UESTC · PM / UX</span>
+      </div>
+    </div>
+
+    <!-- ── DESKTOP ── -->
+    <div id="desktop">
+      <!-- 图标层：与墙纸框架一致，图标用 % 定位随框架缩放 -->
+      <div class="desk-icon-layer">
+        <div class="desk-left">
+          <!-- 移动端分栏标题 -->
+          <div class="mobile-section-title">关于我 · About</div>
+          <!-- FishBook Studio.app（放在简历下方） -->
+          <div
+            class="icon icon-pos-fishbook"
+            ondblclick="window.open('https://new-website-ochre-phi.vercel.app/', '_blank')"
+            onclick="selI(this)"
+          >
+            <div class="icon-gfx">
+              <img
+                src="pictures/Fishbook Studio Logo 高级版.png"
+                alt="FishBook Studio"
+                width="64"
+                height="64"
+                style="object-fit: contain"
+              />
+            </div>
+            <div class="icon-lbl-wrap">
+              <span class="icon-lbl">FishBook Studio</span>
+            </div>
+          </div>
+
+          <!-- About Me.txt -->
+          <div
+            class="icon icon-pos-about"
+            ondblclick="oW('win-about')"
+            onclick="selI(this)"
+          >
+            <div class="icon-gfx">
+              <!-- macOS .txt file icon -->
+              <svg width="56" height="64" viewBox="0 0 56 64" fill="none">
+                <defs>
+                  <linearGradient id="txtBg" x1="0" y1="0" x2="0" y2="64">
+                    <stop stop-color="#f0f0f0" />
+                    <stop offset="1" stop-color="#dcdcdc" />
+                  </linearGradient>
+                </defs>
+                <!-- page body -->
+                <path d="M6 4 L38 4 L50 16 L50 60 L6 60 Z" fill="url(#txtBg)" />
+                <!-- dog-ear fold -->
+                <path d="M38 4 L38 16 L50 16 Z" fill="#b8b8b8" />
+                <path d="M38 4 L38 16 L50 16" fill="#c8c8c8" />
+                <!-- lines -->
+                <rect
+                  x="12"
+                  y="24"
+                  width="28"
+                  height="2"
+                  rx="1"
+                  fill="#a0a0a0"
+                />
+                <rect
+                  x="12"
+                  y="30"
+                  width="28"
+                  height="2"
+                  rx="1"
+                  fill="#c0c0c0"
+                />
+                <rect
+                  x="12"
+                  y="36"
+                  width="22"
+                  height="2"
+                  rx="1"
+                  fill="#c0c0c0"
+                />
+                <rect
+                  x="12"
+                  y="42"
+                  width="28"
+                  height="2"
+                  rx="1"
+                  fill="#c0c0c0"
+                />
+                <rect
+                  x="12"
+                  y="48"
+                  width="18"
+                  height="2"
+                  rx="1"
+                  fill="#c0c0c0"
+                />
+              </svg>
+            </div>
+            <div class="icon-lbl-wrap">
+              <span class="icon-lbl">关于我.txt</span>
+            </div>
+          </div>
+
+          <!-- CV.pdf -->
+          <div
+            class="icon icon-pos-cv"
+            ondblclick="oW('win-cv')"
+            onclick="selI(this)"
+          >
+            <div class="icon-gfx">
+              <svg width="56" height="64" viewBox="0 0 56 64" fill="none">
+                <defs>
+                  <linearGradient id="pdfBg" x1="0" y1="0" x2="0" y2="64">
+                    <stop stop-color="#f8f0f0" />
+                    <stop offset="1" stop-color="#f0e0e0" />
+                  </linearGradient>
+                </defs>
+                <path d="M6 4 L38 4 L50 16 L50 60 L6 60 Z" fill="url(#pdfBg)" />
+                <path d="M38 4 L38 16 L50 16 Z" fill="#d89090" />
+                <!-- PDF badge -->
+                <rect x="6" y="40" width="44" height="16" fill="#e02020" />
+                <text
+                  x="28"
+                  y="51.5"
+                  font-size="10"
+                  fill="white"
+                  text-anchor="middle"
+                  font-family="-apple-system"
+                  font-weight="700"
+                  letter-spacing=".5"
+                >
+                  PDF
+                </text>
+              </svg>
+            </div>
+            <div class="icon-lbl-wrap">
+              <span class="icon-lbl">简历.pdf</span>
+            </div>
+          </div>
+        </div>
+        <!-- .desk-left -->
+
+        <div class="desk-right">
+          <div class="desk-right-top">
+            <!-- 移动端分栏标题 -->
+            <div class="mobile-section-title" style="grid-column: span 2">
+              作品集 · Projects
+            </div>
+            <!-- 01 Second Brain.folder -->
+            <div
+              class="icon icon-feat icon-pos-cs1"
+              ondblclick="oF('notion')"
+              onclick="selI(this)"
+            >
+              <div class="icon-gfx">
+                <img src="pictures/File.png" alt="" class="folder-icon" />
+              </div>
+              <div class="icon-lbl-wrap">
+                <span class="icon-lbl">Notion 人生管理系统</span>
+                <span class="icon-sub"> 从0到1的商业闭环 · ⭐</span>
+              </div>
+            </div>
+            <!-- 02 ViralNote.folder -->
+            <div
+              class="icon icon-feat icon-pos-cs2"
+              ondblclick="oF('viral')"
+              onclick="selI(this)"
+            >
+              <div class="icon-gfx">
+                <img src="pictures/File.png" alt="" class="folder-icon" />
+              </div>
+              <div class="icon-lbl-wrap">
+                <span class="icon-lbl">ViralNote.folder</span>
+                <span class="icon-sub"> 爆款内容采集工具 · ⭐</span>
+              </div>
+            </div>
+            <!-- 06 BiteCard.folder -->
+            <div
+              class="icon icon-feat icon-pos-cs3"
+              ondblclick="oF('bite')"
+              onclick="selI(this)"
+            >
+              <div class="icon-gfx">
+                <img src="pictures/File.png" alt="" class="folder-icon" />
+              </div>
+              <div class="icon-lbl-wrap">
+                <span class="icon-lbl">BiteCard.folder</span>
+                <span class="icon-sub">06 · iOS PRD · ⭐</span>
+              </div>
+            </div>
+            <!-- 03 YT→Notion -->
+            <div
+              class="icon icon-pos-cs4"
+              ondblclick="oF('yt')"
+              onclick="selI(this)"
+            >
+              <div class="icon-gfx">
+                <img
+                  src="pictures/File.png"
+                  alt=""
+                  class="folder-icon folder-icon-brief"
+                />
+              </div>
+              <div class="icon-lbl-wrap">
+                <span class="icon-lbl">YouTube→Notion</span>
+                <span class="icon-sub">视频内容->结构化笔记 ⭐</span>
+              </div>
+            </div>
+            <!-- 04 Progress Lab -->
+            <div
+              class="icon icon-pos-cs5"
+              ondblclick="oF('progress')"
+              onclick="selI(this)"
+            >
+              <div class="icon-gfx">
+                <img
+                  src="pictures/File.png"
+                  alt=""
+                  class="folder-icon folder-icon-brief"
+                />
+              </div>
+              <div class="icon-lbl-wrap">
+                <span class="icon-lbl"> Progress Lab</span>
+                <span class="icon-sub">Notion函数生成器</span>
+              </div>
+            </div>
+            <!-- 05 外刊阅览室 -->
+            <div
+              class="icon icon-pos-cs6"
+              ondblclick="oF('waikan')"
+              onclick="selI(this)"
+            >
+              <div class="icon-gfx">
+                <img
+                  src="pictures/File.png"
+                  alt=""
+                  class="folder-icon folder-icon-brief"
+                />
+              </div>
+              <div class="icon-lbl-wrap">
+                <span class="icon-lbl">外刊阅览室</span>
+                <span class="icon-sub">AI驱动的知识付费产品</span>
+              </div>
+            </div>
+            <!-- 07 MarkFlow -->
+            <div
+              class="icon icon-pos-cs7"
+              ondblclick="oF('markflow')"
+              onclick="selI(this)"
+            >
+              <div class="icon-gfx">
+                <img
+                  src="pictures/File.png"
+                  alt=""
+                  class="folder-icon folder-icon-brief"
+                />
+              </div>
+              <div class="icon-lbl-wrap">
+                <span class="icon-lbl">MarkFlow</span>
+                <span class="icon-sub">Markdown转小红书/公众号编辑器</span>
+              </div>
+            </div>
+          </div>
+          <div class="desk-right-bottom">
+            <div class="desk-bzone desk-bzone-skills">
+              <!-- 移动端分栏标题 -->
+              <div class="mobile-section-title" style="grid-column: span 3">
+                技能 & 经历 · Skills
+              </div>
+              <!-- Skills.app -->
+              <div
+                class="icon icon-pos-skills"
+                ondblclick="oW('win-skills')"
+                onclick="selI(this)"
+              >
+                <div class="icon-gfx">
+                  <img
+                    src="pictures/skill.jpg"
+                    alt="技能"
+                    width="64"
+                    height="64"
+                    style="object-fit: contain; border-radius: 14px"
+                  />
+                </div>
+                <div class="icon-lbl-wrap">
+                  <span class="icon-lbl">技能.app</span>
+                </div>
+              </div>
+
+              <!-- 教育经历 -->
+              <div
+                class="icon icon-pos-edu"
+                ondblclick="oW('win-education')"
+                onclick="selI(this)"
+              >
+                <div class="icon-gfx">
+                  <img
+                    src="pictures/edu.jpg"
+                    alt="教育经历"
+                    width="64"
+                    height="64"
+                    style="object-fit: contain; border-radius: 14px"
+                  />
+                </div>
+                <div class="icon-lbl-wrap">
+                  <span class="icon-lbl">教育经历</span>
+                </div>
+              </div>
+
+              <!-- 实习经历 -->
+              <div
+                class="icon icon-pos-internship"
+                ondblclick="oF('internship')"
+                onclick="selI(this)"
+              >
+                <div class="icon-gfx icon-gfx-internship">
+                  <img
+                    src="pictures/internship.jpg"
+                    alt="实习经历"
+                    width="64"
+                    height="64"
+                    style="object-fit: contain; border-radius: 14px"
+                  />
+                </div>
+                <div class="icon-lbl-wrap">
+                  <span class="icon-lbl">实习经历</span>
+                </div>
+              </div>
+            </div>
+            <div class="desk-bzone desk-bzone-contact">
+              <!-- 移动端分栏标题 -->
+              <div class="mobile-section-title" style="grid-column: span 2">
+                联系方式 · Contact
+              </div>
+              <div
+                class="icon icon-pos-contact"
+                ondblclick="oW('win-contact')"
+                onclick="selI(this)"
+              >
+                <div class="icon-gfx">
+                  <img
+                    src="pictures/contact.jpg"
+                    alt="联系方式"
+                    width="64"
+                    height="64"
+                    style="object-fit: contain; border-radius: 14px"
+                  />
+                </div>
+                <div class="icon-lbl-wrap">
+                  <span class="icon-lbl">联系方式.app</span>
+                </div>
+              </div>
+              <div
+                class="icon icon-pos-xhs"
+                ondblclick="
+                  window.open(
+                    'https://www.xiaohongshu.com/user/profile/64283cd9000000001102147b?m_source=pwa',
+                    '_blank',
+                  )
+                "
+                onclick="selI(this)"
+              >
+                <div class="icon-gfx">
+                  <img
+                    src="pictures/xhs.png"
+                    alt="小红书"
+                    width="64"
+                    height="64"
+                    style="object-fit: contain; border-radius: 14px"
+                  />
+                </div>
+                <div class="icon-lbl-wrap">
+                  <span class="icon-lbl">小红书</span>
+                </div>
+              </div>
+              <div
+                class="icon icon-pos-taobao"
+                ondblclick="
+                  window.open(
+                    'https://shop555968981.taobao.com/?ut_sk=1.YfKvprAywdcDAI4n3o3ZHcqX_21380790_1772421562352.Copy.shop&suid=B174B96A-E734-4991-9400-8B57FD697FB7&shop_navi=allitems&sourceType=shop&shareUniqueId=35235395473&un=41b0bb24537fd4bfacb7a888e4a1d6ac&share_crt_v=1&un_site=0&spm=a2159r.13376460.0.0&sp_tk=NXMxaVVJRTdGR1A%3D&cpp=1&shareurl=true&short_name=h.ib5eyHF6LekMBn5&bxsign=scdYMKkkWZ2Uz6XaGPUNyYgZAVu4oVzf0lrO9Pvno11wSPJ95pxpJw8dZOqlHqXMiMRga7_Co6ANXCbIkwwKbTxPIqb8zpJpo3OzqKxRrTd4XoNXnFn8GxXtYhJ4M6kYS9Y&app=chrome',
+                    '_blank',
+                  )
+                "
+                onclick="selI(this)"
+              >
+                <div class="icon-gfx">
+                  <img
+                    src="pictures/tb.jpg"
+                    alt="淘宝"
+                    width="64"
+                    height="64"
+                    style="object-fit: contain; border-radius: 14px"
+                  />
+                </div>
+                <div class="icon-lbl-wrap">
+                  <span class="icon-lbl">淘宝</span>
+                </div>
+              </div>
+              <div
+                class="icon icon-pos-wechat"
+                ondblclick="oW('win-wechat')"
+                onclick="selI(this)"
+              >
+                <div class="icon-gfx">
+                  <img
+                    src="pictures/@chcocolatechips.jpg"
+                    alt="微信"
+                    width="64"
+                    height="64"
+                    style="object-fit: contain; border-radius: 14px"
+                  />
+                </div>
+                <div class="icon-lbl-wrap">
+                  <span class="icon-lbl">微信</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- .desk-icon-layer -->
+
+      <!-- ════════════════════
+     FEATURED WINDOWS
+════════════════════ -->
+      <!-- Case Study Browser (统一浏览器壳窗口) -->
+      <div
+        class="window"
+        id="wweb"
+        style="top: 60px; left: 120px; width: 960px; height: 620px"
+      >
+        <div class="wtb" onmousedown="sDrag(event, 'wweb')">
+          <div
+            class="tl tl-r"
+            onclick="
+              event.stopPropagation();
+              cW('wweb');
+            "
+          ></div>
+          <div
+            class="tl tl-y"
+            onclick="
+              event.stopPropagation();
+              minW('wweb');
+            "
+            title="最小化"
+          ></div>
+          <div
+            class="tl tl-g"
+            onclick="
+              event.stopPropagation();
+              maxW('wweb');
+            "
+            title="最大化"
+          ></div>
+          <span class="wt" id="wweb-title">Case Study Browser</span>
+        </div>
+        <div class="wb" style="padding: 0">
+          <div class="browser-shell">
+            <div class="browser-bar">
+              <div class="browser-dot"></div>
+              <div class="browser-url">
+                <span id="wweb-url">选择右侧任意项目以查看 Case Study</span>
+              </div>
+            </div>
+            <iframe
+              id="wweb-frame"
+              class="browser-frame"
+              src="about:blank"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="window"
+        id="wfn"
+        style="top: 44px; left: 105px; width: 720px; height: 520px"
+      >
+        <div class="wtb" onmousedown="sDrag(event, 'wfn')">
+          <div
+            class="tl tl-r"
+            onclick="
+              event.stopPropagation();
+              cW('wfn');
+            "
+          ></div>
+          <div
+            class="tl tl-y"
+            onclick="
+              event.stopPropagation();
+              minW('wfn');
+            "
+            title="最小化"
+          ></div>
+          <div
+            class="tl tl-g"
+            onclick="
+              event.stopPropagation();
+              maxW('wfn');
+            "
+            title="最大化"
+          ></div>
+          <span class="wt">Second Brain — Notion 知识管理系统</span>
+        </div>
+        <div class="fwb">
+          <div class="fws">
+            <div class="fwi act" onclick="sw(this, 'sn1')">产品概述</div>
+            <div class="fwi" onclick="sw(this, 'sn2')">核心功能</div>
+            <div class="fwi" onclick="sw(this, 'sn3')">商业成果</div>
+            <div class="fwi" onclick="sw(this, 'sn4')">产品决策</div>
+          </div>
+          <div class="fwm">
+            <div id="sn1">
+              <h3>FishBook Second Brain<br />商业化创作者知识管理系统</h3>
+              <p>
+                从自用工具到商业产品——帮助内容创作者管理「第二大脑」的 Notion
+                模板系统，覆盖知识收集→消化→输出→变现的完整闭环。
+              </p>
+              <div class="fs">
+                <div class="fsc">
+                  <span class="fsn">13万+</span><span class="fsl">GMV</span>
+                </div>
+                <div class="fsc">
+                  <span class="fsn">4000+</span
+                  ><span class="fsl">付费用户</span>
+                </div>
+                <div class="fsc">
+                  <span class="fsn">1000万+</span
+                  ><span class="fsl">内容曝光</span>
+                </div>
+              </div>
+              <div class="fdv"></div>
+              <div>
+                <span class="ft">Notion</span><span class="ft">知识管理</span
+                ><span class="ft">内容创作者</span
+                ><span class="ft">商业变现</span>
+              </div>
+              <div onclick="location = 'fishbook-case-study.html'" class="obtn">
+                打开完整 Case Study →
+              </div>
+            </div>
+            <div id="sn2" style="display: none">
+              <h3>核心功能模块</h3>
+              <h4>📥 知识收集层</h4>
+              <p>
+                全渠道 Inbox；Web Clipper 一键保存；Readwise 同步；自动打标签。
+              </p>
+              <h4>🧠 知识消化层</h4>
+              <p>
+                读书/视频/播客笔记模板；Progressive Summarization
+                二次加工；关联视图。
+              </p>
+              <h4>✍️ 内容输出层</h4>
+              <p>选题库 → 素材池 → 草稿区 → 发布追踪，从灵感到发布一条龙。</p>
+              <h4>💰 变现追踪层</h4>
+              <p>GMV 仪表盘 · 产品库 · 订单追踪 · CRM · 复购率统计。</p>
+              <div onclick="location = 'fishbook-case-study.html'" class="obtn">
+                查看完整设计 →
+              </div>
+            </div>
+            <div id="sn3" style="display: none">
+              <h3>商业成果</h3>
+              <div class="fs">
+                <div class="fsc">
+                  <span class="fsn">13万+</span><span class="fsl">GMV</span>
+                </div>
+                <div class="fsc">
+                  <span class="fsn">4000+</span
+                  ><span class="fsl">付费用户</span>
+                </div>
+                <div class="fsc">
+                  <span class="fsn">1000万+</span><span class="fsl">曝光</span>
+                </div>
+              </div>
+              <div class="fdv"></div>
+              <h4>增长路径</h4>
+              <p>
+                小红书内容驱动获客 → 私域沉淀 →
+                社群口碑复购。好内容吸引用户，高质量模板产生复购，用户见证反哺创作。
+              </p>
+              <h4>关键验证</h4>
+              <p>
+                复购率超行业均值；NPS 净推荐值正向；单篇笔记最高曝光超 50万。
+              </p>
+              <div onclick="location = 'fishbook-case-study.html'" class="obtn">
+                查看完整 Case Study →
+              </div>
+            </div>
+            <div id="sn4" style="display: none">
+              <h3>关键产品决策</h3>
+              <h4>为什么选 Notion 不自研？</h4>
+              <p>
+                目标用户已在用
+                Notion，学习成本为零；灵活性满足高度个性化需求。自研工具维护成本远高于在
+                Notion 上构建。
+              </p>
+              <h4>为什么「变现追踪」是核心卖点？</h4>
+              <p>
+                创作者的痛点不是「学不会笔记」而是「变不了现」。精准匹配目标用户核心诉求。
+              </p>
+              <h4>模板 vs SaaS</h4>
+              <p>
+                MVP 阶段选 Notion
+                模板——快速验证需求，用户口碑证明后再考虑技术升级。
+              </p>
+              <div onclick="location = 'fishbook-case-study.html'" class="obtn">
+                查看完整决策 →
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="window"
+        id="wfv"
+        style="top: 62px; left: 122px; width: 700px; height: 500px"
+      >
+        <div class="wtb" onmousedown="sDrag(event, 'wfv')">
+          <div
+            class="tl tl-r"
+            onclick="
+              event.stopPropagation();
+              cW('wfv');
+            "
+          ></div>
+          <div
+            class="tl tl-y"
+            onclick="
+              event.stopPropagation();
+              minW('wfv');
+            "
+            title="最小化"
+          ></div>
+          <div
+            class="tl tl-g"
+            onclick="
+              event.stopPropagation();
+              maxW('wfv');
+            "
+            title="最大化"
+          ></div>
+          <span class="wt">ViralNote Sync — 小红书爆款生成器</span>
+        </div>
+        <div class="fwb">
+          <div class="fws">
+            <div class="fwi act" onclick="sw(this, 'sv1')">产品概述</div>
+            <div class="fwi" onclick="sw(this, 'sv2')">核心功能</div>
+            <div class="fwi" onclick="sw(this, 'sv3')">Vibe Coding</div>
+            <div class="fwi" onclick="sw(this, 'sv4')">技术架构</div>
+          </div>
+          <div class="fwm">
+            <div id="sv1">
+              <h3>ViralNote Sync<br />小红书爆款采集 · AI 内容分析</h3>
+              <p>
+                输入关键词或账号，自动采集高赞内容，AI
+                拆解爆款结构——标题公式、情绪钩子、内容框架——输出可直接复用的创作模板。
+              </p>
+              <div class="fs">
+                <div class="fsc">
+                  <span class="fsn">Vibe</span
+                  ><span class="fsl">Coding 独立开发</span>
+                </div>
+                <div class="fsc">
+                  <span class="fsn">3天</span
+                  ><span class="fsl">需求到上线</span>
+                </div>
+                <div class="fsc">
+                  <span class="fsn">AI</span
+                  ><span class="fsl">GPT / Claude</span>
+                </div>
+              </div>
+              <div class="fdv"></div>
+              <p>
+                核心叙事：一个 PM 如何通过 Vibe Coding
+                独立完成从需求到产品的全链路，证明工程判断力不依赖开发团队。
+              </p>
+              <div
+                onclick="location = 'viralnote-case-study.html'"
+                class="obtn"
+              >
+                查看完整 Case Study →
+              </div>
+            </div>
+            <div id="sv2" style="display: none">
+              <h3>核心功能</h3>
+              <h4>🔍 爆款采集</h4>
+              <p>
+                关键词/账号输入 → 抓取高赞内容 →
+                结构化存储（标题、正文、互动数、话题标签）。
+              </p>
+              <h4>🤖 AI 拆解</h4>
+              <p>
+                提取标题公式（数字型/悬念型/对比型）、情绪钩子词、内容框架结构。
+              </p>
+              <h4>📋 模板输出</h4>
+              <p>
+                生成可填空的内容模板框架，让创作者直接套用爆款结构写自己的内容，不是照抄原文。
+              </p>
+              <h4>📊 趋势分析</h4>
+              <p>
+                按话题/时间聚合爆款特征，识别哪类标题在涨，哪种情绪词最有效。
+              </p>
+              <div
+                onclick="location = 'viralnote-case-study.html'"
+                class="obtn"
+              >
+                查看完整功能 →
+              </div>
+            </div>
+            <div id="sv3" style="display: none">
+              <h3>Vibe Coding — PM 的工程判断力</h3>
+              <h4>什么是 Vibe Coding？</h4>
+              <p>
+                用 AI 辅助写代码，自己设计架构、提
+                Prompt、测试验证、迭代优化。PM 把产品判断力延伸到工程侧。
+              </p>
+              <h4>为什么这对 PM 很重要？</h4>
+              <p>
+                能 Vibe Coding 的 PM 可以自己做
+                POC，不等开发资源；准确估算工程成本；MVP 速度快 10 倍以上。
+              </p>
+              <h4>这个项目的过程</h4>
+              <p>
+                需求 → 技术草图 → Claude 写 Python 骨架 → 自己测试修 Bug →
+                Streamlit 部署 → 用户反馈 → 迭代。全程约 3 天，零开发成本。
+              </p>
+              <div
+                onclick="location = 'viralnote-case-study.html'"
+                class="obtn"
+              >
+                查看完整过程 →
+              </div>
+            </div>
+            <div id="sv4" style="display: none">
+              <h3>技术架构</h3>
+              <h4>前端：Streamlit</h4>
+              <p>
+                MVP 阶段需要快速验证，Streamlit 让 PM
+                在不写前端代码的情况下做出可用 Web App。
+              </p>
+              <h4>数据采集：Python</h4>
+              <p>
+                小红书内容采集 + 数据清洗 + 关键词提取，纯 Python
+                实现，可控性强。
+              </p>
+              <h4>AI 分析：多模型路由</h4>
+              <p>
+                GPT-4o / Claude / 通义接入。后端转发保护 Key
+                安全，可随时切换模型。
+              </p>
+              <div
+                onclick="location = 'viralnote-case-study.html'"
+                class="obtn"
+              >
+                查看技术细节 →
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="window"
+        id="wfb"
+        style="top: 80px; left: 140px; width: 700px; height: 500px"
+      >
+        <div class="wtb" onmousedown="sDrag(event, 'wfb')">
+          <div
+            class="tl tl-r"
+            onclick="
+              event.stopPropagation();
+              cW('wfb');
+            "
+          ></div>
+          <div
+            class="tl tl-y"
+            onclick="
+              event.stopPropagation();
+              minW('wfb');
+            "
+            title="最小化"
+          ></div>
+          <div
+            class="tl tl-g"
+            onclick="
+              event.stopPropagation();
+              maxW('wfb');
+            "
+            title="最大化"
+          ></div>
+          <span class="wt">BiteCard — iOS 饮食记录 · AI 抠图卡片</span>
+        </div>
+        <div class="fwb">
+          <div class="fws">
+            <div class="fwi act" onclick="sw(this, 'sb1')">产品概述</div>
+            <div class="fwi" onclick="sw(this, 'sb2')">核心设计</div>
+            <div class="fwi" onclick="sw(this, 'sb3')">状态机</div>
+            <div class="fwi" onclick="sw(this, 'sb4')">技术决策</div>
+          </div>
+          <div class="fwm">
+            <div id="sb1">
+              <h3>BiteCard<br />拍照即记 · AI 抠图卡片 · 热量追踪</h3>
+              <p>
+                iOS 饮食记录
+                PRD。核心洞察：记录饮食失败不是因为用户不自律，而是工具把「记录结果」做得太丑。BiteCard
+                把每次记录变成生成精美卡片的仪式感。
+              </p>
+              <div class="fs">
+                <div class="fsc">
+                  <span class="fsn">1张照</span
+                  ><span class="fsl">生成 BiteCard</span>
+                </div>
+                <div class="fsc">
+                  <span class="fsn">4态</span
+                  ><span class="fsl">状态机设计</span>
+                </div>
+                <div class="fsc">
+                  <span class="fsn">云端AI</span
+                  ><span class="fsl">识图+抠图</span>
+                </div>
+              </div>
+              <div class="fdv"></div>
+              <div>
+                <span class="ft">iOS</span><span class="ft">PRD</span
+                ><span class="ft">状态机</span><span class="ft">AI识图</span
+                ><span class="ft">热量追踪</span>
+              </div>
+              <div onclick="location = 'bitecard-case-study.html'" class="obtn">
+                查看完整 Case Study →
+              </div>
+            </div>
+            <div id="sb2" style="display: none">
+              <h3>核心产品设计</h3>
+              <h4>🎨 抠图卡片（核心差异化）</h4>
+              <p>
+                食物主体 + 盘子整体抠图，4–8px 白色描边。抠图失败 =
+                记录失败，严苛标准保护了产品差异化。好看的结果本身就是产品功能。
+              </p>
+              <h4>📊 只有一个 kcal 目标</h4>
+              <p>
+                进度环只显示今日 kcal vs
+                目标。用户只需要知道「今天够了吗」，复杂仪表盘反而是噪音。
+              </p>
+              <h4>🚫 离线强拦截</h4>
+              <p>
+                无网络时完全拒绝创建记录。强约束比「有网再同步」更诚实，避免离线队列的技术复杂性。
+              </p>
+              <div onclick="location = 'bitecard-case-study.html'" class="obtn">
+                查看完整设计 →
+              </div>
+            </div>
+            <div id="sb3" style="display: none">
+              <h3>四态状态机</h3>
+              <div class="fg4">
+                <div class="fg4c">
+                  <div class="fg4s">State 01</div>
+                  <div class="fg4h">占位</div>
+                  <div class="fg4p">
+                    记录已创建，等待云端处理。骨架屏占位，不允许编辑。
+                  </div>
+                </div>
+                <div
+                  class="fg4c"
+                  style="
+                    border-color: rgba(254, 188, 46, 0.2);
+                    background: rgba(254, 188, 46, 0.05);
+                  "
+                >
+                  <div class="fg4s">State 02</div>
+                  <div class="fg4h">识别中</div>
+                  <div class="fg4p">AI 识图+抠图+营养映射进行中。</div>
+                </div>
+                <div
+                  class="fg4c"
+                  style="
+                    border-color: rgba(40, 200, 64, 0.2);
+                    background: rgba(40, 200, 64, 0.05);
+                  "
+                >
+                  <div class="fg4s">State 03</div>
+                  <div class="fg4h">已补全营养</div>
+                  <div class="fg4p">
+                    卡片完整展示，计入进度环，可生成分享图。
+                  </div>
+                </div>
+                <div
+                  class="fg4c"
+                  style="
+                    border-color: rgba(255, 95, 87, 0.2);
+                    background: rgba(255, 95, 87, 0.05);
+                  "
+                >
+                  <div class="fg4s">State 04</div>
+                  <div class="fg4h">失败</div>
+                  <div class="fg4p">
+                    任一环节失败。用户主动重试，不自动重试。
+                  </div>
+                </div>
+              </div>
+              <p
+                style="
+                  font-size: 11px;
+                  color: rgba(255, 255, 255, 0.38);
+                  margin-top: 8px;
+                "
+              >
+                「无营养记录」：营养库命中失败时仍允许保存，不计入进度环——先把习惯留住比强求数据完整更重要。
+              </p>
+              <div onclick="location = 'bitecard-case-study.html'" class="obtn">
+                查看完整状态机 →
+              </div>
+            </div>
+            <div id="sb4" style="display: none">
+              <h3>关键技术决策</h3>
+              <h4>全部云端，不做端侧推理</h4>
+              <p>
+                端侧模型占存储、更新困难。云端可随时升级模型、AB 测试，无需 App
+                Store
+                审核。牺牲离线使用与「离线强拦截」原则一致，是有意识的取舍。
+              </p>
+              <h4>Key 不写死在 App 里</h4>
+              <p>
+                所有大模型调用通过自家后端转发——保护 Key
+                泄露，后端可做限流/计费/模型切换，不用发版 App。
+              </p>
+              <h4>失败路径明确化</h4>
+              <p>
+                识别成功和失败路径完全分离。失败时 errorCode
+                必填，把后端约束写进 API 规范，不让客户端猜。
+              </p>
+              <div onclick="location = 'bitecard-case-study.html'" class="obtn">
+                查看完整技术方案 →
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PDF 简历窗口 (80% 视口，macOS 风格) -->
+      <div
+        class="window window-pdf"
+        id="win-cv"
+        style="top: 10vh; left: 10vw; width: 80vw; height: 80vh"
+      >
+        <div class="wtb" onmousedown="sDrag(event, 'win-cv')">
+          <div
+            class="tl tl-r"
+            onclick="
+              event.stopPropagation();
+              cW('win-cv');
+            "
+            title="关闭"
+          ></div>
+          <div
+            class="tl tl-y"
+            onclick="
+              event.stopPropagation();
+              minW('win-cv');
+            "
+            title="最小化"
+          ></div>
+          <div
+            class="tl tl-g"
+            onclick="
+              event.stopPropagation();
+              maxW('win-cv');
+            "
+            title="最大化"
+          ></div>
+          <span class="wt">简历.pdf — 纪彤_电子科技大学_硕士</span>
+        </div>
+        <div class="wb" style="padding: 0; overflow: hidden">
+          <iframe
+            class="pdf-frame"
+            src="%E7%BA%AA%E5%BD%A4_%E7%94%B5%E5%AD%90%E7%A7%91%E6%8A%80%E5%A4%A7%E5%AD%A6_%E7%A1%95%E5%A3%AB0912.pdf"
+            title="简历 PDF"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- Standard windows -->
+      <div
+        class="window"
+        id="win-about"
+        style="top: 56px; left: 104px; width: 352px"
+      >
+        <div class="wtb" onmousedown="sDrag(event, 'win-about')">
+          <div
+            class="tl tl-r"
+            onclick="
+              event.stopPropagation();
+              cW('win-about');
+            "
+          ></div>
+          <div
+            class="tl tl-y"
+            onclick="
+              event.stopPropagation();
+              minW('win-about');
+            "
+            title="最小化"
+          ></div>
+          <div
+            class="tl tl-g"
+            onclick="
+              event.stopPropagation();
+              maxW('win-about');
+            "
+            title="最大化"
+          ></div>
+          <span class="wt">关于我.txt</span>
+        </div>
+        <div class="wb">
+          <div class="ar">
+            <span class="ak">Name</span
+            ><span class="av">纪彤 / Ji Tong / Melody</span>
+          </div>
+          <div class="ar">
+            <span class="ak">School</span
+            ><span class="av">UESTC 电子科技大学</span>
+          </div>
+          <div class="ar">
+            <span class="ak">Role</span
+            ><span class="av">产品经理方向 · 研究生</span>
+          </div>
+          <div class="ar">
+            <span class="ak">Studio</span
+            ><span class="av">FishBook Studio · 创始人</span>
+          </div>
+          <div class="adiv"></div>
+          <div class="ar">
+            <span class="ak">GMV</span
+            ><span class="av">13万+ · 4000+ 付费用户</span>
+          </div>
+          <div class="ar">
+            <span class="ak">Reach</span
+            ><span class="av">1000万+ 内容曝光量</span>
+          </div>
+          <div class="ar">
+            <span class="ak">Projects</span
+            ><span class="av">7 个独立产品 · 全部自研</span>
+          </div>
+          <div class="adiv"></div>
+          <div class="ar" style="align-items: flex-start">
+            <span class="ak" style="padding-top: 3px">Tags</span
+            ><span
+              ><span class="atag">产品设计</span
+              ><span class="atag">Vibe Coding</span
+              ><span class="atag">内容运营</span><span class="atag">Notion</span
+              ><span class="atag">AI 应用</span
+              ><span class="atag">增长策略</span
+              ><span class="atag">知识产品</span
+              ><span class="atag">React</span></span
+            >
+          </div>
+          <div class="adiv"></div>
+          <div
+            style="
+              font-size: 11.5px;
+              color: rgba(255, 255, 255, 0.3);
+              font-style: italic;
+              line-height: 1.7;
+            "
+          >
+            「从零到商业闭环的产品力，<br />就是我想证明的事。」
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="window"
+        id="win-projects"
+        style="top: 44px; left: 120px; width: 520px"
+      >
+        <div class="wtb" onmousedown="sDrag(event, 'win-projects')">
+          <div
+            class="tl tl-r"
+            onclick="
+              event.stopPropagation();
+              cW('win-projects');
+            "
+          ></div>
+          <div
+            class="tl tl-y"
+            onclick="
+              event.stopPropagation();
+              minW('win-projects');
+            "
+            title="最小化"
+          ></div>
+          <div
+            class="tl tl-g"
+            onclick="
+              event.stopPropagation();
+              maxW('win-projects');
+            "
+            title="最大化"
+          ></div>
+          <span class="wt">Projects — 7 Items</span>
+        </div>
+        <div class="ws">
+          <div class="psec">⭐ 重点项目</div>
+          <div class="prow" onclick="oF('notion')">
+            <img class="prow-ic" src="pictures/File.png" alt="" />
+            <div class="prow-left">
+              <div class="prow-n">01 · FishBook Second Brain</div>
+              <div class="prow-d">Notion 知识管理 · 商业化创作者工具</div>
+              <div class="prow-t">
+                <span class="ptag ptag-b">13万 GMV</span
+                ><span class="ptag ptag-b">4000+ 用户</span
+                ><span class="ptag">Notion</span>
+              </div>
+            </div>
+            <span class="pa">›</span>
+          </div>
+          <div class="prow" onclick="oF('viral')">
+            <img class="prow-ic" src="pictures/File.png" alt="" />
+            <div class="prow-left">
+              <div class="prow-n">02 · ViralNote Sync</div>
+              <div class="prow-d">小红书爆款采集 · AI 内容分析</div>
+              <div class="prow-t">
+                <span class="ptag ptag-b">Vibe Coding</span
+                ><span class="ptag">Python</span
+                ><span class="ptag">Streamlit</span>
+              </div>
+            </div>
+            <span class="pa">›</span>
+          </div>
+          <div class="prow" onclick="oF('bite')">
+            <img class="prow-ic" src="pictures/File.png" alt="" />
+            <div class="prow-left">
+              <div class="prow-n">06 · BiteCard</div>
+              <div class="prow-d">iOS 饮食记录 · 抠图卡片 · 热量追踪</div>
+              <div class="prow-t">
+                <span class="ptag ptag-b">iOS PRD</span
+                ><span class="ptag">状态机</span
+                ><span class="ptag">AI识图</span>
+              </div>
+            </div>
+            <span class="pa">›</span>
+          </div>
+          <div class="psec">其他项目</div>
+          <div class="prow" onclick="oF('yt')">
+            <img class="prow-ic" src="pictures/File.png" alt="" />
+            <div class="prow-left">
+              <div class="prow-n">03 · YouTube → Notion 笔记</div>
+              <div class="prow-d">学习基础设施 · AI 可信度设计</div>
+            </div>
+            <span class="pa">›</span>
+          </div>
+          <div class="prow" onclick="oF('progress')">
+            <img class="prow-ic" src="pictures/File.png" alt="" />
+            <div class="prow-left">
+              <div class="prow-n">04 · Progress Lab</div>
+              <div class="prow-d">Notion 进度条生成器 · 消除公式门槛</div>
+            </div>
+            <span class="pa">›</span>
+          </div>
+          <div class="prow" onclick="oF('waikan')">
+            <img class="prow-ic" src="pictures/File.png" alt="" />
+            <div class="prow-left">
+              <div class="prow-n">05 · 外刊阅览室</div>
+              <div class="prow-d">外刊精读流水线 · 知识产品商业化</div>
+            </div>
+            <span class="pa">›</span>
+          </div>
+          <div class="prow" onclick="oF('markflow')">
+            <img class="prow-ic" src="pictures/File.png" alt="" />
+            <div class="prow-left">
+              <div class="prow-n">07 · MarkFlow</div>
+              <div class="prow-d">Markdown 创作平台 · 海报 + 公众号</div>
+            </div>
+            <span class="pa">›</span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="window"
+        id="win-skills"
+        style="top: 78px; left: 155px; width: 364px"
+      >
+        <div class="wtb" onmousedown="sDrag(event, 'win-skills')">
+          <div
+            class="tl tl-r"
+            onclick="
+              event.stopPropagation();
+              cW('win-skills');
+            "
+          ></div>
+          <div
+            class="tl tl-y"
+            onclick="
+              event.stopPropagation();
+              minW('win-skills');
+            "
+            title="最小化"
+          ></div>
+          <div
+            class="tl tl-g"
+            onclick="
+              event.stopPropagation();
+              maxW('win-skills');
+            "
+            title="最大化"
+          ></div>
+          <span class="wt">技能.app</span>
+        </div>
+        <div class="wb">
+          <div class="sg">
+            <div class="sc">
+              <div class="sct">产品能力</div>
+              <div class="stl">
+                <span class="stg">需求分析</span
+                ><span class="stg">流程设计</span
+                ><span class="stg">用户调研</span
+                ><span class="stg">数据分析</span
+                ><span class="stg">竞品分析</span><span class="stg">PRD</span>
+              </div>
+            </div>
+            <div class="sc">
+              <div class="sct">工程能力</div>
+              <div class="stl">
+                <span class="stg">Vibe Coding</span
+                ><span class="stg">Python</span
+                ><span class="stg">Streamlit</span><span class="stg">React</span
+                ><span class="stg">TypeScript</span
+                ><span class="stg">Notion API</span>
+              </div>
+            </div>
+            <div class="sc">
+              <div class="sct">内容运营</div>
+              <div class="stl">
+                <span class="stg">小红书运营</span
+                ><span class="stg">爆款策略</span
+                ><span class="stg">知识产品</span
+                ><span class="stg">GMV 增长</span
+                ><span class="stg">社群运营</span>
+              </div>
+            </div>
+            <div class="sc">
+              <div class="sct">工具 &amp; AI</div>
+              <div class="stl">
+                <span class="stg">Notion</span><span class="stg">Figma</span
+                ><span class="stg">GPT-4o</span><span class="stg">Gemini</span
+                ><span class="stg">Claude</span><span class="stg">Prompt</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="window"
+        id="win-contact"
+        style="top: 98px; left: 142px; width: 298px"
+      >
+        <div class="wtb" onmousedown="sDrag(event, 'win-contact')">
+          <div
+            class="tl tl-r"
+            onclick="
+              event.stopPropagation();
+              cW('win-contact');
+            "
+          ></div>
+          <div
+            class="tl tl-y"
+            onclick="
+              event.stopPropagation();
+              minW('win-contact');
+            "
+            title="最小化"
+          ></div>
+          <div
+            class="tl tl-g"
+            onclick="
+              event.stopPropagation();
+              maxW('win-contact');
+            "
+            title="最大化"
+          ></div>
+          <span class="wt">联系方式.app</span>
+        </div>
+        <div class="wb" style="padding: 14px 18px">
+          <div class="crow">
+            <div class="ci">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <rect
+                  x="3"
+                  y="5"
+                  width="18"
+                  height="14"
+                  rx="2"
+                  stroke="rgba(255,255,255,.5)"
+                  stroke-width="2"
+                />
+                <path
+                  d="M3 7L12 13L21 7"
+                  stroke="rgba(255,255,255,.5)"
+                  stroke-width="1.8"
+                />
+              </svg>
+            </div>
+            <div>
+              <div class="cl">WeChat</div>
+              <div class="cv">JTong2001</div>
+            </div>
+          </div>
+          <div class="crow">
+            <div class="ci">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <rect
+                  x="5"
+                  y="2"
+                  width="14"
+                  height="20"
+                  rx="3"
+                  stroke="rgba(255,255,255,.5)"
+                  stroke-width="2"
+                />
+                <line
+                  x1="9"
+                  y1="17"
+                  x2="15"
+                  y2="17"
+                  stroke="rgba(255,255,255,.5)"
+                  stroke-width="1.8"
+                />
+              </svg>
+            </div>
+            <div>
+              <div class="cl">Phone</div>
+              <div class="cv">139 4686 2616</div>
+            </div>
+          </div>
+          <div class="crow">
+            <div class="ci">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="9"
+                  stroke="rgba(255,255,255,.5)"
+                  stroke-width="2"
+                />
+                <ellipse
+                  cx="12"
+                  cy="12"
+                  rx="3.5"
+                  ry="9"
+                  fill="none"
+                  stroke="rgba(255,255,255,.4)"
+                  stroke-width="1.3"
+                />
+                <line
+                  x1="3"
+                  y1="12"
+                  x2="21"
+                  y2="12"
+                  stroke="rgba(255,255,255,.4)"
+                  stroke-width="1.3"
+                />
+              </svg>
+            </div>
+            <div>
+              <div class="cl">Website</div>
+              <div class="cv" style="font-size: 10px">
+                <a
+                  href="https://new-website-ochre-phi.vercel.app/"
+                  target="_blank"
+                  rel="noopener"
+                  style="color: inherit; text-decoration: underline"
+                  >new-website-ochre-phi.vercel.app</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="crow">
+            <div class="ci">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <rect
+                  x="2"
+                  y="2"
+                  width="20"
+                  height="20"
+                  rx="5"
+                  stroke="rgba(255,255,255,.5)"
+                  stroke-width="2"
+                />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="4"
+                  stroke="rgba(255,255,255,.5)"
+                  stroke-width="1.8"
+                />
+                <circle cx="17" cy="7" r="1.5" fill="rgba(255,255,255,.5)" />
+              </svg>
+            </div>
+            <div>
+              <div class="cl">小红书</div>
+              <div class="cv">
+                <a
+                  href="https://www.xiaohongshu.com/user/profile/64283cd9000000001102147b?m_source=pwa"
+                  target="_blank"
+                  rel="noopener"
+                  style="color: inherit; text-decoration: underline"
+                  >FishBook Studio</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="crow">
+            <div class="ci">
+              <svg
+                t="1770167714800"
+                class="icon"
+                viewBox="0 0 1024 1024"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                p-id="3276"
+                width="18"
+                height="18"
+              >
+                <path
+                  d="M152.576516 353.144969 101.660339 431.755417l93.919704 58.484798c0 0 62.441122 32.166639 32.510667 92.543591C200.396439 639.892491 63.989249 764.94675 63.989249 764.94675l122.130018 76.718293c84.630942-184.571141 78.954477-159.973123 100.112212-226.370569 21.845792-67.429531 26.662187-119.205779-10.320847-156.876869C228.434739 410.425668 223.102301 405.953301 152.576516 353.144969z"
+                  fill="#575B66"
+                  p-id="3277"
+                ></path>
+                <path
+                  d="M219.317991 323.558542c44.379641 0 80.33059-32.338653 80.33059-72.245926 0-40.251302-35.950949-72.589955-80.33059-72.589955-44.723669 0-80.502604 32.510667-80.502604 72.589955C138.987401 291.047875 174.594322 323.558542 219.317991 323.558542z"
+                  fill="#575B66"
+                  p-id="3278"
+                ></path>
+                <path
+                  d="M944.873509 332.503276c0 0-26.662187-207.793046-478.199227-79.126491 19.437594-33.88678 28.554342-55.732572 28.554342-55.732572l-112.669242-31.994625c0 0-45.583739 149.652276-126.774399 219.317991 0 0 78.782463 45.755753 77.922392 44.379641 22.533848-22.705863 42.831514-45.755753 60.032925-68.117588 18.061482-8.084663 35.434907-15.48127 52.29229-22.361834-20.985721 37.843104-54.528473 94.607761-88.243239 130.386696l47.475895 41.971443c0 0 32.510667-31.478582 67.77356-69.149672l40.251302 0 0 69.837729-157.220897 0L356.069209 567.646565l157.220897 0 0 133.654964-6.020494-0.172014c-17.373425-0.860071-44.207626-3.78431-54.872501-20.641693-12.729044-20.641693-3.268268-57.968755-2.752226-81.19066l-108.540904 0-3.956325 2.236183c0 0-39.907274 179.410717 114.733412 175.454393 144.491853 3.956325 227.402654-40.767344 267.309928-71.55787l15.825298 59.516882 89.103309-37.67109-60.376953-148.620192L691.496724 601.533345l13.417101 50.744163c-18.233496 14.105157-39.73526 24.426004-62.613136 32.166639L642.300689 567.646565l153.264572 0 0-55.904586-153.264572 0 0-69.837729 153.780615 0 0-55.732572-273.502436 0c19.781623-24.25399 35.090879-46.44381 39.219217-60.376953l-47.819923-13.073072c204.696792-73.966068 318.742147-61.237023 317.882076 59.86091L831.860239 691.496724c0 0 12.040988 109.400974-112.497228 101.660339l-67.429531-14.621199-15.653284 64.505291c0 0 290.875861 83.942886 314.613808-141.395599C974.459936 476.307072 944.873509 332.503276 944.873509 332.503276z"
+                  fill="#575B66"
+                  p-id="3279"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <div class="cl">淘宝</div>
+              <div class="cv">
+                <a
+                  href="https://shop555968981.taobao.com/"
+                  target="_blank"
+                  rel="noopener"
+                  style="color: inherit; text-decoration: underline"
+                  >FishBook Studio</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 教育经历 -->
+      <div
+        class="window"
+        id="win-education"
+        style="
+          top: 72px;
+          left: 50%;
+          margin-left: -240px;
+          width: 480px;
+          min-height: 400px;
+        "
+      >
+        <div class="wtb" onmousedown="sDrag(event, 'win-education')">
+          <div
+            class="tl tl-r"
+            onclick="
+              event.stopPropagation();
+              cW('win-education');
+            "
+          ></div>
+          <div
+            class="tl tl-y"
+            onclick="
+              event.stopPropagation();
+              minW('win-education');
+            "
+            title="最小化"
+          ></div>
+          <div
+            class="tl tl-g"
+            onclick="
+              event.stopPropagation();
+              maxW('win-education');
+            "
+            title="最大化"
+          ></div>
+          <span class="wt">教育经历</span>
+        </div>
+        <div class="wb wb-edu">
+          <h2 class="edu-title">教育经历</h2>
+
+          <div class="edu-entry">
+            <div class="edu-diamond" aria-hidden="true"></div>
+            <div class="edu-head">
+              <div class="edu-school-wrap">
+                <span class="edu-school">电子科技大学</span>
+                <span class="edu-tag">985</span>
+                <span class="edu-tag">211</span>
+                <span class="edu-tag">双一流</span>
+              </div>
+              <div class="edu-right">
+                <div class="edu-date">2023年09月 - 2026年06月</div>
+                <div class="edu-loc">成都</div>
+              </div>
+            </div>
+            <div class="edu-meta">控制工程硕士 自动化工程学院</div>
+            <div class="edu-detail">
+              GPA: 3.81 / 4.0
+              <span class="edu-highlight">计算机视觉方向</span>
+              电子科技大学学业一等奖学金 优秀研究生
+            </div>
+            <div class="edu-courses">
+              主修课程:
+              模式识别与机器学习、数字图像处理、计算机视觉、最优化理论与应用
+            </div>
+          </div>
+
+          <div class="edu-entry">
+            <div class="edu-diamond" aria-hidden="true"></div>
+            <div class="edu-head">
+              <div class="edu-school-wrap">
+                <span class="edu-school">暨南大学</span>
+                <span class="edu-tag">211</span>
+                <span class="edu-tag">双一流</span>
+              </div>
+              <div class="edu-right">
+                <div class="edu-date">2018年09月 - 2022年06月</div>
+                <div class="edu-loc">珠海</div>
+              </div>
+            </div>
+            <div class="edu-meta">自动化 本科 电气信息学院</div>
+            <div class="edu-detail">
+              翻译 本科 翻译学院
+              <span class="edu-highlight">双学位</span>
+              CET-6: 551分
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 微信 — iOS 风格图片查看（支持放大缩小） -->
+      <div
+        class="window window-wechat"
+        id="win-wechat"
+        style="
+          top: 12vh;
+          left: 50%;
+          margin-left: -260px;
+          width: 520px;
+          height: 75vh;
+        "
+      >
+        <div class="wtb" onmousedown="sDrag(event, 'win-wechat')">
+          <div
+            class="tl tl-r"
+            onclick="
+              event.stopPropagation();
+              cW('win-wechat');
+            "
+            title="关闭"
+          ></div>
+          <div
+            class="tl tl-y"
+            onclick="
+              event.stopPropagation();
+              minW('win-wechat');
+            "
+            title="最小化"
+          ></div>
+          <div
+            class="tl tl-g"
+            onclick="
+              event.stopPropagation();
+              maxW('win-wechat');
+            "
+            title="最大化"
+          ></div>
+          <span class="wt">微信 — 添加好友</span>
+        </div>
+        <div class="wb">
+          <div class="wechat-viewer">
+            <div class="wechat-viewer-img-wrap" id="wechat-zoom-wrap">
+              <img
+                id="wechat-img"
+                class="wechat-viewer-img"
+                src="pictures/wechat.JPG"
+                alt="微信二维码 扫一扫添加好友"
+                draggable="false"
+                style="transform: scale(1)"
+              />
+            </div>
+          </div>
+          <div class="wechat-zoom-bar">
+            <button
+              type="button"
+              class="wechat-zoom-btn"
+              onclick="wechatZoomOut()"
+              aria-label="缩小"
+            >
+              −
+            </button>
+            <span class="wechat-zoom-label" id="wechat-zoom-value">100%</span>
+            <button
+              type="button"
+              class="wechat-zoom-btn"
+              onclick="wechatZoomIn()"
+              aria-label="放大"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /desktop -->
+
+    <div id="ctx">
+      <div
+        class="cxi"
+        onclick="
+          oW('win-about');
+          ctxC();
+        "
+      >
+        关于 FishBook Studio
+      </div>
+      <div
+        class="cxi"
+        onclick="
+          oW('win-projects');
+          ctxC();
+        "
+      >
+        作品集 (7 项)
+      </div>
+      <div class="cxs"></div>
+      <div
+        class="cxi"
+        onclick="
+          oF('notion');
+          ctxC();
+        "
+      >
+        ⭐ Second Brain
+      </div>
+      <div
+        class="cxi"
+        onclick="
+          oF('viral');
+          ctxC();
+        "
+      >
+        ⭐ ViralNote Sync
+      </div>
+      <div
+        class="cxi"
+        onclick="
+          oF('bite');
+          ctxC();
+        "
+      >
+        ⭐ BiteCard
+      </div>
+      <div class="cxs"></div>
+      <div
+        class="cxi"
+        onclick="
+          oW('win-skills');
+          ctxC();
+        "
+      >
+        查看能力
+      </div>
+      <div
+        class="cxi"
+        onclick="
+          oW('win-contact');
+          ctxC();
+        "
+      >
+        联系方式
+      </div>
+      <div
+        class="cxi"
+        onclick="
+          oW('win-education');
+          ctxC();
+        "
+      >
+        教育经历
+      </div>
+      <div
+        class="cxi"
+        onclick="
+          oW('win-cv');
+          ctxC();
+        "
+      >
+        简历.pdf
+      </div>
+      <div
+        class="cxi"
+        onclick="
+          oF('internship');
+          ctxC();
+        "
+      >
+        实习经历
+      </div>
+      <div class="cxs"></div>
+      <div
+        class="cxi"
+        onclick="
+          document
+            .querySelectorAll('.window')
+            .forEach((w) => w.classList.remove('open'));
+          ctxC();
+        "
+      >
+        关闭所有窗口
+      </div>
+    </div>
+    <div
+      id="dov"
+      style="position: fixed; inset: 0; z-index: 9990; display: none"
+    ></div>
+
+    <script>
+      // theme (浅色/深色)
+      const THEME_KEY = "fishbook-appearance";
+      function toggleTheme() {
+        const body = document.body;
+        const next =
+          body.getAttribute("data-appearance-mode") === "light"
+            ? "dark"
+            : "light";
+        body.setAttribute("data-appearance-mode", next);
+        try {
+          localStorage.setItem(THEME_KEY, next);
+        } catch (_) {}
+        document.getElementById("theme-toggle").textContent =
+          next === "light" ? "☀️" : "🌙";
+      }
+      function initTheme() {
+        try {
+          const saved = localStorage.getItem(THEME_KEY);
+          if (saved === "dark" || saved === "light") {
+            document.body.setAttribute("data-appearance-mode", saved);
+            document.getElementById("theme-toggle").textContent =
+              saved === "light" ? "☀️" : "🌙";
+          }
+        } catch (_) {}
+      }
+      initTheme();
+
+      // clock
+      function tick() {
+        const n = new Date();
+        document.getElementById("clock").textContent = n.toLocaleTimeString(
+          "zh",
+          { hour: "2-digit", minute: "2-digit", hour12: false },
+        );
+      }
+      tick();
+      setInterval(tick, 1000);
+
+      // windows
+      let Z = 100;
+      function oW(id) {
+        const w = document.getElementById(id);
+        if (!w) return;
+        w.classList.remove("minimized");
+        w.classList.add("open", "opening");
+        w.style.zIndex = ++Z;
+        w.style.display =
+          ""; /* 清除可能被覆盖的 display，由 .window.open 控制 */
+        if (id === "win-skills") {
+          const icon = document.querySelector(".icon-pos-skills");
+          if (icon) {
+            const r = icon.getBoundingClientRect();
+            const ww = w.offsetWidth || 364;
+            const wh = w.offsetHeight || 300;
+            let l = r.left + r.width / 2 - ww / 2;
+            let t = r.top - wh - 12;
+            l = Math.max(10, Math.min(l, window.innerWidth - ww - 10));
+            t = Math.max(50, t);
+            w.style.left = l + "px";
+            w.style.top = t + "px";
+          }
+        }
+        if (id === "win-wechat") wechatZoomReset();
+        if (id === "win-education") {
+          const wb = w.querySelector(".wb");
+          if (wb) wb.style.display = "";
+        }
+        setTimeout(() => w.classList.remove("opening"), 220);
+      }
+      let wechatZoomLevel = 1;
+      function wechatZoomIn() {
+        wechatZoomLevel = Math.min(3, wechatZoomLevel + 0.25);
+        wechatZoomApply();
+      }
+      function wechatZoomOut() {
+        wechatZoomLevel = Math.max(0.5, wechatZoomLevel - 0.25);
+        wechatZoomApply();
+      }
+      function wechatZoomReset() {
+        wechatZoomLevel = 1;
+        wechatZoomApply();
+      }
+      function wechatZoomApply() {
+        const img = document.getElementById("wechat-img");
+        const label = document.getElementById("wechat-zoom-value");
+        if (img) img.style.transform = "scale(" + wechatZoomLevel + ")";
+        if (label) label.textContent = Math.round(wechatZoomLevel * 100) + "%";
+      }
+      const wechatWrap = document.getElementById("wechat-zoom-wrap");
+      if (wechatWrap) {
+        wechatWrap.addEventListener(
+          "wheel",
+          (e) => {
+            if (
+              !document.getElementById("win-wechat").classList.contains("open")
+            )
+              return;
+            e.preventDefault();
+            if (e.deltaY < 0) wechatZoomIn();
+            else wechatZoomOut();
+          },
+          { passive: false },
+        );
+      }
+      function cW(id) {
+        const w = document.getElementById(id);
+        if (!w) return;
+        w.classList.remove("open", "maximized", "minimized");
+        w.style.display = "";
+      }
+      function minW(id) {
+        const w = document.getElementById(id);
+        if (!w) return;
+        w.classList.toggle("minimized");
+      }
+      function maxW(id) {
+        const w = document.getElementById(id);
+        if (!w) return;
+        w.classList.toggle("maximized");
+      }
+      document.querySelectorAll(".window").forEach((w) =>
+        w.addEventListener("mousedown", () => {
+          w.style.zIndex = ++Z;
+        }),
+      );
+
+      // project icons → 统一浏览器壳窗口中的 Case Study
+      const projMeta = {
+        notion: {
+          url: "fishbook-case-study.html",
+          title: "Second Brain — Case Study",
+        },
+        viral: {
+          url: "viralnote-case-study.html",
+          title: "ViralNote Sync — Case Study",
+        },
+        bite: {
+          url: "bitecard-case-study.html",
+          title: "BiteCard — Case Study",
+        },
+        yt: {
+          url: "youtube-notion-case-study.html",
+          title: "YouTube → Notion — Case Study",
+        },
+        progress: {
+          url: "progresslab-case-study.html",
+          title: "Progress Lab — Case Study",
+        },
+        waikan: {
+          url: "waikan-case-study.html",
+          title: "外刊阅览室 — Case Study",
+        },
+        markflow: {
+          url: "markflow-case-study.html",
+          title: "MarkFlow — Case Study",
+        },
+        internship: {
+          url: "internship.html",
+          title: "实习经历 — 成都书声科技",
+        },
+      };
+      function oF(k) {
+        const meta = projMeta[k];
+        if (!meta) return;
+        const frame = document.getElementById("wweb-frame");
+        const titleEl = document.getElementById("wweb-title");
+        const urlEl = document.getElementById("wweb-url");
+        if (frame) {
+          frame.src = meta.url;
+        }
+        if (titleEl) {
+          titleEl.textContent = meta.title;
+        }
+        if (urlEl) {
+          let base = window.location.origin || "";
+          if (base.endsWith("/")) base = base.slice(0, -1);
+          urlEl.textContent = base + "/" + meta.url;
+        }
+        oW("wweb");
+      }
+
+      // tab switch
+      function sw(btn, id) {
+        btn
+          .closest(".fwb")
+          .querySelector(".fwm")
+          .querySelectorAll(":scope>div")
+          .forEach((d) => (d.style.display = "none"));
+        document.getElementById(id).style.display = "block";
+        btn
+          .closest(".fws")
+          .querySelectorAll(".fwi")
+          .forEach((b) => b.classList.remove("act"));
+        btn.classList.add("act");
+      }
+
+      // window drag
+      let dS = null;
+      function sDrag(e, id) {
+        if (e.target.closest(".tl")) return;
+        const w = document.getElementById(id);
+        w.style.zIndex = ++Z;
+        const r = w.getBoundingClientRect();
+        dS = { el: w, ox: e.clientX - r.left, oy: e.clientY - r.top };
+        document.getElementById("dov").style.display = "block";
+        e.preventDefault();
+      }
+      document.addEventListener("mousemove", (e) => {
+        if (!dS) return;
+        dS.el.style.left = e.clientX - dS.ox + "px";
+        dS.el.style.top = Math.max(34, e.clientY - dS.oy) + "px";
+        dS.el.style.right = "auto";
+        dS.el.style.marginLeft = "0";
+      });
+      document.addEventListener("mouseup", () => {
+        dS = null;
+        document.getElementById("dov").style.display = "none";
+      });
+
+      // window resize（右下角拖拽改变尺寸，仿真实电脑窗口）
+      let rS = null;
+      const MIN_W = 280;
+      const MIN_H = 200;
+      const TOP_OFFSET = 34;
+      function initWindowResizeHandles() {
+        document.querySelectorAll(".window").forEach((w) => {
+          if (w.querySelector(".window-resize-handle")) return;
+          const handle = document.createElement("div");
+          handle.className = "window-resize-handle";
+          handle.setAttribute("aria-label", "拖拽调整窗口大小");
+          w.appendChild(handle);
+          handle.addEventListener("mousedown", (e) => {
+            if (e.button !== 0) return;
+            if (
+              w.classList.contains("maximized") ||
+              w.classList.contains("minimized")
+            )
+              return;
+            e.stopPropagation();
+            w.style.zIndex = ++Z;
+            const rect = w.getBoundingClientRect();
+            const style = w.style;
+            const startW = rect.width;
+            const startH = rect.height;
+            rS = {
+              el: w,
+              startX: e.clientX,
+              startY: e.clientY,
+              startW,
+              startH,
+              startLeft: rect.left,
+              startTop: rect.top,
+            };
+            style.width = startW + "px";
+            style.height = startH + "px";
+            e.preventDefault();
+          });
+        });
+      }
+      document.addEventListener("mousemove", (e) => {
+        if (!rS) return;
+        const { el, startX, startY, startW, startH, startLeft, startTop } = rS;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        const maxW = Math.max(MIN_W, window.innerWidth - startLeft);
+        const maxH = Math.max(MIN_H, window.innerHeight - startTop);
+        let newW = Math.max(MIN_W, Math.min(maxW, startW + dx));
+        let newH = Math.max(MIN_H, Math.min(maxH, startH + dy));
+        el.style.width = newW + "px";
+        el.style.height = newH + "px";
+      });
+      document.addEventListener("mouseup", () => {
+        rS = null;
+      });
+      initWindowResizeHandles();
+
+      // icon drag — macOS 风格：5px 阈值 + 拖拽时重挂到桌面根层，支持全桌面自由放置
+      let iD = null;
+      const _deskLayer = document.querySelector(".desk-icon-layer");
+
+      document.querySelectorAll(".icon").forEach((ic) => {
+        ic.addEventListener("mousedown", (e) => {
+          if (e.button !== 0) return;
+          const r = ic.getBoundingClientRect();
+          iD = {
+            el: ic,
+            ox: e.clientX - r.left,
+            oy: e.clientY - r.top,
+            startX: e.clientX,
+            startY: e.clientY,
+            dragging: false,
+          };
+          e.stopPropagation();
+        });
+      });
+
+      document.addEventListener("mousemove", (e) => {
+        if (!iD) return;
+        const dx = e.clientX - iD.startX;
+        const dy = e.clientY - iD.startY;
+        if (!iD.dragging && Math.sqrt(dx * dx + dy * dy) < 5) return;
+
+        if (!iD.dragging) {
+          // 第一次超阈值：将图标重新挂载到 desk-icon-layer 根层，实现全桌面自由拖放
+          iD.dragging = true;
+          const iconRect = iD.el.getBoundingClientRect();
+          const layerRect = _deskLayer.getBoundingClientRect();
+          _deskLayer.appendChild(iD.el);
+          iD.el.style.position = "absolute";
+          iD.el.style.left = iconRect.left - layerRect.left + "px";
+          iD.el.style.top = iconRect.top - layerRect.top + "px";
+          iD.el.style.right = "auto";
+          iD.el.style.margin = "0";
+          iD.el.style.transform = "none";
+          iD.el.classList.add("dragging");
+          // 重新计算 offset（坐标系未变，无需调整）
+        }
+
+        const layerRect = _deskLayer.getBoundingClientRect();
+        const desktop = document.getElementById("desktop");
+        const deskH = desktop ? desktop.offsetHeight : window.innerHeight;
+        const deskW = desktop ? desktop.offsetWidth : window.innerWidth;
+        const iconW = iD.el.offsetWidth;
+        const iconH = iD.el.offsetHeight;
+        const newLeft = Math.max(
+          0,
+          Math.min(e.clientX - iD.ox - layerRect.left, deskW - iconW),
+        );
+        const newTop = Math.max(
+          0,
+          Math.min(e.clientY - iD.oy - layerRect.top, deskH - iconH),
+        );
+        iD.el.style.left = newLeft + "px";
+        iD.el.style.top = newTop + "px";
+      });
+
+      document.addEventListener("mouseup", () => {
+        if (iD && iD.dragging) {
+          iD.el.classList.remove("dragging");
+          iD.el.style.zIndex = "2";
+        }
+        iD = null;
+      });
+
+      // icon select with click animation
+      function selI(el) {
+        document
+          .querySelectorAll(".icon.sel")
+          .forEach((i) => i.classList.remove("sel"));
+        el.classList.add("sel", "click");
+        setTimeout(() => el.classList.remove("click"), 120);
+      }
+      document.getElementById("desktop").addEventListener("click", (e) => {
+        if (!e.target.closest(".icon") && !e.target.closest(".window"))
+          document
+            .querySelectorAll(".icon.sel")
+            .forEach((i) => i.classList.remove("sel"));
+      });
+
+      // dropdowns
+      let aD = null;
+      function tDD(id, btn) {
+        cDD();
+        const d = document.getElementById(id);
+        const b = document.getElementById(btn);
+        const r = b.getBoundingClientRect();
+        d.style.left = r.left + "px";
+        d.classList.add("open");
+        b.classList.add("open");
+        aD = { d, b };
+      }
+      function cDD() {
+        if (aD) {
+          aD.d.classList.remove("open");
+          aD.b.classList.remove("open");
+          aD = null;
+        }
+      }
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest("#menubar") && !e.target.closest(".dd")) cDD();
+      });
+
+      // right-click
+      const ctx = document.getElementById("ctx");
+      function ctxC() {
+        ctx.style.display = "none";
+      }
+      document.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        cDD();
+        ctx.style.display = "block";
+        ctx.style.left = Math.min(e.clientX, window.innerWidth - 190) + "px";
+        ctx.style.top = Math.min(e.clientY, window.innerHeight - 200) + "px";
+      });
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest("#ctx")) ctxC();
+      });
+
+      setTimeout(() => oW("win-about"), 300);
+    </script>
+  </body>
+</html>

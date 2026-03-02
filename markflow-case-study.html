@@ -1,0 +1,2597 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MarkFlow — Case Study · Ji Tong</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #ffffff;
+        --bg2: #f6f7f5;
+        --bg3: #ebeeed;
+        --ink: #1a1e1c;
+        --ink2: #363c38;
+        --ink3: #7a8278;
+        --gr: #2db87a;
+        --gr2: #1a9a60;
+        --gr-bg: rgba(45, 184, 122, 0.08);
+        --gr-bd: rgba(45, 184, 122, 0.22);
+        --pink: #e85a8a;
+        --border: rgba(26, 30, 28, 0.1);
+        --bd2: rgba(26, 30, 28, 0.06);
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink2);
+        font-family: "DM Sans", sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 18px 56px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.93);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--bd2);
+      }
+      .nav-logo {
+        font-family: "Lora", serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-links {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-size: 15px;
+        color: var(--ink2);
+        text-decoration: none;
+      }
+      .nav-links a:hover {
+        color: var(--ink);
+      }
+      .nav-cta {
+        background: var(--ink);
+        color: #fff;
+        border: none;
+        padding: 9px 22px;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+      }
+
+      /* HERO */
+      .hero {
+        min-height: 100vh;
+        padding: 120px 56px 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid var(--border);
+      }
+      .doodle {
+        position: absolute;
+        opacity: 0.1;
+        pointer-events: none;
+      }
+      .d-tl {
+        top: 150px;
+        left: 52px;
+        transform: rotate(-7deg);
+      }
+      .d-tr {
+        top: 148px;
+        right: 60px;
+        transform: rotate(8deg);
+      }
+      .d-ml {
+        top: 44%;
+        left: 30px;
+        transform: translateY(-50%) rotate(-5deg);
+      }
+      .d-mr {
+        top: 46%;
+        right: 30px;
+        transform: translateY(-50%) rotate(6deg);
+      }
+      .d-bl {
+        bottom: 165px;
+        left: 62px;
+        transform: rotate(-3deg);
+      }
+      .d-br {
+        bottom: 125px;
+        right: 56px;
+        transform: rotate(9deg);
+      }
+
+      .hero-illo {
+        width: 300px;
+        height: 210px;
+        margin-bottom: 28px;
+      }
+      .eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 28px;
+      }
+      .hero-title {
+        font-family: "Lora", "Noto Serif SC", serif;
+        font-size: clamp(44px, 5.5vw, 82px);
+        font-weight: 700;
+        line-height: 1.06;
+        color: var(--ink);
+        max-width: 820px;
+        margin-bottom: 20px;
+        letter-spacing: -0.02em;
+      }
+      .hero-title em {
+        font-style: italic;
+        color: var(--gr);
+      }
+      .hero-sub {
+        font-size: 18px;
+        color: var(--ink3);
+        max-width: 540px;
+        line-height: 1.75;
+        margin-bottom: 44px;
+      }
+      .hero-btns {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 72px;
+      }
+      .btn-p {
+        background: var(--gr);
+        color: #fff;
+        padding: 14px 36px;
+        border-radius: 10px;
+        font-size: 16px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        transition: transform 0.2s;
+      }
+      .btn-p:hover {
+        transform: translateY(-1px);
+      }
+      .btn-g {
+        color: var(--ink2);
+        font-size: 15px;
+        text-decoration: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-stats {
+        display: flex;
+        gap: 52px;
+        align-items: center;
+        border-top: 1px solid var(--border);
+        padding-top: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .hs-num {
+        font-family: "Lora", serif;
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--ink);
+        display: block;
+        line-height: 1;
+      }
+      .hs-label {
+        font-size: 13px;
+        color: var(--ink3);
+        margin-top: 4px;
+        display: block;
+      }
+
+      section {
+        padding: 100px 56px;
+      }
+      .stag {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .stag::before {
+        content: "+";
+        font-size: 14px;
+      }
+      .stitle {
+        font-family: "Lora", "Noto Serif SC", serif;
+        font-size: clamp(32px, 3.8vw, 56px);
+        font-weight: 700;
+        line-height: 1.1;
+        color: var(--ink);
+        margin-bottom: 18px;
+        letter-spacing: -0.02em;
+      }
+      .stitle em {
+        font-style: italic;
+      }
+      .sbody {
+        font-size: 17px;
+        color: var(--ink3);
+        max-width: 540px;
+        line-height: 1.8;
+      }
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 72px;
+        margin-top: 56px;
+      }
+      .sec-alt {
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* PAIN */
+      .pain-row {
+        display: flex;
+        gap: 20px;
+        padding: 24px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .pain-row:last-child {
+        border-bottom: none;
+      }
+      .pain-icon {
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .pain-row h4 {
+        font-family: "Lora", serif;
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 5px;
+      }
+      .pain-row p {
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.7;
+      }
+      .quote-blk {
+        margin-top: 36px;
+        padding: 24px 28px;
+        font-family: "Lora", serif;
+        font-size: 20px;
+        font-style: italic;
+        color: var(--ink);
+        line-height: 1.55;
+        border-left: 3px solid var(--gr);
+        background: var(--gr-bg);
+        border-radius: 0 8px 8px 0;
+      }
+
+      /* DARK INSIGHT */
+      .insight {
+        background: var(--ink);
+        border-radius: 12px;
+        padding: 36px;
+      }
+      .insight .itag {
+        display: inline-block;
+        background: var(--gr);
+        color: #fff;
+        padding: 2px 10px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-family: "DM Mono", monospace;
+        margin-bottom: 14px;
+      }
+      .insight h3 {
+        font-family: "Lora", serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 14px;
+        line-height: 1.3;
+      }
+      .insight p {
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.8;
+      }
+
+      /* INFO BOXES */
+      .ibox {
+        border-radius: 10px;
+        padding: 20px 24px;
+        margin-top: 14px;
+        border: 1px solid;
+      }
+      .ibox .ilabel {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+        opacity: 0.7;
+      }
+      .ibox p {
+        font-size: 14px;
+        color: var(--ink2);
+        line-height: 1.7;
+      }
+      .ibox-gr {
+        background: var(--gr-bg);
+        border-color: var(--gr-bd);
+      }
+      .ibox-gr .ilabel {
+        color: var(--gr2);
+      }
+      .ibox-gray {
+        background: var(--bg3);
+        border-color: var(--border);
+      }
+      .ibox-gray .ilabel {
+        color: var(--ink3);
+      }
+      .ibox-dark {
+        background: var(--ink);
+        border-color: var(--ink);
+      }
+      .ibox-dark .ilabel {
+        color: rgba(45, 184, 122, 0.8);
+      }
+      .ibox-dark p {
+        color: rgba(255, 255, 255, 0.65);
+      }
+
+      /* TOOL COMPARISON */
+      .tool-compare {
+        display: grid;
+        grid-template-columns: 1fr 1px 1fr;
+        gap: 0;
+        margin-top: 56px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      .tc-divider {
+        background: var(--border);
+      }
+      .tc-col {
+        padding: 36px 32px;
+      }
+      .tc-col-right {
+        background: var(--bg2);
+      }
+      .tc-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 5px 12px;
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--ink3);
+        margin-bottom: 18px;
+      }
+      .tc-badge.active {
+        background: var(--gr-bg);
+        border-color: var(--gr-bd);
+        color: var(--gr2);
+      }
+      .tc-col h3 {
+        font-family: "Lora", serif;
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 10px;
+        line-height: 1.25;
+      }
+      .tc-col p {
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.75;
+        margin-bottom: 20px;
+      }
+      .tc-feat {
+        display: flex;
+        gap: 10px;
+        padding: 9px 0;
+        border-top: 1px solid var(--border);
+        font-size: 13px;
+        color: var(--ink2);
+        align-items: flex-start;
+        line-height: 1.5;
+      }
+      .tc-feat::before {
+        content: "→";
+        color: var(--gr);
+        flex-shrink: 0;
+        font-weight: 600;
+      }
+
+      /* FEATURE GRID */
+      .feat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 52px;
+      }
+      .fg {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 28px;
+        background: var(--bg);
+      }
+      .fg-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--gr-bg);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 14px;
+      }
+      .fg h4 {
+        font-family: "Lora", serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 8px;
+        line-height: 1.3;
+      }
+      .fg p {
+        font-size: 13px;
+        color: var(--ink3);
+        line-height: 1.7;
+      }
+      .fg-hl {
+        background: var(--ink);
+        border-color: var(--ink);
+      }
+      .fg-hl h4 {
+        color: #fff;
+      }
+      .fg-hl p {
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .fg-hl .fg-icon {
+        background: rgba(45, 184, 122, 0.15);
+      }
+
+      /* PAGINATION VISUAL */
+      .page-demo {
+        margin-top: 52px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      .pd-header {
+        background: var(--ink);
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .pd-header h3 {
+        font-family: "Lora", serif;
+        font-size: 16px;
+        color: #fff;
+        font-weight: 600;
+      }
+      .pd-header span {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.3);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-left: auto;
+      }
+      .pd-body {
+        display: flex;
+        padding: 24px;
+        gap: 16px;
+        background: var(--bg2);
+        overflow-x: auto;
+      }
+      .pd-card {
+        flex-shrink: 0;
+        width: 140px;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      }
+      .pd-card-top {
+        background: var(--ink);
+        padding: 10px;
+        height: 190px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .pd-card-title {
+        font-family: "DM Mono", monospace;
+        font-size: 7px;
+        color: rgba(255, 255, 255, 0.3);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+      .pd-line {
+        height: 5px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 2px;
+      }
+      .pd-line.bold {
+        background: rgba(255, 255, 255, 0.4);
+        height: 7px;
+      }
+      .pd-line.gr {
+        background: var(--gr);
+        opacity: 0.7;
+      }
+      .pd-card-foot {
+        padding: 8px 10px;
+        background: var(--bg3);
+        font-family: "DM Mono", monospace;
+        font-size: 8px;
+        color: var(--ink3);
+        display: flex;
+        justify-content: space-between;
+      }
+      .pd-sep {
+        flex-shrink: 0;
+        width: 1px;
+        background: var(--border);
+        margin: 4px 0;
+      }
+      .pd-arrow {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        color: var(--ink3);
+        padding: 0 2px;
+      }
+      .pd-info {
+        padding: 16px 20px;
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+        font-size: 12px;
+        color: var(--ink3);
+        display: flex;
+        gap: 24px;
+      }
+      .pd-info span {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .pd-info strong {
+        color: var(--ink);
+      }
+
+      /* EDITOR MOCK */
+      .editor-mock {
+        margin-top: 52px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      .em-bar {
+        background: var(--bg3);
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      .em-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .em-tab {
+        padding: 5px 14px;
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        border-radius: 5px;
+        cursor: default;
+      }
+      .em-tab.active {
+        background: #fff;
+        color: var(--gr2);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+      .em-tab.inactive {
+        color: var(--ink3);
+      }
+      .em-body {
+        display: grid;
+        grid-template-columns: 1fr 1px 1fr;
+      }
+      .em-pane {
+        padding: 20px;
+      }
+      .em-pane-right {
+        background: var(--bg2);
+      }
+      .em-divider {
+        background: var(--border);
+      }
+      .em-pane-label {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      .em-code {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        line-height: 1.8;
+        color: var(--ink3);
+      }
+      .em-code .kw {
+        color: var(--gr2);
+      }
+      .em-code .h1 {
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .em-code .bold {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .em-code .quote {
+        color: var(--ink3);
+        border-left: 2px solid var(--gr);
+        padding-left: 8px;
+        display: block;
+        margin: 3px 0;
+      }
+      .em-preview h4 {
+        font-family: "Lora", serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .em-preview p {
+        font-size: 11px;
+        color: var(--ink3);
+        line-height: 1.8;
+        margin-bottom: 6px;
+      }
+      .em-preview ul {
+        font-size: 11px;
+        color: var(--ink2);
+        padding-left: 14px;
+        line-height: 1.8;
+      }
+      .em-copy-btn {
+        margin: 12px 0 0;
+        display: inline-block;
+        background: var(--gr);
+        color: #fff;
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        padding: 5px 12px;
+        border-radius: 5px;
+        letter-spacing: 0.06em;
+      }
+
+      /* TECH STACK */
+      .tech-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 52px;
+      }
+      .tr {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 20px 18px;
+      }
+      .tr-label {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        color: var(--ink3);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .tr-item {
+        font-size: 12px;
+        color: var(--ink2);
+        padding: 5px 0;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .tr-item:last-child {
+        border-bottom: none;
+      }
+      .tr-item::before {
+        content: "";
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--gr);
+        flex-shrink: 0;
+      }
+
+      /* REFLECTION */
+      .ref-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 56px;
+      }
+      .rc {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 28px;
+      }
+      .rc h4 {
+        font-family: "Lora", serif;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 10px;
+        line-height: 1.3;
+      }
+      .rc p {
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.8;
+      }
+      .rc-hl {
+        background: var(--ink);
+        border-color: var(--ink);
+      }
+      .rc-hl h4 {
+        color: #fff;
+      }
+      .rc-hl p {
+        color: rgba(255, 255, 255, 0.65);
+      }
+
+      /* CTA */
+      .cta-wrap {
+        padding: 0 56px 80px;
+      }
+      .cta-inner {
+        background: var(--gr-bg);
+        border: 1px solid var(--gr-bd);
+        border-radius: 16px;
+        padding: 60px 64px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 48px;
+        align-items: center;
+      }
+      .cta-inner h2 {
+        font-family: "Lora", serif;
+        font-size: clamp(26px, 3vw, 40px);
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 12px;
+        line-height: 1.2;
+      }
+      .cta-inner p {
+        font-size: 16px;
+        color: var(--ink3);
+        max-width: 480px;
+        line-height: 1.7;
+      }
+
+      footer {
+        padding: 48px 56px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .fl {
+        font-family: "Lora", serif;
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .flinks {
+        display: flex;
+        gap: 28px;
+        align-items: center;
+      }
+      .flink {
+        font-size: 14px;
+        color: var(--ink2);
+        text-decoration: none;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1px;
+      }
+      .fmeta {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--ink3);
+      }
+
+      .fade-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .fade-up:nth-child(2) {
+        transition-delay: 0.08s;
+      }
+      .fade-up:nth-child(3) {
+        transition-delay: 0.16s;
+      }
+
+      @media (max-width: 960px) {
+        nav {
+          padding: 16px 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        section {
+          padding: 72px 24px;
+        }
+        .hero {
+          padding: 100px 24px 64px;
+        }
+        .two-col,
+        .ref-grid,
+        .feat-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .tool-compare {
+          grid-template-columns: 1fr;
+        }
+        .tc-divider {
+          display: none;
+        }
+        .tech-row {
+          grid-template-columns: 1fr 1fr;
+        }
+        .em-body {
+          grid-template-columns: 1fr;
+        }
+        .em-divider {
+          display: none;
+        }
+        .cta-inner {
+          grid-template-columns: 1fr;
+        }
+        .cta-wrap {
+          padding: 0 24px 60px;
+        }
+        footer {
+          flex-direction: column;
+          gap: 14px;
+          padding: 36px 24px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-logo">
+        <svg viewBox="0 0 20 20" fill="none" width="20" height="20">
+          <path
+            d="M4 10 L10 4 L16 10 L16 16 L4 16 Z"
+            stroke="#1a1e1c"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <path
+            d="M7 16 L7 11 L10 8 L13 11 L13 16"
+            stroke="#1a1e1c"
+            stroke-width="1.5"
+            fill="none"
+          />
+        </svg>
+        FishBook Studio
+      </div>
+      <ul class="nav-links">
+        <li><a href="#problem">问题</a></li>
+        <li><a href="#tools">双工具</a></li>
+        <li><a href="#features">功能</a></li>
+        <li><a href="#tech">技术</a></li>
+        <li><a href="#reflection">思考</a></li>
+      </ul>
+      <button class="nav-cta" onclick="history.back()">← 返回作品集</button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <!-- Doodles -->
+      <div class="doodle d-tl">
+        <svg width="78" height="68" viewBox="0 0 78 68" fill="none">
+          <text
+            x="2"
+            y="14"
+            font-size="9"
+            fill="#1a1e1c"
+            font-family="monospace"
+            font-weight="bold"
+          >
+            # 小红书标题
+          </text>
+          <line
+            x1="2"
+            y1="19"
+            x2="76"
+            y2="19"
+            stroke="#1a1e1c"
+            stroke-width=".7"
+          />
+          <text
+            x="2"
+            y="30"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            **粗体** 和 _斜体_
+          </text>
+          <text
+            x="2"
+            y="41"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            - 列表项 1
+          </text>
+          <text
+            x="2"
+            y="51"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            - 列表项 2
+          </text>
+          <rect
+            x="2"
+            y="56"
+            width="40"
+            height="7"
+            rx="2"
+            fill="#1a1e1c"
+            opacity=".08"
+          />
+          <text
+            x="4"
+            y="62"
+            font-size="6"
+            fill="#2db87a"
+            font-family="monospace"
+          >
+            Markdown → 卡片
+          </text>
+        </svg>
+      </div>
+      <div class="doodle d-tr">
+        <svg width="80" height="76" viewBox="0 0 80 76" fill="none">
+          <!-- poster card outline -->
+          <rect
+            x="4"
+            y="4"
+            width="52"
+            height="68"
+            rx="5"
+            stroke="#1a1e1c"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <rect
+            x="10"
+            y="14"
+            width="40"
+            height="6"
+            rx="1"
+            fill="#1a1e1c"
+            opacity=".2"
+          />
+          <rect
+            x="10"
+            y="24"
+            width="40"
+            height="4"
+            rx="1"
+            fill="#1a1e1c"
+            opacity=".1"
+          />
+          <rect
+            x="10"
+            y="30"
+            width="32"
+            height="4"
+            rx="1"
+            fill="#1a1e1c"
+            opacity=".1"
+          />
+          <rect
+            x="10"
+            y="38"
+            width="40"
+            height="4"
+            rx="1"
+            fill="#1a1e1c"
+            opacity=".1"
+          />
+          <rect
+            x="10"
+            y="44"
+            width="28"
+            height="4"
+            rx="1"
+            fill="#1a1e1c"
+            opacity=".1"
+          />
+          <line
+            x1="10"
+            y1="58"
+            x2="50"
+            y2="58"
+            stroke="#1a1e1c"
+            stroke-width=".8"
+          />
+          <rect
+            x="14"
+            y="62"
+            width="32"
+            height="5"
+            rx="2"
+            fill="#2db87a"
+            opacity=".5"
+          />
+          <text
+            x="4"
+            y="75"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            420×560 · 3:4
+          </text>
+        </svg>
+      </div>
+      <div class="doodle d-ml">
+        <svg width="82" height="72" viewBox="0 0 82 72" fill="none">
+          <text
+            x="2"
+            y="12"
+            font-size="8"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            分页设置
+          </text>
+          <line
+            x1="2"
+            y1="17"
+            x2="80"
+            y2="17"
+            stroke="#1a1e1c"
+            stroke-width=".7"
+          />
+          <text
+            x="2"
+            y="28"
+            font-size="7"
+            fill="#2db87a"
+            font-family="monospace"
+          >
+            ● 多页模式
+          </text>
+          <text
+            x="2"
+            y="38"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+            opacity=".5"
+          >
+            ○ 单页模式
+          </text>
+          <line
+            x1="2"
+            y1="44"
+            x2="80"
+            y2="44"
+            stroke="#1a1e1c"
+            stroke-width=".5"
+            stroke-dasharray="2 2"
+          />
+          <text
+            x="2"
+            y="55"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            每页约 600 字符
+          </text>
+          <rect
+            x="2"
+            y="60"
+            width="50"
+            height="5"
+            rx="2"
+            fill="#2db87a"
+            opacity=".25"
+          />
+          <rect
+            x="2"
+            y="60"
+            width="30"
+            height="5"
+            rx="2"
+            fill="#2db87a"
+            opacity=".5"
+          />
+          <text
+            x="2"
+            y="70"
+            font-size="6"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            ⌘ ---page--- 手动分页
+          </text>
+        </svg>
+      </div>
+      <div class="doodle d-mr">
+        <svg width="78" height="80" viewBox="0 0 78 80" fill="none">
+          <text
+            x="2"
+            y="12"
+            font-size="8"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            公众号排版
+          </text>
+          <line
+            x1="2"
+            y1="17"
+            x2="76"
+            y2="17"
+            stroke="#1a1e1c"
+            stroke-width=".7"
+          />
+          <!-- html output hint -->
+          <text
+            x="2"
+            y="28"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+            opacity=".4"
+          >
+            &lt;h2 style="..."&gt;
+          </text>
+          <text
+            x="2"
+            y="38"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+            opacity=".4"
+          >
+            标题内容
+          </text>
+          <text
+            x="2"
+            y="48"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+            opacity=".4"
+          >
+            &lt;/h2&gt;
+          </text>
+          <text
+            x="2"
+            y="58"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+            opacity=".4"
+          >
+            &lt;p style="..."&gt;
+          </text>
+          <rect
+            x="2"
+            y="65"
+            width="48"
+            height="9"
+            rx="3"
+            fill="#2db87a"
+            opacity=".7"
+          />
+          <text
+            x="10"
+            y="72"
+            font-size="7"
+            fill="white"
+            font-family="monospace"
+          >
+            一键复制 HTML
+          </text>
+        </svg>
+      </div>
+      <div class="doodle d-bl">
+        <svg width="84" height="60" viewBox="0 0 84 60" fill="none">
+          <text
+            x="2"
+            y="12"
+            font-size="8"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            批量导出
+          </text>
+          <line
+            x1="2"
+            y1="17"
+            x2="82"
+            y2="17"
+            stroke="#1a1e1c"
+            stroke-width=".7"
+          />
+          <!-- zip icon -->
+          <rect
+            x="10"
+            y="22"
+            width="32"
+            height="28"
+            rx="3"
+            stroke="#1a1e1c"
+            stroke-width="1.3"
+            fill="none"
+          />
+          <line
+            x1="16"
+            y1="22"
+            x2="16"
+            y2="50"
+            stroke="#1a1e1c"
+            stroke-width="1"
+            stroke-dasharray="2 2"
+          />
+          <text
+            x="18"
+            y="32"
+            font-size="6"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            page1.png
+          </text>
+          <text
+            x="18"
+            y="40"
+            font-size="6"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            page2.png
+          </text>
+          <text
+            x="18"
+            y="48"
+            font-size="6"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            page3.png
+          </text>
+          <text
+            x="45"
+            y="36"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            → .zip
+          </text>
+        </svg>
+      </div>
+      <div class="doodle d-br">
+        <svg width="76" height="64" viewBox="0 0 76 64" fill="none">
+          <text
+            x="2"
+            y="12"
+            font-size="8"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            Tech Stack
+          </text>
+          <line
+            x1="2"
+            y1="17"
+            x2="74"
+            y2="17"
+            stroke="#1a1e1c"
+            stroke-width=".7"
+          />
+          <text
+            x="2"
+            y="28"
+            font-size="7"
+            fill="#2db87a"
+            font-family="monospace"
+          >
+            React 18
+          </text>
+          <text
+            x="2"
+            y="38"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            TypeScript
+          </text>
+          <text
+            x="2"
+            y="48"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            Vite + Tailwind
+          </text>
+          <text
+            x="2"
+            y="58"
+            font-size="7"
+            fill="#1a1e1c"
+            font-family="monospace"
+          >
+            html2canvas · JSZip
+          </text>
+        </svg>
+      </div>
+
+      <div class="eyebrow">Case Study 07 · MarkFlow · Web App · 2025</div>
+      <h1 class="hero-title">写完到发布，<br />不再有<em>格式地狱</em></h1>
+      <p class="hero-sub">
+        一个双工具平台：小红书海报生成器让 Markdown
+        直接变成精美卡片，公众号排版工具让内容一键粘贴即用。内容创作者的「最后一公里」问题。
+      </p>
+      <div class="hero-btns">
+        <button class="btn-p">查看产品设计</button>
+        <a href="#problem" class="btn-g">从问题开始看</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hs">
+          <span class="hs-num">2</span><span class="hs-label">工具合一</span>
+        </div>
+        <div class="hs">
+          <span class="hs-num">智能</span
+          ><span class="hs-label">自动分页 + 手动标记</span>
+        </div>
+        <div class="hs">
+          <span class="hs-num">一键</span
+          ><span class="hs-label">批量导出 ZIP</span>
+        </div>
+        <div class="hs">
+          <span class="hs-num">React</span
+          ><span class="hs-label">TypeScript · Vite</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="sec-alt" id="problem">
+      <div class="stag">01 · 问题洞察</div>
+      <h2 class="stitle">内容创作者的<br /><em>最后一公里</em>困境</h2>
+
+      <div class="two-col">
+        <div>
+          <div class="pain-row fade-up">
+            <svg
+              class="pain-icon"
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+            >
+              <circle
+                cx="14"
+                cy="14"
+                r="12"
+                stroke="#1a1e1c"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <line
+                x1="14"
+                y1="8"
+                x2="14"
+                y2="15"
+                stroke="#1a1e1c"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+              <circle cx="14" cy="19" r="1.5" fill="#1a1e1c" />
+            </svg>
+            <div>
+              <h4>写好了内容，排版又是一场噩梦</h4>
+              <p>
+                用 Markdown
+                写完文章，要发小红书就得截图、裁剪、调整，格式全乱；要发公众号就得在编辑器里手动调字体、行距、颜色——写作和排版完全割裂。
+              </p>
+            </div>
+          </div>
+          <div class="pain-row fade-up">
+            <svg
+              class="pain-icon"
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+            >
+              <circle
+                cx="14"
+                cy="14"
+                r="12"
+                stroke="#1a1e1c"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <path
+                d="M10 10 L18 18 M18 10 L10 18"
+                stroke="#1a1e1c"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+            <div>
+              <h4>多平台内容需要重复排版</h4>
+              <p>
+                同一篇内容，小红书要做成图片卡片，公众号要生成富文本
+                HTML，是两套完全不同的操作流程，时间大量浪费在格式转换上而不是创作本身。
+              </p>
+            </div>
+          </div>
+          <div class="pain-row fade-up">
+            <svg
+              class="pain-icon"
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+            >
+              <circle
+                cx="14"
+                cy="14"
+                r="12"
+                stroke="#1a1e1c"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <path
+                d="M9 18 Q14 10 19 18"
+                stroke="#1a1e1c"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <circle
+                cx="14"
+                cy="10"
+                r="2.5"
+                stroke="#1a1e1c"
+                stroke-width="1.5"
+                fill="none"
+              />
+            </svg>
+            <div>
+              <h4>长内容分页是手工体力活</h4>
+              <p>
+                小红书卡片有尺寸限制（420×560px），长文章需要手动切分多张图，估算哪里断开、每张图放多少字——完全没有规律可循，每次都要重来。
+              </p>
+            </div>
+          </div>
+          <div class="quote-blk fade-up">
+            「好内容值得好的呈现形式。排版工具不应该让创作者浪费时间。」
+          </div>
+        </div>
+
+        <div class="fade-up">
+          <div class="insight">
+            <span class="itag">PM 洞察</span>
+            <h3>两个平台，一套 Markdown，一次写作</h3>
+            <p>
+              小红书和公众号是中文内容创作者最重要的两个发布渠道，但它们的排版需求截然不同：小红书需要图片卡片（固定尺寸、视觉驱动），公众号需要富文本
+              HTML（可读性优先、样式内联）。
+            </p>
+            <br />
+            <p>
+              把两个工具整合在一个平台里，以 Markdown
+              作为统一的创作输入，让分发（排版）和创作分离——这才是真正减少创作者摩擦的产品思路。
+            </p>
+          </div>
+          <div class="ibox ibox-gr" style="margin-top: 14px">
+            <div class="ilabel">◎ 核心设计原则</div>
+            <p>
+              Markdown
+              是创作语言，平台只负责渲染和导出。创作者只需写一遍，工具负责适配不同平台的展示格式。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TWO TOOLS -->
+    <section id="tools">
+      <div class="stag">02 · 双工具定位</div>
+      <h2 class="stitle">一个平台，<br /><em>两种发布场景</em></h2>
+      <p class="sbody">
+        两个工具在同一平台内，共享 Markdown
+        输入，面向不同的发布场景。不是功能堆砌，是对「同一内容多平台分发」需求的完整覆盖。
+      </p>
+
+      <div class="tool-compare fade-up">
+        <div class="tc-col">
+          <div class="tc-badge active">📱 小红书海报生成器</div>
+          <h3>Markdown → 精美图片卡片</h3>
+          <p>
+            以 420×560px（3:4 比例）为标准尺寸，将 Markdown
+            内容渲染为可直接发布到小红书的高清图片。支持多页自动分页和批量导出
+            ZIP。
+          </p>
+          <div class="tc-feat">
+            智能分页：自动按字符数分页，或用
+            <code
+              style="
+                font-family: &quot;DM Mono&quot;, monospace;
+                font-size: 11px;
+                background: var(--bg3);
+                padding: 1px 5px;
+                border-radius: 3px;
+              "
+              >---page---</code
+            >
+            手动标记分页点
+          </div>
+          <div class="tc-feat">
+            多页预览：水平滚动查看所有页面，页面导航按钮切换
+          </div>
+          <div class="tc-feat">
+            批量导出：一键生成所有页面图片并打包为 ZIP 下载
+          </div>
+          <div class="tc-feat">样式定制：背景色、字号、颜色、间距全面可调</div>
+          <div class="tc-feat">
+            标准规格：14px 正文，每行 22 汉字，60px 页边距
+          </div>
+        </div>
+        <div class="tc-divider"></div>
+        <div class="tc-col tc-col-right">
+          <div class="tc-badge">📝 公众号排版工具</div>
+          <h3>Markdown → 公众号 HTML</h3>
+          <p>
+            将 Markdown 转换为专为公众号优化的带样式
+            HTML，所有样式内联（适配公众号编辑器不支持外部 CSS
+            的限制），一键复制后直接粘贴到编辑器。
+          </p>
+          <div class="tc-feat">
+            样式内联：所有 CSS 内联到标签，不依赖外部样式表
+          </div>
+          <div class="tc-feat">实时预览：所见即所得，编辑即时刷新渲染结果</div>
+          <div class="tc-feat">
+            一键复制：复制带样式的完整 HTML，直接粘贴使用
+          </div>
+          <div class="tc-feat">
+            排版优化：专为公众号调整的行距、字号、标题层级样式
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="sec-alt" id="features">
+      <div class="stag">03 · 核心功能设计</div>
+      <h2 class="stitle">每个功能都对应<br /><em>一个真实痛点</em></h2>
+      <p class="sbody">
+        功能不是越多越好。MarkFlow
+        的每个功能决策都从「创作者在哪个环节卡住了」出发，不做锦上添花，只做雪中送炭。
+      </p>
+
+      <div class="feat-grid fade-up">
+        <div class="fg">
+          <div class="fg-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path
+                d="M3 9 L15 9 M3 5 L11 5 M3 13 L9 13"
+                stroke="#2db87a"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <h4>智能自动分页</h4>
+          <p>
+            根据内容字符量自动估算最优分页点，提供 5
+            档内容量设置（300–3000字/页）。再也不用手动估算每张图能放多少字。
+          </p>
+        </div>
+        <div class="fg">
+          <div class="fg-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path
+                d="M9 3 L9 15 M3 9 L15 9"
+                stroke="#2db87a"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <h4>手动分页标记</h4>
+          <p>
+            在 Markdown 中插入
+            <code
+              style="
+                font-family: &quot;DM Mono&quot;, monospace;
+                font-size: 11px;
+                background: var(--bg3);
+                padding: 1px 4px;
+                border-radius: 3px;
+              "
+              >---page---</code
+            >
+            即可精确控制分页位置，与自动分页模式互补，给创作者完全的控制权。
+          </p>
+        </div>
+        <div class="fg fg-hl">
+          <div class="fg-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <rect
+                x="3"
+                y="5"
+                width="12"
+                height="10"
+                rx="2"
+                stroke="rgba(45,184,122,.8)"
+                stroke-width="1.5"
+              />
+              <path
+                d="M6 3 L6 5 M12 3 L12 5"
+                stroke="rgba(45,184,122,.8)"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <h4>批量导出 ZIP</h4>
+          <p>
+            多页模式下，一次性把所有页面渲染为高清 PNG（2x 缩放），自动打包成
+            ZIP 下载。5 页内容的导出，从 10 分钟截图变成 10 秒点击。
+          </p>
+        </div>
+        <div class="fg">
+          <div class="fg-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <circle cx="9" cy="9" r="6" stroke="#2db87a" stroke-width="1.5" />
+              <path
+                d="M6 9 L8 11 L12 7"
+                stroke="#2db87a"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <h4>CSS 样式内联</h4>
+          <p>
+            公众号编辑器不支持
+            <code
+              style="
+                font-size: 11px;
+                background: var(--bg3);
+                padding: 1px 4px;
+                border-radius: 3px;
+                font-family: &quot;DM Mono&quot;, monospace;
+              "
+              >&lt;style&gt;</code
+            >
+            标签。工具自动将所有样式内联到每个 HTML
+            元素，粘贴后直接可用，不会丢失格式。
+          </p>
+        </div>
+        <div class="fg">
+          <div class="fg-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <rect
+                x="2"
+                y="4"
+                width="14"
+                height="10"
+                rx="2"
+                stroke="#2db87a"
+                stroke-width="1.5"
+              />
+              <path d="M2 7 L16 7" stroke="#2db87a" stroke-width="1" />
+            </svg>
+          </div>
+          <h4>实时双面板预览</h4>
+          <p>
+            左侧 Markdown
+            编辑，右侧实时渲染结果。编辑器输入即时同步预览，不需要手动触发渲染，所见即所得。
+          </p>
+        </div>
+        <div class="fg">
+          <div class="fg-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path
+                d="M5 9 L13 9 M10 6 L13 9 L10 12"
+                stroke="#2db87a"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <h4>样式主题定制</h4>
+          <p>
+            背景色（纯色/渐变）、正文字号、文字颜色、内边距行距均可调整。保证每个人都能找到适合自己内容风格的视觉方案。
+          </p>
+        </div>
+      </div>
+
+      <!-- Pagination detail -->
+      <div class="page-demo fade-up">
+        <div class="pd-header">
+          <h3>分页功能详解</h3>
+          <span>SmartPagination · 5 size levels</span>
+        </div>
+        <div class="pd-body">
+          <!-- Cards representing pages -->
+          <div class="pd-card">
+            <div class="pd-card-top">
+              <div class="pd-card-title">第 1 页</div>
+              <div class="pd-line bold"></div>
+              <div class="pd-line"></div>
+              <div class="pd-line"></div>
+              <div class="pd-line gr"></div>
+              <div class="pd-line"></div>
+              <div class="pd-line"></div>
+              <div class="pd-line"></div>
+              <div class="pd-line"></div>
+              <div class="pd-line" style="width: 70%"></div>
+            </div>
+            <div class="pd-card-foot">
+              <span>~600字</span><span style="color: #2db87a">auto</span>
+            </div>
+          </div>
+          <div class="pd-arrow">›</div>
+          <div class="pd-card">
+            <div class="pd-card-top">
+              <div class="pd-card-title">第 2 页</div>
+              <div
+                class="pd-line bold"
+                style="background: rgba(255, 255, 255, 0.3)"
+              ></div>
+              <div class="pd-line"></div>
+              <div class="pd-line"></div>
+              <div class="pd-line"></div>
+              <div class="pd-line" style="width: 60%"></div>
+              <div
+                class="pd-line"
+                style="
+                  height: 1px;
+                  background: rgba(45, 184, 122, 0.4);
+                  margin: 4px 0;
+                "
+              ></div>
+              <div
+                class="pd-line"
+                style="
+                  font-size: 5px;
+                  color: #2db87a;
+                  background: none;
+                  height: auto;
+                  padding: 0;
+                "
+              >
+                ---page--- 手动
+              </div>
+              <div
+                class="pd-line bold"
+                style="background: rgba(255, 255, 255, 0.25)"
+              ></div>
+              <div class="pd-line"></div>
+            </div>
+            <div class="pd-card-foot">
+              <span>手动标记</span><span style="color: #2db87a">manual</span>
+            </div>
+          </div>
+          <div class="pd-arrow">›</div>
+          <div class="pd-card">
+            <div class="pd-card-top">
+              <div class="pd-card-title">第 3 页</div>
+              <div
+                class="pd-line bold"
+                style="background: rgba(255, 255, 255, 0.3)"
+              ></div>
+              <div class="pd-line"></div>
+              <div class="pd-line"></div>
+              <div class="pd-line gr"></div>
+              <div class="pd-line"></div>
+              <div class="pd-line" style="width: 50%"></div>
+            </div>
+            <div class="pd-card-foot">
+              <span>~600字</span><span style="color: #2db87a">auto</span>
+            </div>
+          </div>
+          <div class="pd-sep"></div>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              padding: 0 8px;
+              min-width: 90px;
+            "
+          >
+            <div
+              style="
+                font-family: &quot;DM Mono&quot;, monospace;
+                font-size: 9px;
+                color: var(--ink3);
+                margin-bottom: 8px;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+              "
+            >
+              分页设置
+            </div>
+            <div style="font-size: 11px; color: var(--ink); margin-bottom: 4px">
+              ● 小 (600字)
+            </div>
+            <div
+              style="font-size: 11px; color: var(--ink3); margin-bottom: 4px"
+            >
+              ○ 极小 (300字)
+            </div>
+            <div
+              style="font-size: 11px; color: var(--ink3); margin-bottom: 4px"
+            >
+              ○ 中 (1200字)
+            </div>
+            <div
+              style="font-size: 11px; color: var(--ink3); margin-bottom: 4px"
+            >
+              ○ 大 (2000字)
+            </div>
+            <div
+              style="font-size: 11px; color: var(--ink3); margin-bottom: 4px"
+            >
+              ○ 超大 (3000字)
+            </div>
+            <div
+              style="
+                margin-top: 10px;
+                background: #2db87a;
+                border-radius: 4px;
+                padding: 4px 8px;
+                font-family: &quot;DM Mono&quot;, monospace;
+                font-size: 9px;
+                color: white;
+                text-align: center;
+              "
+            >
+              ↓ 导出 ZIP
+            </div>
+          </div>
+        </div>
+        <div class="pd-info">
+          <span
+            ><strong>5档</strong> 极小300 · 小600 · 中1200 · 大2000 ·
+            超大3000字/页</span
+          >
+          <span
+            ><strong>手动分页</strong>
+            <code
+              style="
+                font-family: &quot;DM Mono&quot;, monospace;
+                background: var(--bg3);
+                padding: 0 4px;
+              "
+              >---page---</code
+            >
+            精确控制断点</span
+          >
+          <span
+            ><strong>输出规格</strong> 420×560px · 60px边距 · 14px字号 · 2x
+            PNG</span
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- EDITOR MOCK -->
+    <section>
+      <div class="stag">04 · 产品界面</div>
+      <h2 class="stitle">双面板设计，<br /><em>所见即所得</em></h2>
+      <p class="sbody">
+        左侧写
+        Markdown，右侧实时看结果。两个工具共用同一套界面框架，但针对各自场景做了专属的预览和导出体验。
+      </p>
+
+      <!-- XHS Editor Mock -->
+      <div class="editor-mock fade-up">
+        <div class="em-bar">
+          <div class="em-dot" style="background: #e05050"></div>
+          <div class="em-dot" style="background: #e0a020"></div>
+          <div class="em-dot" style="background: #40b040"></div>
+          <div style="flex: 1"></div>
+          <div class="em-tab active">📱 小红书海报</div>
+          <div class="em-tab inactive">📝 公众号排版</div>
+        </div>
+        <div class="em-body">
+          <div class="em-pane">
+            <div class="em-pane-label">Markdown 编辑区</div>
+            <div class="em-code">
+              <span class="h1"># 今日份知识卡片</span><br />
+              <br />
+              <span class="bold">**关键洞见**</span><br />
+              <br />
+              产品设计的本质是降低<br />
+              用户的认知成本。<br />
+              <br />
+              <span class="kw">## 三个原则</span><br />
+              <br />
+              - 少就是多<br />
+              - 反馈要及时<br />
+              - 错误要可恢复<br />
+              <br />
+              <span class="quote">&gt; 最好的工具是感知不到的</span><br />
+              <br />
+              <span style="color: var(--gr); font-size: 9px">---page---</span
+              ><br />
+              <br />
+              <span class="kw">## 实践建议</span><br />
+              <br />
+              从最小的改动开始…
+            </div>
+          </div>
+          <div class="em-divider"></div>
+          <div class="em-pane em-pane-right">
+            <div class="em-pane-label">实时预览 · 第 1 页 / 2 页</div>
+            <div
+              style="
+                background: #1a1e1c;
+                border-radius: 8px;
+                padding: 14px;
+                max-width: 200px;
+                margin: 0 auto;
+              "
+            >
+              <div class="em-preview" style="color: white">
+                <h4 style="color: white; font-size: 11px; margin-bottom: 8px">
+                  今日份知识卡片
+                </h4>
+                <p
+                  style="
+                    color: rgba(255, 255, 255, 0.5);
+                    font-size: 9px;
+                    margin-bottom: 6px;
+                    line-height: 1.7;
+                  "
+                >
+                  <strong style="color: rgba(255, 255, 255, 0.8)"
+                    >关键洞见</strong
+                  >
+                </p>
+                <p
+                  style="
+                    color: rgba(255, 255, 255, 0.6);
+                    font-size: 9px;
+                    line-height: 1.7;
+                    margin-bottom: 8px;
+                  "
+                >
+                  产品设计的本质是降低用户的认知成本。
+                </p>
+                <p
+                  style="
+                    color: rgba(45, 184, 122, 0.8);
+                    font-size: 9px;
+                    margin-bottom: 5px;
+                    font-weight: 600;
+                  "
+                >
+                  三个原则
+                </p>
+                <ul
+                  style="
+                    color: rgba(255, 255, 255, 0.6);
+                    font-size: 9px;
+                    line-height: 1.8;
+                    padding-left: 12px;
+                    margin-bottom: 8px;
+                  "
+                >
+                  <li>少就是多</li>
+                  <li>反馈要及时</li>
+                  <li>错误要可恢复</li>
+                </ul>
+                <p
+                  style="
+                    color: rgba(255, 255, 255, 0.4);
+                    font-size: 9px;
+                    border-left: 2px solid #2db87a;
+                    padding-left: 7px;
+                    font-style: italic;
+                  "
+                >
+                  最好的工具是感知不到的
+                </p>
+              </div>
+              <div
+                style="
+                  text-align: center;
+                  margin-top: 10px;
+                  font-family: &quot;DM Mono&quot;, monospace;
+                  font-size: 8px;
+                  color: rgba(255, 255, 255, 0.2);
+                "
+              >
+                1 / 2
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+                margin-top: 10px;
+              "
+            >
+              <div
+                style="
+                  font-family: &quot;DM Mono&quot;, monospace;
+                  font-size: 9px;
+                  color: var(--ink3);
+                  background: var(--bg3);
+                  padding: 4px 10px;
+                  border-radius: 4px;
+                "
+              >
+                ← 上一页
+              </div>
+              <div
+                style="
+                  font-family: &quot;DM Mono&quot;, monospace;
+                  font-size: 9px;
+                  color: white;
+                  background: var(--gr);
+                  padding: 4px 10px;
+                  border-radius: 4px;
+                "
+              >
+                下载 ↓
+              </div>
+              <div
+                style="
+                  font-family: &quot;DM Mono&quot;, monospace;
+                  font-size: 9px;
+                  color: var(--ink3);
+                  background: var(--bg3);
+                  padding: 4px 10px;
+                  border-radius: 4px;
+                "
+              >
+                下一页 →
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WeChat editor mock -->
+      <div class="editor-mock fade-up" style="margin-top: 20px">
+        <div class="em-bar">
+          <div class="em-dot" style="background: #e05050"></div>
+          <div class="em-dot" style="background: #e0a020"></div>
+          <div class="em-dot" style="background: #40b040"></div>
+          <div style="flex: 1"></div>
+          <div class="em-tab inactive">📱 小红书海报</div>
+          <div class="em-tab active">📝 公众号排版</div>
+        </div>
+        <div class="em-body">
+          <div class="em-pane">
+            <div class="em-pane-label">Markdown 输入</div>
+            <div class="em-code">
+              <span class="kw">## 为什么内容创作工具</span><br />
+              <span class="kw">很少做好排版？</span><br /><br />
+              因为大多数工具把<span class="bold">「写作」</span><br />
+              和<span class="bold">「发布」</span>分开来做——<br />
+              但对创作者来说，<br />
+              两者是同一件事。<br /><br />
+              <span class="quote">&gt; 最好的工具让流程消失</span><br /><br />
+              <span class="kw">### 解决方向</span><br /><br />
+              1. Markdown 作为统一输入<br />
+              2. 自动适配发布平台格式<br />
+              3. 减少中间步骤
+            </div>
+          </div>
+          <div class="em-divider"></div>
+          <div class="em-pane em-pane-right">
+            <div class="em-pane-label">公众号格式预览（样式已内联）</div>
+            <div
+              class="em-preview"
+              style="
+                background: white;
+                padding: 14px;
+                border-radius: 6px;
+                border: 1px solid var(--border);
+              "
+            >
+              <h4
+                style="
+                  font-size: 13px;
+                  color: #1a1e1c;
+                  font-family: &quot;Noto Serif SC&quot;, serif;
+                  margin-bottom: 8px;
+                  line-height: 1.4;
+                "
+              >
+                为什么内容创作工具<br />很少做好排版？
+              </h4>
+              <p
+                style="
+                  font-size: 11px;
+                  line-height: 1.85;
+                  color: #555;
+                  margin-bottom: 8px;
+                "
+              >
+                因为大多数工具把<strong style="color: #1a1e1c">「写作」</strong
+                >和<strong style="color: #1a1e1c">「发布」</strong
+                >分开来做——但对创作者来说，两者是同一件事。
+              </p>
+              <p
+                style="
+                  border-left: 3px solid #2db87a;
+                  padding-left: 8px;
+                  font-size: 11px;
+                  color: #888;
+                  font-style: italic;
+                  margin-bottom: 8px;
+                "
+              >
+                最好的工具让流程消失
+              </p>
+              <p
+                style="
+                  font-size: 12px;
+                  color: #1a1e1c;
+                  font-weight: 600;
+                  margin-bottom: 5px;
+                "
+              >
+                解决方向
+              </p>
+              <ol
+                style="
+                  font-size: 11px;
+                  color: #555;
+                  line-height: 1.85;
+                  padding-left: 16px;
+                "
+              >
+                <li>Markdown 作为统一输入</li>
+                <li>自动适配发布平台格式</li>
+                <li>减少中间步骤</li>
+              </ol>
+            </div>
+            <div class="em-copy-btn">复制 HTML（带内联样式）</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH -->
+    <section class="sec-alt" id="tech">
+      <div class="stag">05 · 技术方案</div>
+      <h2 class="stitle">端侧全量运行，<br /><em>无服务器依赖</em></h2>
+      <p class="sbody">
+        整个工具在浏览器本地运行，不需要后端服务——Markdown 解析、HTML
+        渲染、图片生成、ZIP 打包全部在前端完成。部署成本极低，隐私安全。
+      </p>
+
+      <div class="tech-row fade-up">
+        <div class="tr">
+          <div class="tr-label">框架 / 构建</div>
+          <div class="tr-item">React 18</div>
+          <div class="tr-item">TypeScript</div>
+          <div class="tr-item">Vite</div>
+          <div class="tr-item">Tailwind CSS</div>
+        </div>
+        <div class="tr">
+          <div class="tr-label">状态管理</div>
+          <div class="tr-item">Zustand</div>
+          <div class="tr-item">usePosterStore</div>
+          <div class="tr-item">useThemeStore</div>
+        </div>
+        <div class="tr">
+          <div class="tr-label">Markdown 解析</div>
+          <div class="tr-item">markdown-it（海报）</div>
+          <div class="tr-item">marked（公众号）</div>
+        </div>
+        <div class="tr">
+          <div class="tr-label">导出能力</div>
+          <div class="tr-item">html2canvas（2x）</div>
+          <div class="tr-item">JSZip（打包）</div>
+          <div class="tr-item">PNG 高清输出</div>
+          <div class="tr-item">Lucide React 图标</div>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top: 40px">
+        <div class="ibox ibox-gr fade-up">
+          <div class="ilabel">◎ 两套 Markdown 解析器，各司其职</div>
+          <p>
+            海报生成器用
+            <strong>markdown-it</strong>——灵活、插件丰富，适合自定义渲染成卡片
+            HTML；公众号排版用 <strong>marked</strong>——专注输出标准
+            HTML，配合样式内联更稳定。两个场景需求不同，选择最合适的工具而不是强求统一。
+          </p>
+        </div>
+        <div class="ibox ibox-dark fade-up">
+          <div class="ilabel">◈ html2canvas 的 2x 缩放决策</div>
+          <p>
+            小红书内容通常在高分屏上查看，1x 分辨率的 PNG
+            会显得模糊。html2canvas 导出时用 2x 设备像素比，输出 840×1120px
+            高清图（显示为 420×560px），确保每张卡片在移动端看起来清晰锐利。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- REFLECTION -->
+    <section id="reflection">
+      <div class="stag">06 · 产品思考</div>
+      <h2 class="stitle">做完这个工具<br />让我想清楚了<em>什么</em></h2>
+      <div class="ref-grid">
+        <div class="rc fade-up">
+          <h4>「整合」比「各自做好」更有价值</h4>
+          <p>
+            小红书海报工具有很多，公众号排版工具也有很多——但把两个工具以
+            Markdown
+            为纽带放在同一个界面，减少了「切换工具」的摩擦。整合本身就是产品价值，而不只是功能叠加。
+          </p>
+        </div>
+        <div class="rc fade-up">
+          <h4>给用户控制权，同时给足智能兜底</h4>
+          <p>
+            自动分页负责效率（大多数时候用户不需要手动干预），手动
+            <code
+              style="
+                font-size: 12px;
+                background: var(--bg3);
+                padding: 1px 5px;
+                border-radius: 3px;
+                font-family: &quot;DM Mono&quot;, monospace;
+              "
+              >---page---</code
+            >
+            标记负责精确控制。这种「智能默认 +
+            精确覆盖」的设计思路，适用于绝大多数有「自动化 vs
+            控制权」矛盾的功能设计场景。
+          </p>
+        </div>
+        <div class="rc-hl rc fade-up">
+          <h4>无后端不等于功能弱，等于部署成本极低</h4>
+          <p>
+            整个工具在浏览器本地运行，Markdown 解析、图片生成、ZIP
+            打包全在前端完成，不需要任何服务器。这意味着：任何人可以在 GitHub
+            Pages / Netlify / Vercel 上免费部署，维护成本几乎为零。<br /><br />在
+            MVP
+            阶段，「能快速让用户用到」比「架构优雅」更重要。选择纯前端方案是正确的性价比判断。
+          </p>
+        </div>
+        <div class="rc fade-up">
+          <h4>分页算法是产品决策，不只是技术问题</h4>
+          <p>
+            每页 600 字符（默认小档）这个数字，背后是「14px 字号 × 每行 22 汉字
+            × 420px 卡片宽度 × 560px 卡片高度 × 60px
+            页边距」的计算结果，是对「一张卡片能放多少内容还不显得拥挤」的产品判断——不是随机数字，是从用户体验出发的参数设计。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <div class="cta-inner">
+        <div>
+          <h2>从写完到发出，<br />不应该再有障碍。</h2>
+          <p>
+            MarkFlow
+            解决的不是「怎么写」的问题，而是「写好了之后怎么高效发出」的问题。双工具整合、智能分页、批量导出、CSS
+            内联——每一个功能都对应一个创作者会卡住的真实场景。
+          </p>
+        </div>
+        <svg width="130" height="130" viewBox="0 0 130 130" fill="none">
+          <!-- mini editor -->
+          <rect
+            x="8"
+            y="20"
+            width="52"
+            height="90"
+            rx="6"
+            fill="#1a1e1c"
+            stroke="#333"
+            stroke-width="1"
+          />
+          <rect
+            x="14"
+            y="32"
+            width="40"
+            height="5"
+            rx="1"
+            fill="#2db87a"
+            opacity=".6"
+          />
+          <rect
+            x="14"
+            y="41"
+            width="38"
+            height="3"
+            rx="1"
+            fill="rgba(255,255,255,.2)"
+          />
+          <rect
+            x="14"
+            y="48"
+            width="32"
+            height="3"
+            rx="1"
+            fill="rgba(255,255,255,.15)"
+          />
+          <line
+            x1="14"
+            y1="58"
+            x2="52"
+            y2="58"
+            stroke="#2db87a"
+            stroke-width=".7"
+            stroke-dasharray="2 2"
+            opacity=".5"
+          />
+          <rect
+            x="14"
+            y="64"
+            width="38"
+            height="5"
+            rx="1"
+            fill="rgba(255,255,255,.2)"
+          />
+          <rect
+            x="14"
+            y="73"
+            width="30"
+            height="3"
+            rx="1"
+            fill="rgba(255,255,255,.15)"
+          />
+          <!-- arrow -->
+          <path
+            d="M64 65 L76 65 M73 61 L76 65 L73 69"
+            stroke="#2db87a"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <!-- poster card -->
+          <rect
+            x="80"
+            y="20"
+            width="42"
+            height="56"
+            rx="5"
+            fill="#1a1e1c"
+            stroke="#2db87a"
+            stroke-width="1.5"
+          />
+          <rect
+            x="86"
+            y="30"
+            width="30"
+            height="4"
+            rx="1"
+            fill="#2db87a"
+            opacity=".7"
+          />
+          <rect
+            x="86"
+            y="38"
+            width="28"
+            height="3"
+            rx="1"
+            fill="rgba(255,255,255,.25)"
+          />
+          <rect
+            x="86"
+            y="44"
+            width="22"
+            height="3"
+            rx="1"
+            fill="rgba(255,255,255,.2)"
+          />
+          <rect
+            x="86"
+            y="50"
+            width="28"
+            height="3"
+            rx="1"
+            fill="rgba(255,255,255,.18)"
+          />
+          <rect
+            x="86"
+            y="56"
+            width="20"
+            height="3"
+            rx="1"
+            fill="rgba(255,255,255,.15)"
+          />
+          <text
+            x="101"
+            y="70"
+            font-size="5"
+            fill="rgba(255,255,255,.3)"
+            text-anchor="middle"
+            font-family="monospace"
+          >
+            1/3
+          </text>
+          <!-- wechat output -->
+          <rect
+            x="80"
+            y="84"
+            width="42"
+            height="26"
+            rx="4"
+            fill="#f6f7f5"
+            stroke="#dde2de"
+            stroke-width="1"
+          />
+          <rect
+            x="86"
+            y="90"
+            width="28"
+            height="3"
+            rx="1"
+            fill="#1a1e1c"
+            opacity=".5"
+          />
+          <rect
+            x="86"
+            y="96"
+            width="24"
+            height="2"
+            rx="1"
+            fill="#999"
+            opacity=".5"
+          />
+          <rect
+            x="86"
+            y="101"
+            width="26"
+            height="2"
+            rx="1"
+            fill="#999"
+            opacity=".4"
+          />
+          <rect
+            x="92"
+            y="106"
+            width="20"
+            height="2"
+            rx="1"
+            fill="#2db87a"
+            opacity=".4"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <footer>
+      <div class="fl">FishBook Studio</div>
+      <div class="flinks">
+        <a href="index.html" class="flink">← 首页</a>
+        <a href="bitecard-case-study.html" class="flink">Project 06</a>
+        <a href="waikan-case-study.html" class="flink">Project 05</a>
+        <span class="fmeta">Ji Tong · 2025</span>
+      </div>
+    </footer>
+
+    <script>
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.07 },
+      );
+      document.querySelectorAll(".fade-up").forEach((el) => obs.observe(el));
+    </script>
+  </body>
+</html>

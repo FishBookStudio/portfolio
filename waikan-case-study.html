@@ -1,0 +1,1123 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>外刊阅览室 — Case Study · Ji Tong</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #ffffff;
+        --bg2: #f7f7f7;
+        --bg3: #ededed;
+        --ink: #1e1c18;
+        --ink2: #3a3830;
+        --ink3: #807a6e;
+        --yellow: #f5c842;
+        --y2: #3a2f0a;
+        --green: #4a8c5c;
+        --blue: #4a6fd4;
+        --teal: #2a8a7f;
+        --border: rgba(30, 28, 24, 0.1);
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink2);
+        font-family: "DM Sans", sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 18px 56px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.93);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-logo {
+        font-family: "Lora", serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-links {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-size: 15px;
+        color: var(--ink2);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--ink);
+      }
+      .nav-cta {
+        background: var(--ink);
+        color: #fff;
+        border: none;
+        padding: 9px 22px;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+      }
+
+      /* HERO */
+      .hero {
+        min-height: 88vh;
+        padding: 140px 56px 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 28px;
+      }
+      .hero-title {
+        font-family: "Lora", "Noto Serif SC", serif;
+        font-size: clamp(44px, 5.5vw, 84px);
+        font-weight: 700;
+        line-height: 1.06;
+        color: var(--ink);
+        max-width: 860px;
+        margin-bottom: 20px;
+        letter-spacing: -0.02em;
+      }
+      .hero-title em {
+        font-style: italic;
+      }
+      .hero-sub {
+        font-size: 18px;
+        color: var(--ink3);
+        max-width: 540px;
+        line-height: 1.75;
+        margin-bottom: 44px;
+      }
+      .hero-btn {
+        background: var(--ink);
+        color: #fff;
+        padding: 14px 36px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-family: "DM Sans", sans-serif;
+        text-decoration: none;
+        display: inline-block;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        margin-bottom: 0;
+      }
+      .hero-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 24px rgba(30, 28, 24, 0.15);
+      }
+      .hero-stats {
+        display: flex;
+        gap: 52px;
+        align-items: center;
+        border-top: 1px solid var(--border);
+        padding-top: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .hs {
+        text-align: center;
+      }
+      .hs-num {
+        font-family: "Lora", serif;
+        font-size: 38px;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1;
+        display: block;
+      }
+      .hs-label {
+        font-size: 13px;
+        color: var(--ink3);
+        margin-top: 4px;
+        display: block;
+      }
+
+      section {
+        padding: 100px 56px;
+      }
+      .stag {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .stag::before {
+        content: "+";
+        font-size: 14px;
+      }
+      .stitle {
+        font-family: "Lora", "Noto Serif SC", serif;
+        font-size: clamp(32px, 3.8vw, 58px);
+        font-weight: 700;
+        line-height: 1.1;
+        color: var(--ink);
+        margin-bottom: 18px;
+        letter-spacing: -0.02em;
+      }
+      .stitle em {
+        font-style: italic;
+      }
+      .sbody {
+        font-size: 17px;
+        color: var(--ink3);
+        max-width: 560px;
+        line-height: 1.8;
+      }
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        margin-top: 56px;
+      }
+
+      /* PAIN */
+      .pain-sec {
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .pain-item {
+        display: flex;
+        gap: 20px;
+        padding: 24px 0;
+        border-bottom: 1px solid var(--border);
+        align-items: flex-start;
+      }
+      .pain-item:last-of-type {
+        border-bottom: none;
+      }
+      .pi-num {
+        font-family: "DM Mono", monospace;
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--bg3);
+        flex-shrink: 0;
+        line-height: 1;
+        margin-top: 3px;
+      }
+      .pi-content h4 {
+        font-family: "Lora", serif;
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .pi-content p {
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.65;
+      }
+      .quote-block {
+        margin-top: 32px;
+        padding: 24px 28px;
+        font-family: "Lora", serif;
+        font-size: 19px;
+        font-style: italic;
+        color: var(--ink);
+        line-height: 1.55;
+        border-left: 3px solid var(--ink);
+      }
+      .ctx-card {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 32px;
+      }
+      .ctx-card h3 {
+        font-family: "Lora", serif;
+        font-size: 19px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 20px;
+        line-height: 1.25;
+      }
+      .ctx-item {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.6;
+      }
+      .ctx-item:last-child {
+        border-bottom: none;
+      }
+      .ctx-item::before {
+        content: "→";
+        color: var(--ink);
+        flex-shrink: 0;
+        font-weight: 500;
+      }
+      .opp-box {
+        margin-top: 16px;
+        background: var(--ink);
+        border-radius: 10px;
+        padding: 24px 28px;
+      }
+      .opp-box p {
+        font-family: "Lora", serif;
+        font-size: 16px;
+        color: #fff;
+        line-height: 1.6;
+        font-weight: 500;
+      }
+
+      /* PIPELINE */
+      .pipe-sec {
+        border-bottom: 1px solid var(--border);
+      }
+      .pipeline-vertical {
+        margin-top: 52px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      .pv-row {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .pv-row:last-child {
+        border-bottom: none;
+      }
+      .pv-stage {
+        padding: 28px 24px;
+        background: var(--ink);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .pv-stage-num {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        color: rgba(255, 255, 255, 0.3);
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .pv-stage h4 {
+        font-family: "Lora", serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: #fff;
+        line-height: 1.3;
+      }
+      .pv-pm {
+        padding: 28px 32px;
+        background: var(--bg);
+      }
+      .pv-pm-label {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        color: var(--teal);
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .pv-pm p {
+        font-size: 14px;
+        color: var(--ink2);
+        line-height: 1.7;
+      }
+
+      /* DECISION SPOTLIGHT */
+      .decision-sec {
+        background: var(--ink);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .decision-sec .stag {
+        color: rgba(255, 255, 255, 0.35);
+      }
+      .decision-sec .stag::before {
+        color: rgba(255, 255, 255, 0.35);
+      }
+      .decision-sec .stitle {
+        color: #fff;
+      }
+      .decision-sec .stitle em {
+        color: var(--yellow);
+      }
+      .decision-inner {
+        margin-top: 52px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .dc {
+        border-radius: 12px;
+        padding: 32px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .dc-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        color: rgba(255, 255, 255, 0.3);
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      .dc h4 {
+        font-family: "Lora", serif;
+        font-size: 18px;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 10px;
+        line-height: 1.3;
+      }
+      .dc p {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.55);
+        line-height: 1.8;
+      }
+      .dc-highlight {
+        background: rgba(245, 200, 66, 0.08);
+        border-color: rgba(245, 200, 66, 0.2);
+      }
+      .dc-highlight h4 {
+        color: var(--yellow);
+      }
+
+      /* VALUE */
+      .value-sec {
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .before-after {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 52px;
+      }
+      .ba-card {
+        border-radius: 12px;
+        padding: 28px;
+        border: 1px solid var(--border);
+      }
+      .ba-before {
+        background: var(--bg);
+      }
+      .ba-after {
+        background: var(--ink);
+      }
+      .ba-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+        display: block;
+      }
+      .ba-before .ba-label {
+        color: var(--ink3);
+      }
+      .ba-after .ba-label {
+        color: rgba(255, 255, 255, 0.35);
+      }
+      .ba-item {
+        display: flex;
+        gap: 12px;
+        padding: 11px 0;
+        border-bottom: 1px solid;
+        font-size: 14px;
+        align-items: flex-start;
+        line-height: 1.55;
+      }
+      .ba-before .ba-item {
+        color: var(--ink2);
+        border-color: var(--border);
+      }
+      .ba-after .ba-item {
+        color: rgba(255, 255, 255, 0.72);
+        border-color: rgba(255, 255, 255, 0.07);
+      }
+      .ba-item:last-child {
+        border-bottom: none;
+      }
+      .ba-before .ba-item::before {
+        content: "✕";
+        color: #c0392b;
+        flex-shrink: 0;
+        font-size: 11px;
+        margin-top: 3px;
+      }
+      .ba-after .ba-item::before {
+        content: "✓";
+        color: var(--yellow);
+        flex-shrink: 0;
+        font-size: 11px;
+        margin-top: 3px;
+        font-weight: 700;
+      }
+
+      .progress-card {
+        margin-top: 48px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 32px 36px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 36px;
+        align-items: center;
+      }
+      .progress-num {
+        font-family: "Lora", serif;
+        font-size: 64px;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .progress-num span {
+        font-size: 28px;
+        color: var(--ink3);
+      }
+      .progress-content h3 {
+        font-family: "Lora", serif;
+        font-size: 19px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 8px;
+      }
+      .progress-content p {
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.75;
+      }
+      .progress-tag {
+        display: inline-block;
+        margin-top: 12px;
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        background: rgba(42, 138, 127, 0.1);
+        border: 1px solid rgba(42, 138, 127, 0.25);
+        color: var(--teal);
+        padding: 5px 12px;
+        border-radius: 20px;
+        text-transform: uppercase;
+      }
+
+      /* REFLECTION */
+      .ref-sec {
+        border-top: 1px solid var(--border);
+      }
+      .ref-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 52px;
+      }
+      .rc {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 28px;
+      }
+      .rc-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .rc h4 {
+        font-family: "Lora", serif;
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 8px;
+        line-height: 1.3;
+      }
+      .rc p {
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.8;
+      }
+
+      /* CTA */
+      .cta-wrap {
+        padding: 0 56px 80px;
+      }
+      .cta-inner {
+        background: var(--yellow);
+        border-radius: 16px;
+        padding: 60px 64px;
+      }
+      .cta-inner h2 {
+        font-family: "Lora", serif;
+        font-size: clamp(26px, 3vw, 40px);
+        font-weight: 700;
+        color: var(--y2);
+        line-height: 1.2;
+        margin-bottom: 12px;
+        max-width: 560px;
+      }
+      .cta-inner p {
+        font-size: 16px;
+        color: rgba(58, 47, 10, 0.62);
+        max-width: 520px;
+        line-height: 1.7;
+      }
+
+      footer {
+        padding: 48px 56px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .fl {
+        font-family: "Lora", serif;
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .flinks {
+        display: flex;
+        gap: 28px;
+        align-items: center;
+      }
+      .flink {
+        font-size: 14px;
+        color: var(--ink2);
+        text-decoration: none;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1px;
+        transition: border-color 0.2s;
+      }
+      .flink:hover {
+        border-color: var(--ink);
+      }
+      .fmeta {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--ink3);
+      }
+
+      .fade-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .fade-up:nth-child(2) {
+        transition-delay: 0.08s;
+      }
+      .fade-up:nth-child(3) {
+        transition-delay: 0.16s;
+      }
+      .fade-up:nth-child(4) {
+        transition-delay: 0.24s;
+      }
+
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 2px;
+      }
+
+      @media (max-width: 960px) {
+        nav {
+          padding: 16px 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        section {
+          padding: 72px 24px;
+        }
+        .hero {
+          padding: 110px 24px 64px;
+        }
+        .two-col,
+        .ref-grid,
+        .before-after,
+        .decision-inner {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+        .pv-row {
+          grid-template-columns: 1fr;
+        }
+        .progress-card {
+          grid-template-columns: 1fr;
+        }
+        .cta-wrap {
+          padding: 0 24px 60px;
+        }
+        .cta-inner {
+          padding: 40px 28px;
+        }
+        footer {
+          flex-direction: column;
+          gap: 14px;
+          text-align: center;
+          padding: 40px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-logo">
+        <svg viewBox="0 0 20 20" fill="none" width="20" height="20">
+          <path
+            d="M4 10 L10 4 L16 10 L16 16 L4 16 Z"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <path
+            d="M7 16 L7 11 L10 8 L13 11 L13 16"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+          />
+        </svg>
+        FishBook Studio
+      </div>
+      <ul class="nav-links">
+        <li><a href="#pain">问题</a></li>
+        <li><a href="#pipeline">系统设计</a></li>
+        <li><a href="#decision">关键决策</a></li>
+        <li><a href="#value">价值</a></li>
+        <li><a href="#reflection">思考</a></li>
+      </ul>
+      <button class="nav-cta">查看作品集</button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-eyebrow">Case Study 05 · 外刊阅览室 · 2025</div>
+      <h1 class="hero-title">把外刊精读<br />做成<em>知识产品流水线</em></h1>
+      <p class="hero-sub">
+        从 PDF 上传到 Notion 知识库，7
+        个步骤全自动化。不是帮自己记笔记的工具，是一套可商业化的精读内容生产系统——正在持续运转中。
+      </p>
+      <a class="hero-btn" href="#pipeline">查看系统设计 →</a>
+    </section>
+
+    <!-- PAIN -->
+    <section class="pain-sec" id="pain">
+      <div class="stag">01 · 问题定义</div>
+      <h2 class="stitle">外刊精读，<br />是一门<em>生产成本极高</em>的生意</h2>
+
+      <div class="two-col">
+        <div>
+          <div class="pain-item fade-up">
+            <div class="pi-num">01</div>
+            <div class="pi-content">
+              <h4>时间成本无法压缩</h4>
+              <p>
+                一篇外刊文章，从原文理解到段意提炼、词汇解析、结构梳理、笔记整理、上传归档——全靠手工的话轻松花掉
+                3–5 小时。内容质量越高，生产成本越高，规模化越难。
+              </p>
+            </div>
+          </div>
+          <div class="pain-item fade-up">
+            <div class="pi-num">02</div>
+            <div class="pi-content">
+              <h4>质量无法稳定复制</h4>
+              <p>
+                如果目标是做可售卖的知识库，手工笔记的格式、深度、结构在不同文章之间很难保持一致。每篇都是一次性工作，没有标准，没有规模，买家体验参差不齐。
+              </p>
+            </div>
+          </div>
+          <div class="pain-item fade-up">
+            <div class="pi-num">03</div>
+            <div class="pi-content">
+              <h4>工具割裂，精力耗散在操作上</h4>
+              <p>
+                PDF 阅读器 → 翻译工具 → 词典查词 → 笔记软件 → Notion
+                归档，每一次切换都是摩擦。精力被分散在「操作」上，而不是「理解」上——这是内容创作者最大的隐性成本。
+              </p>
+            </div>
+          </div>
+          <div class="quote-block fade-up">
+            「能不能设计一套系统，让外刊精读笔记的生产像流水线一样——输入
+            PDF，输出可售卖的 Notion 知识库？」
+          </div>
+        </div>
+
+        <div class="fade-up">
+          <div class="ctx-card">
+            <h3>为什么这件事可以被系统化</h3>
+            <div class="ctx-item">
+              外刊精读的每个步骤都是结构化的——段意、词汇、逻辑链、行动项，都有固定的输出规格，非常适合用
+              Prompt 工程固化
+            </div>
+            <div class="ctx-item">
+              LLM 已具备足够的外文理解和总结能力，配合精心设计的
+              Prompt，可以产出质量稳定的精读笔记
+            </div>
+            <div class="ctx-item">
+              目标买家需要的是「高质量、有体系的笔记」，而不是「某个人的手写感」——标准化反而是竞争优势
+            </div>
+            <div class="ctx-item">
+              Notion API
+              打通了「本地生产」和「知识库交付」之间的最后一环，让整条链路可以真正闭环
+            </div>
+          </div>
+          <div class="opp-box">
+            <p>
+              PM
+              判断：这不是「帮自己记笔记」的工具需求，而是「知识产品生产线」的系统设计需求。从第一天起，目标就是规模化，而不是便利。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PIPELINE -->
+    <section class="pipe-sec" id="pipeline">
+      <div class="stag">02 · 系统设计</div>
+      <h2 class="stitle">7个模块，<br />每个都有<em>明确的设计理由</em></h2>
+      <p class="sbody">
+        流水线上的每一步，背后都是一个 PM
+        的决策——为什么这样设计，而不是那样。功能不重要，判断才重要。
+      </p>
+
+      <div class="pipeline-vertical fade-up">
+        <div class="pv-row">
+          <div class="pv-stage">
+            <div class="pv-stage-num">Tab 01</div>
+            <h4>PDF<br />上传提取</h4>
+          </div>
+          <div class="pv-pm">
+            <div class="pv-pm-label">为什么这样设计</div>
+            <p>
+              把「原材料处理」和「内容生产」解耦。原文提取一次完成，后续所有 AI
+              操作都基于同一份文本，避免重复解析和版本不一致——这是流水线设计的基本原则：单一数据源。
+            </p>
+          </div>
+        </div>
+        <div class="pv-row">
+          <div class="pv-stage">
+            <div class="pv-stage-num">Tab 02</div>
+            <h4>导读<br />生成</h4>
+          </div>
+          <div class="pv-pm">
+            <div class="pv-pm-label">为什么这样设计</div>
+            <p>
+              导读是知识产品的「封面」——买家在购买前会先看导读决定是否值得。把它独立出来、单独确认，是为了保证商业转化链路上这个最关键节点的质量把控颗粒度。
+            </p>
+          </div>
+        </div>
+        <div class="pv-row">
+          <div class="pv-stage">
+            <div class="pv-stage-num">Tab 03</div>
+            <h4>段落结构<br />拆分</h4>
+          </div>
+          <div class="pv-pm">
+            <div class="pv-pm-label">为什么这样设计</div>
+            <p>
+              段落粒度直接影响精读质量，但 AI
+              的切分判断并不总是可信的。给用户增、删、合并的编辑权限——AI
+              负责效率，人负责最终判断。权责清晰，不让 AI
+              的错误传导到后续所有步骤。
+            </p>
+          </div>
+        </div>
+        <div class="pv-row">
+          <div class="pv-stage">
+            <div class="pv-stage-num">Tab 04</div>
+            <h4>逐段精读<br />（核心）</h4>
+          </div>
+          <div class="pv-pm">
+            <div class="pv-pm-label">为什么这样设计</div>
+            <p>
+              双 Prompt 流水线（精读 →
+              审校）不是功能炫技，是质量保证机制。后台批量处理使用 Python
+              threading，用户可切换其他 Tab
+              继续工作——这是「让用户感知不到技术等待成本」的产品设计，不是工程实现。
+            </p>
+          </div>
+        </div>
+        <div class="pv-row">
+          <div class="pv-stage">
+            <div class="pv-stage-num">Tab 05</div>
+            <h4>词汇<br />扫描</h4>
+          </div>
+          <div class="pv-pm">
+            <div class="pv-pm-label">为什么这样设计</div>
+            <p>
+              词汇笔记是知识库产品的核心增值内容，但 AI
+              生成词典容易出现幻觉。采用本地 ECDICT 权威词典——比 API 调用快 100
+              倍，零幻觉风险，零网络依赖。MVP
+              阶段选择最可靠的方案，而不是最酷的方案。
+            </p>
+          </div>
+        </div>
+        <div class="pv-row">
+          <div class="pv-stage">
+            <div class="pv-stage-num">Tab 06</div>
+            <h4>全文<br />上传</h4>
+          </div>
+          <div class="pv-pm">
+            <div class="pv-pm-label">为什么这样设计</div>
+            <p>
+              「生产」和「交付」分离——本地先预览确认，再上传
+              Notion。避免未完成内容误上传，也让用户在发布前有最后一次质量把关机会。每个段落的精读结果即时落盘本地
+              .md 文件，重启不丢进度。
+            </p>
+          </div>
+        </div>
+        <div class="pv-row">
+          <div class="pv-stage">
+            <div class="pv-stage-num">Tab 07</div>
+            <h4>中英对照<br />上传</h4>
+          </div>
+          <div class="pv-pm">
+            <div class="pv-pm-label">为什么这样设计</div>
+            <p>
+              中英对照库存入独立的 Notion
+              数据库，与精读笔记库完全分开管理——这不是技术决策，是商业模式决策：同一份内容，两种交付形式，两个差异化定价的
+              SKU，面向不同付费意愿的用户群体。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DECISION SPOTLIGHT -->
+    <section class="decision-sec" id="decision">
+      <div class="stag">03 · 关键判断</div>
+      <h2 class="stitle">这些决策<br />决定了系统的<em>商业上限</em></h2>
+
+      <div class="decision-inner">
+        <div class="dc dc-highlight fade-up">
+          <div class="dc-tag">最重要的架构决策</div>
+          <h4>中英对照库独立存储 = 第二个收入来源</h4>
+          <p>
+            把中英对照版本写入独立 Notion
+            数据库这个决定，在系统设计的第一天就做了——不是事后加上去的。这意味着同一篇文章的生产成本，可以分摊到两个产品的收入上。好的系统架构服务于商业模式，而不是事后被商业模式迁就。
+          </p>
+        </div>
+        <div class="dc fade-up">
+          <div class="dc-tag">质量策略</div>
+          <h4>词典用本地 ECDICT，不用 AI 生成</h4>
+          <p>
+            AI
+            生成词典释义看起来更聪明，但会产生幻觉，且每次调用都有成本。本地词典查询零错误、零成本、零延迟。知识付费产品的核心是信任——在涉及「事实准确性」的模块，选择最可靠的方案，而不是最炫的方案。这是
+            PM 对质量风险的主动管理。
+          </p>
+        </div>
+        <div class="dc fade-up">
+          <div class="dc-tag">体验策略</div>
+          <h4>后台线程处理 = 把等待变成可用时间</h4>
+          <p>
+            一篇外刊 12
+            个段落全部批量精读，如果阻塞前台，用户只能干等。后台线程设计让用户可以切换到词汇扫描或其他
+            Tab
+            继续工作。同样的计算量，不同的体验感知——产品设计的边界不是功能，是用户感受到的时间。
+          </p>
+        </div>
+        <div class="dc fade-up">
+          <div class="dc-tag">容错策略</div>
+          <h4>进度即时落盘，重试只跑失败段落</h4>
+          <p>
+            每段精读结果即时写入本地 .md 文件。API
+            调用失败或程序重启，已完成的段落不需要重跑。重试机制只针对失败段落单独执行——这直接降低了
+            API 成本，也保护了用户已投入的时间。容错设计是一种对用户时间的尊重。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUE -->
+    <section class="value-sec" id="value">
+      <div class="stag">04 · 真实效果</div>
+      <h2 class="stitle">从「手工作坊」<br />到<em>标准化产线</em></h2>
+
+      <div class="before-after">
+        <div class="ba-card ba-before fade-up">
+          <span class="ba-label">使用前 · 手工模式</span>
+          <div class="ba-item">精读一篇文章需要 3–5 小时全程手工</div>
+          <div class="ba-item">
+            在 PDF、词典、翻译、笔记、Notion 之间反复切换
+          </div>
+          <div class="ba-item">每篇笔记格式不同，质量参差，无法稳定复制</div>
+          <div class="ba-item">上传 Notion 需手动逐段复制粘贴，费时费力</div>
+          <div class="ba-item">每篇都是一次性劳动，经验无法沉淀为标准</div>
+        </div>
+        <div class="ba-card ba-after fade-up">
+          <span class="ba-label">使用后 · 流水线模式</span>
+          <div class="ba-item">主动操作时间压缩至 30 分钟以内，后台自动跑</div>
+          <div class="ba-item">全流程在一个工具内完成，零切换摩擦</div>
+          <div class="ba-item">
+            双 Prompt 审校保证每篇笔记格式和质量高度一致
+          </div>
+          <div class="ba-item">一键上传，Notion 字段自动填写，零手工操作</div>
+          <div class="ba-item">
+            直接产出两种可售卖知识产品 SKU，生产线即商业化
+          </div>
+        </div>
+      </div>
+
+      <div class="progress-card fade-up">
+        <div>
+          <div class="progress-num">5–10<span>篇</span></div>
+        </div>
+        <div class="progress-content">
+          <h3>系统仍在运转，知识库正在积累</h3>
+          <p>
+            外刊阅览室不是一个做完就放那的
+            Demo——它是一条每周在跑的生产线。已产出 5–10
+            篇精读笔记，知识库预计在内容积累到一定体量后正式上线销售。持续运转本身，是对系统可用性最直接的验证。
+          </p>
+          <span class="progress-tag">系统状态：持续产出中</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- REFLECTION -->
+    <section class="ref-sec" id="reflection">
+      <div class="stag">05 · 产品思考</div>
+      <h2 class="stitle">这个系统<br />让我理解了<em>什么</em></h2>
+
+      <div class="ref-grid">
+        <div class="rc fade-up">
+          <div class="rc-tag">关于系统设计</div>
+          <h4>好的流程，比好的功能更难设计</h4>
+          <p>
+            任何单个功能都可以在网上找到替代品。但「7个模块之间的衔接逻辑」——每个模块的输出恰好是下一个模块的输入，没有断点，没有冗余——这是没有办法复制的。产品的护城河不在功能，在流程。设计一条没有断点的链路，比设计任何一个功能都难。
+          </p>
+        </div>
+        <div class="rc fade-up">
+          <div class="rc-tag">关于 AI 产品设计</div>
+          <h4>AI 用在哪里，不用在哪里，是真正的决策</h4>
+          <p>
+            词汇解析我选择了本地词典，不用
+            AI——因为「准确性」是知识产品的生命线，这里不能有幻觉。精读和审校用了两个
+            AI Prompt，因为这里「深度」比「准确性」更关键。决定 AI
+            用在哪里、不用在哪里，比会用 AI 更重要。这才是 AI
+            产品设计的核心判断力。
+          </p>
+        </div>
+        <div class="rc fade-up">
+          <div class="rc-tag">关于商业化</div>
+          <h4>工具的买家是少数人，知识的买家是所有人</h4>
+          <p>
+            把这套工作流打包卖出去，买家是谁？是能自己配置 Python 环境、有 API
+            Key、懂得读报错信息的人。这个市场很小。而外刊精读笔记的买家是谁？是所有想读懂经济学人但觉得太难、太费时间的人。这个市场大得多。同样的生产成本，选择触达更大的市场——这不是产品决策，是市场判断。我造了一台机器，但我卖的不是机器，我卖的是机器生产出来的东西。
+          </p>
+        </div>
+        <div class="rc fade-up">
+          <div class="rc-tag">关于 AI 时代的 PM</div>
+          <h4>Prompt 工程是一种需求工程</h4>
+          <p>
+            写「帮我精读这篇文章」和写「请按段意、逻辑链、行动项三个字段输出，每字段不超过150字」——给
+            AI
+            的输出质量天差地别。这和写需求文档是同一件事：你描述得越模糊，交付的人——无论是工程师还是
+            AI——产出就越随机。把模糊变清晰的能力，在 AI
+            时代变得比以前更值钱，而不是更没用。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <div class="cta-inner">
+        <h2>设计一套系统，<br />比造一个工具难得多。</h2>
+        <p>
+          外刊阅览室不是一个「让我用起来更方便的工具」，而是对「外刊精读知识产品完整生产流程」的系统性设计。从商业模式拆解到每个功能模块的交互决策，从双
+          Prompt 质量保证机制到双 SKU
+          商业化策略——每一个设计选择背后都有可以说清楚的产品逻辑。这才是 PM
+          思维。
+        </p>
+      </div>
+    </div>
+
+    <footer>
+      <div class="fl">FishBook Studio</div>
+      <div class="flinks">
+        <a href="index.html" class="flink">← 首页</a>
+        <a href="viralnote-case-study.html" class="flink">ViralNote →</a>
+        <span class="fmeta">Ji Tong · 2025</span>
+      </div>
+    </footer>
+
+    <script>
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document.querySelectorAll(".fade-up").forEach((el) => obs.observe(el));
+    </script>
+  </body>
+</html>

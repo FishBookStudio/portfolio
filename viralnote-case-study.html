@@ -1,0 +1,1103 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ViralNote Sync — Case Study · Ji Tong</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --cream: #ffffff;
+        --cream2: #f7f7f7;
+        --cream3: #ededed;
+        --ink: #1e1c18;
+        --ink2: #3a3830;
+        --ink3: #807a6e;
+        --yellow: #f5c842;
+        --y2: #3a2f0a;
+        --green: #4a8c5c;
+        --blue: #4a6fd4;
+        --border: rgba(30, 28, 24, 0.1);
+        --border-dim: rgba(30, 28, 24, 0.06);
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--cream);
+        color: var(--ink2);
+        font-family: "DM Sans", sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 18px 56px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-logo {
+        font-family: "Lora", serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-links {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-size: 15px;
+        color: var(--ink2);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--ink);
+      }
+      .nav-cta {
+        background: var(--ink);
+        color: var(--cream);
+        border: none;
+        padding: 9px 22px;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+      }
+
+      /* HERO */
+      .hero {
+        min-height: 88vh;
+        padding: 140px 56px 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 28px;
+      }
+      .hero-title {
+        font-family: "Lora", "Noto Serif SC", serif;
+        font-size: clamp(44px, 6vw, 88px);
+        font-weight: 700;
+        line-height: 1.05;
+        color: var(--ink);
+        max-width: 820px;
+        margin-bottom: 20px;
+        letter-spacing: -0.02em;
+      }
+      .hero-title em {
+        font-style: italic;
+      }
+      .hero-sub {
+        font-size: 18px;
+        color: var(--ink3);
+        max-width: 520px;
+        line-height: 1.7;
+        margin-bottom: 44px;
+      }
+      .hero-btn {
+        background: var(--ink);
+        color: var(--cream);
+        border: none;
+        padding: 14px 36px;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        margin-bottom: 72px;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .hero-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 24px rgba(30, 28, 24, 0.15);
+      }
+      .hero-stats {
+        display: flex;
+        gap: 56px;
+        align-items: center;
+        border-top: 1px solid var(--border);
+        padding-top: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .hs {
+        text-align: center;
+      }
+      .hs-num {
+        font-family: "Lora", serif;
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1;
+        display: block;
+      }
+      .hs-label {
+        font-size: 13px;
+        color: var(--ink3);
+        margin-top: 4px;
+        display: block;
+      }
+
+      section {
+        padding: 100px 56px;
+      }
+      .stag {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .stag::before {
+        content: "+";
+        font-size: 14px;
+      }
+      .stitle {
+        font-family: "Lora", "Noto Serif SC", serif;
+        font-size: clamp(34px, 4vw, 60px);
+        font-weight: 700;
+        line-height: 1.1;
+        color: var(--ink);
+        margin-bottom: 18px;
+        letter-spacing: -0.02em;
+      }
+      .stitle em {
+        font-style: italic;
+      }
+      .sbody {
+        font-size: 17px;
+        color: var(--ink3);
+        max-width: 560px;
+        line-height: 1.8;
+        margin-bottom: 0;
+      }
+
+      /* PAIN */
+      .pain-sec {
+        background: var(--cream2);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 72px;
+        margin-top: 52px;
+      }
+      .pain-item {
+        display: flex;
+        gap: 20px;
+        padding: 24px 0;
+        border-bottom: 1px solid var(--border);
+        align-items: flex-start;
+      }
+      .pain-item:last-of-type {
+        border-bottom: none;
+      }
+      .pi-num {
+        font-family: "DM Mono", monospace;
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--cream3);
+        flex-shrink: 0;
+        line-height: 1;
+        margin-top: 3px;
+      }
+      .pi-content h4 {
+        font-family: "Lora", serif;
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .pi-content p {
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.65;
+      }
+      .quote-block {
+        margin-top: 32px;
+        padding: 24px 28px;
+        font-family: "Lora", serif;
+        font-size: 19px;
+        font-style: italic;
+        color: var(--ink);
+        line-height: 1.55;
+        border-left: 3px solid var(--ink);
+      }
+      .ctx-card {
+        background: var(--cream);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 32px;
+      }
+      .ctx-card h3 {
+        font-family: "Lora", serif;
+        font-size: 19px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 20px;
+        line-height: 1.25;
+      }
+      .ctx-item {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.6;
+      }
+      .ctx-item:last-child {
+        border-bottom: none;
+      }
+      .ctx-item::before {
+        content: "→";
+        color: var(--ink);
+        flex-shrink: 0;
+        font-weight: 500;
+      }
+      .opp-box {
+        margin-top: 16px;
+        background: var(--ink);
+        border-radius: 10px;
+        padding: 24px 28px;
+      }
+      .opp-box p {
+        font-family: "Lora", serif;
+        font-size: 16px;
+        color: var(--cream);
+        line-height: 1.6;
+        font-weight: 500;
+      }
+
+      /* PRODUCT */
+      .prod-sec {
+        border-bottom: 1px solid var(--border);
+      }
+      .pipe-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.16em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 18px;
+        margin-top: 52px;
+      }
+      .pipe-steps {
+        display: flex;
+        gap: 0;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .ps {
+        flex: 1;
+        padding: 24px 18px;
+        background: var(--cream);
+        border-right: 1px solid var(--border);
+        transition: background 0.2s;
+      }
+      .ps:last-child {
+        border-right: none;
+      }
+      .ps:hover {
+        background: var(--cream2);
+      }
+      .ps-num {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+      .ps h4 {
+        font-family: "Lora", serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 5px;
+      }
+      .ps p {
+        font-size: 12px;
+        color: var(--ink3);
+        line-height: 1.5;
+      }
+      .ps-tag {
+        margin-top: 10px;
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        color: var(--green);
+        letter-spacing: 0.04em;
+      }
+
+      .arch-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+        margin-top: 48px;
+        align-items: start;
+      }
+      .arch-card {
+        background: var(--ink);
+        border-radius: 12px;
+        padding: 32px;
+      }
+      .arch-card h3 {
+        font-family: "Lora", serif;
+        font-size: 17px;
+        color: var(--cream);
+        margin-bottom: 22px;
+      }
+      .arch-item {
+        display: flex;
+        gap: 14px;
+        padding: 11px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        align-items: flex-start;
+      }
+      .arch-item:last-child {
+        border-bottom: none;
+      }
+      .arch-label {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        color: rgba(255, 255, 255, 0.3);
+        text-transform: uppercase;
+        width: 48px;
+        flex-shrink: 0;
+        padding-top: 3px;
+      }
+      .arch-detail h5 {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--cream);
+        margin-bottom: 2px;
+      }
+      .arch-detail p {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        line-height: 1.5;
+      }
+      .judgment-box {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .jbox {
+        border-radius: 10px;
+        padding: 20px 22px;
+        border: 1px solid;
+      }
+      .jbox .jlabel {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+        opacity: 0.7;
+      }
+      .jbox p {
+        font-size: 14px;
+        color: var(--ink2);
+        line-height: 1.7;
+      }
+      .jbox-yellow {
+        background: rgba(245, 200, 66, 0.1);
+        border-color: rgba(245, 200, 66, 0.28);
+      }
+      .jbox-yellow .jlabel {
+        color: var(--y2);
+      }
+      .jbox-green {
+        background: rgba(74, 140, 92, 0.08);
+        border-color: rgba(74, 140, 92, 0.22);
+      }
+      .jbox-green .jlabel {
+        color: #2d6b3f;
+      }
+
+      /* RESULT */
+      .result-sec {
+        background: var(--cream2);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .before-after {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-top: 52px;
+      }
+      .ba-col {
+        border-radius: 12px;
+        padding: 32px;
+      }
+      .ba-col.before {
+        background: var(--cream3);
+        border: 1px solid var(--border);
+      }
+      .ba-col.after {
+        background: var(--ink);
+      }
+      .ba-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        display: block;
+      }
+      .ba-col.before .ba-tag {
+        color: var(--ink3);
+      }
+      .ba-col.after .ba-tag {
+        color: rgba(255, 255, 255, 0.35);
+      }
+      .ba-item {
+        display: flex;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid;
+        align-items: flex-start;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .ba-col.before .ba-item {
+        border-color: var(--border);
+        color: var(--ink3);
+      }
+      .ba-col.after .ba-item {
+        border-color: rgba(255, 255, 255, 0.07);
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .ba-item:last-child {
+        border-bottom: none;
+      }
+      .ba-col.before .ba-item::before {
+        content: "✕";
+        color: #c0392b;
+        flex-shrink: 0;
+        font-size: 12px;
+        margin-top: 2px;
+      }
+      .ba-col.after .ba-item::before {
+        content: "✓";
+        color: var(--yellow);
+        flex-shrink: 0;
+        font-size: 12px;
+        margin-top: 2px;
+        font-weight: 700;
+      }
+
+      .proof-card {
+        margin-top: 52px;
+        background: var(--cream);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 36px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 40px;
+        align-items: center;
+      }
+      .proof-num {
+        font-family: "Lora", serif;
+        font-size: 72px;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1;
+      }
+      .proof-num span {
+        font-size: 32px;
+        color: var(--ink3);
+      }
+      .proof-content h3 {
+        font-family: "Lora", serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 10px;
+      }
+      .proof-content p {
+        font-size: 15px;
+        color: var(--ink3);
+        line-height: 1.75;
+      }
+      .proof-tag {
+        display: inline-block;
+        margin-top: 14px;
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        background: rgba(245, 200, 66, 0.2);
+        border: 1px solid rgba(245, 200, 66, 0.4);
+        color: var(--y2);
+        padding: 5px 12px;
+        border-radius: 20px;
+        text-transform: uppercase;
+      }
+
+      /* INSIGHT */
+      .insight-sec {
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .insight-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 52px;
+      }
+      .ic {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 28px;
+      }
+      .ic-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--ink3);
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .ic h4 {
+        font-family: "Lora", serif;
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 8px;
+        line-height: 1.3;
+      }
+      .ic p {
+        font-size: 14px;
+        color: var(--ink3);
+        line-height: 1.8;
+      }
+
+      /* CTA */
+      .cta-strip {
+        background: var(--yellow);
+        border-radius: 16px;
+        padding: 56px 60px;
+        margin: 0 56px 80px;
+      }
+      .cta-strip h2 {
+        font-family: "Lora", serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--y2);
+        line-height: 1.25;
+        margin-bottom: 12px;
+        max-width: 560px;
+      }
+      .cta-strip p {
+        font-size: 16px;
+        color: rgba(58, 47, 10, 0.65);
+        max-width: 500px;
+        line-height: 1.7;
+        margin-bottom: 28px;
+      }
+      .cta-btn {
+        display: inline-block;
+        background: var(--y2);
+        color: #fff;
+        padding: 13px 32px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-family: "DM Sans", sans-serif;
+        text-decoration: none;
+      }
+
+      footer {
+        padding: 56px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .fl {
+        font-family: "Lora", serif;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .flinks {
+        display: flex;
+        gap: 28px;
+        align-items: center;
+      }
+      .flink {
+        font-size: 14px;
+        color: var(--ink2);
+        text-decoration: none;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1px;
+        transition: border-color 0.2s;
+      }
+      .flink:hover {
+        border-color: var(--ink);
+      }
+      .fmeta {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--ink3);
+      }
+
+      .fade-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .fade-up:nth-child(2) {
+        transition-delay: 0.08s;
+      }
+      .fade-up:nth-child(3) {
+        transition-delay: 0.16s;
+      }
+
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--cream);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 2px;
+      }
+
+      @media (max-width: 900px) {
+        nav {
+          padding: 16px 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        section {
+          padding: 72px 24px;
+        }
+        .hero {
+          padding: 110px 24px 64px;
+        }
+        .two-col,
+        .arch-row,
+        .before-after,
+        .insight-grid {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+        .pipe-steps {
+          flex-direction: column;
+        }
+        .proof-card {
+          grid-template-columns: 1fr;
+        }
+        .cta-strip {
+          margin: 0 24px 60px;
+          padding: 40px 28px;
+        }
+        footer {
+          flex-direction: column;
+          gap: 14px;
+          text-align: center;
+          padding: 40px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-logo">
+        <svg viewBox="0 0 20 20" fill="none" width="20" height="20">
+          <path
+            d="M4 10 L10 4 L16 10 L16 16 L4 16 Z"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <path
+            d="M7 16 L7 11 L10 8 L13 11 L13 16"
+            stroke="#1e1c18"
+            stroke-width="1.5"
+            fill="none"
+          />
+        </svg>
+        FishBook Studio
+      </div>
+      <ul class="nav-links">
+        <li><a href="#pain">问题</a></li>
+        <li><a href="#product">产品</a></li>
+        <li><a href="#result">结果</a></li>
+        <li><a href="#insight">思考</a></li>
+      </ul>
+      <button
+        class="nav-cta"
+        onclick="window.open('https://viralnote-sync.vercel.app', '_blank')"
+      >
+        访问项目
+      </button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-eyebrow">Case Study 02 · ViralNote Sync · 2025</div>
+      <h1 class="hero-title">给自己做的<br /><em>爆款情报系统</em></h1>
+      <p class="hero-sub">
+        「研究爆款」是内容创作者最低效的重复劳动——刷屏、截图、感性感觉、然后遗忘。我用
+        2 天把这件事变成可重复的自动化工作流，然后用它产出了真实的爆款内容。
+      </p>
+      <a
+        class="hero-btn"
+        href="https://viralnote-sync.vercel.app"
+        target="_blank"
+        >访问 ViralNote Sync →</a
+      >
+      <p
+        style="
+          font-family: &quot;DM Mono&quot;, monospace;
+          font-size: 11px;
+          letter-spacing: 0.06em;
+          color: var(--ink3);
+          margin-top: -52px;
+          margin-bottom: 52px;
+        "
+      >
+        ⓘ 当前为 Demo 展示版，前端界面可交互，采集与 AI 分析功能未连接后端
+      </p>
+
+      <div class="hero-stats">
+        <div class="hs">
+          <span class="hs-num">3.4万</span
+          ><span class="hs-label">单篇内容浏览量</span>
+        </div>
+        <div class="hs">
+          <span class="hs-num">1–2篇</span
+          ><span class="hs-label">每周稳定发布频率</span>
+        </div>
+        <div class="hs">
+          <span class="hs-num">2天</span
+          ><span class="hs-label">从想法到跑通</span>
+        </div>
+        <div class="hs">
+          <span class="hs-num">自研</span
+          ><span class="hs-label">Vibe Coding 独立完成</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAIN -->
+    <section class="pain-sec" id="pain">
+      <div class="stag">01 · 问题定义</div>
+      <h2 class="stitle">「研究爆款」<br />是一件<em>没有沉淀</em>的苦力活</h2>
+
+      <div class="two-col">
+        <div>
+          <div class="pain-item fade-up">
+            <div class="pi-num">01</div>
+            <div class="pi-content">
+              <h4>监控靠算法，覆盖不了自己的赛道</h4>
+              <p>
+                靠平台推送看到的爆款是随机的，想主动追踪「效率工具 / 知识管理 /
+                AI笔记」这些关键词，只能人工定时刷屏——低效且不可持续，漏掉竞品是常态。
+              </p>
+            </div>
+          </div>
+          <div class="pain-item fade-up">
+            <div class="pi-num">02</div>
+            <div class="pi-content">
+              <h4>分析停在「感觉懂了」，无法复用</h4>
+              <p>
+                看完爆款内容觉得明白了，但提炼不出可复用的规律。标题公式、钩子类型、封面逻辑——每次创作还是从零开始想，积累的经验全在脑子里，无法传递给下一篇内容。
+              </p>
+            </div>
+          </div>
+          <div class="pain-item fade-up">
+            <div class="pi-num">03</div>
+            <div class="pi-content">
+              <h4>从「研究」到「创作」中间有一道墙</h4>
+              <p>
+                爆款分析结果散落在截图、收藏夹、备忘录里，和实际写作完全割裂。每次选题会还是凭直觉，没有工具把「情报」直接转化为「素材」，再指导「创作决策」。
+              </p>
+            </div>
+          </div>
+          <div class="quote-block fade-up">
+            「好的选题不是等算法喂给我的，是我主动去找的。」
+          </div>
+        </div>
+
+        <div class="fade-up">
+          <div class="ctx-card">
+            <h3>为什么这个问题值得做成工具</h3>
+            <div class="ctx-item">
+              现有工具要么是「手动收藏」（无分析），要么是「平台官方数据」（不支持竞品监控），没有能打通采集→分析→沉淀全链路的方案
+            </div>
+            <div class="ctx-item">
+              AI
+              大模型已具备内容拆解能力，缺的不是分析力，而是把数据喂进去的工作流
+            </div>
+            <div class="ctx-item">
+              我有真实创作场景和 Notion
+              工作流基础，可以直接验证工具有效性——自己就是第一个用户
+            </div>
+            <div class="ctx-item">
+              开发成本可控：Vibe Coding + 2天，先跑通最短路径，数据说话再迭代
+            </div>
+          </div>
+          <div class="opp-box">
+            <p>
+              核心判断：「爆款研究」是一个可以被自动化的工作流，不是需要靠感性积累的玄学。设计最短链路，让数据驱动选题。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT -->
+    <section class="prod-sec" id="product">
+      <div class="stag">02 · 产品设计</div>
+      <h2 class="stitle">最短路径：<br />从关键词到<em>可用素材</em></h2>
+      <p class="sbody">
+        不做「内容推荐平台」，只做「我的个人情报系统」——窄而深，服务自己的创作场景。每一步都有明确输出，每个输出都直接服务下一步创作。
+      </p>
+
+      <div class="pipe-label">核心工作流 · 5步自动化链路</div>
+      <div class="pipe-steps fade-up">
+        <div class="ps">
+          <div class="ps-num">01 · 输入</div>
+          <h4>关键词 / 博主链接</h4>
+          <p>配置监控关键词或对标博主，设置互动量阈值筛选门槛</p>
+          <div class="ps-tag">效率工具 / 知识管理 / AI笔记</div>
+        </div>
+        <div class="ps">
+          <div class="ps-num">02 · 采集</div>
+          <h4>爬取真实互动数据</h4>
+          <p>Spider_XHS 抓取小红书真实数据，自动过滤未达阈值内容</p>
+          <div class="ps-tag">点赞 / 评论 / 收藏量验证</div>
+        </div>
+        <div class="ps">
+          <div class="ps-num">03 · 分析</div>
+          <h4>AI 结构化拆解</h4>
+          <p>
+            调用大模型分析标题公式、钩子类型、封面逻辑——支持 DeepSeek / Gemini
+            等多种 AI，结构化输出可复用
+          </p>
+          <div class="ps-tag">规律可见，可以学习</div>
+        </div>
+        <div class="ps">
+          <div class="ps-num">04 · 同步</div>
+          <h4>Notion 素材自动入库</h4>
+          <p>字段映射 + URL去重策略，图片本地化，沉淀永久可查</p>
+          <div class="ps-tag">持续积累，不再散落</div>
+        </div>
+        <div class="ps">
+          <div class="ps-num">05 · 创作</div>
+          <h4>数据驱动再创作</h4>
+          <p>每次选题打开 Notion 素材库，有据可依，从「感觉」到「方法论」</p>
+          <div class="ps-tag">选题不再靠灵感</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section class="result-sec" id="result">
+      <div class="stag">03 · 真实结果</div>
+      <h2 class="stitle">工具跑通后，<br />内容创作<em>发生了什么</em></h2>
+
+      <div class="before-after">
+        <div class="ba-col before fade-up">
+          <span class="ba-tag">使用工具之前</span>
+          <div class="ba-item">靠算法随机推送，重要赛道的爆款经常漏掉</div>
+          <div class="ba-item">「感觉懂了」爆款，但下次写还是从零开始想</div>
+          <div class="ba-item">研究和创作完全割裂，选题靠直觉和运气</div>
+          <div class="ba-item">
+            发布节奏不稳定，容易因为「不知道写什么」断更
+          </div>
+        </div>
+        <div class="ba-col after fade-up">
+          <span class="ba-tag">使用工具之后</span>
+          <div class="ba-item">
+            每周主动采集目标关键词，覆盖完整，不再有漏网之鱼
+          </div>
+          <div class="ba-item">
+            Gemini 结构化拆解输出标题公式、钩子类型，有规律可学
+          </div>
+          <div class="ba-item">
+            Notion 素材库持续积累，选题会直接查数据，有据可依
+          </div>
+          <div class="ba-item">每周稳定发布 1–2 篇，节奏可控，不再依赖灵感</div>
+        </div>
+      </div>
+
+      <div class="proof-card fade-up">
+        <div>
+          <div class="proof-num">3.4<span>万</span></div>
+        </div>
+        <div class="proof-content">
+          <h3>用工具找到选题，写出来的内容浏览量超过 3.4 万</h3>
+          <p>
+            这篇内容的选题来源就是 ViralNote Sync
+            素材库——通过系统化分析竞品爆款的标题结构和钩子设计，改造成适合自己产品定位的角度。这是工具从「自动化工作流」转变为「真实创作价值」最直接的证明。
+          </p>
+          <span class="proof-tag">数据来源：微信公众号后台</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSIGHT -->
+    <section class="insight-sec" id="insight">
+      <div class="stag">04 · 产品思考</div>
+      <h2 class="stitle">这个项目让我<br />验证了<em>什么</em></h2>
+
+      <div class="insight-grid">
+        <div class="ic fade-up">
+          <div class="ic-tag">关于 AI 产品设计</div>
+          <h4>数据不会说谎，感觉会</h4>
+          <p>
+            每个创作者都「研究过爆款」。但研究完，脑子里只有一团模糊的印象——「感觉标题要有冲突感」「封面好像要简洁」。印象会消退，判断会飘移。当
+            AI
+            把同样的内容拆解成字段——标题类型、钩子位置、封面信息密度——它就从「感觉」变成了「数据」。数据可以被对比，被积累，被下一次创作调用。这才是
+            AI
+            真正改变工作流的地方：不是替你思考，而是把你的思考变得可以留存、可以传递。
+          </p>
+        </div>
+        <div class="ic fade-up">
+          <div class="ic-tag">关于需求真伪</div>
+          <h4>人们不知道自己想要什么，直到你把它放在他们面前</h4>
+          <p>
+            内容创作者从来不缺「想研究爆款」的意愿。缺的是一个每周固定跑起来、不需要靠自律维持的系统。工具上线之前，「研究爆款」是一个永远排在待办清单最后的任务——因为它重要但不紧急，因为它没有截止日期，因为它的产出是模糊的。工具上线之后，这件事变成了每周一的固定流程，像发薪日一样准时。真正的需求不是「我想要分析工具」，而是「我需要一个让这件事自动发生的理由」。产品的价值，有时候不在功能本身，在于它帮用户建立了一个习惯的触发点。
+          </p>
+        </div>
+        <div class="ic fade-up">
+          <div class="ic-tag">关于 AI 工作流产品</div>
+          <h4>最好的 AI 功能，是让一个问题消失</h4>
+          <p>
+            工具跑通之前，每周选题是一道开放题：我该写什么？工具跑通之后，它变成了一道选择题：这三个方向，哪个最适合我这周？开放题会消耗人所有的认知资源；选择题只需要判断力。这个差距，就是
+            AI 工作流的真正价值所在。好的 AI
+            功能不是给你更多信息，而是把你每次都要重新面对的那个空白，提前填上。
+          </p>
+        </div>
+        <div class="ic fade-up">
+          <div class="ic-tag">关于 AI PM 的能力边界</div>
+          <h4>写 Prompt 和写 PRD，是同一件事</h4>
+          <p>
+            把「帮我分析这篇爆款」喂给
+            AI，得到的是一段感想。把「请按标题类型、钩子位置、封面信息密度三个字段结构化输出」喂给
+            AI，得到的是可以入库的数据。输入的精确度，决定了输出的可用性。这和写需求文档是同一件事：你描述得越模糊，执行的人——无论是工程师还是
+            AI——交付的就越随机。AI 时代 PM
+            最核心的竞争力，从来不是会用哪个模型，而是把模糊变清晰的能力。这一点，没有变过。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-strip">
+      <h2>好的 PM 不只会写 PRD，<br />也能用工具验证产品判断</h2>
+      <p>
+        ViralNote Sync 是我作为内容创作者发现的真实痛点、用 Vibe Coding
+        自己设计并跑通的解法，并用它产出了 3.4
+        万浏览的真实内容。从发现问题到工具验证、再到商业化路径——这是完整的产品闭环思维。
+      </p>
+      <a
+        class="cta-btn"
+        href="https://viralnote-sync.vercel.app"
+        target="_blank"
+        >访问 ViralNote Sync →</a
+      >
+      <p
+        style="
+          font-family: &quot;DM Mono&quot;, monospace;
+          font-size: 11px;
+          letter-spacing: 0.06em;
+          color: rgba(58, 47, 10, 0.45);
+          margin-top: 12px;
+        "
+      >
+        ⓘ 当前为 Demo 展示版，前端界面可交互，采集与 AI 分析功能未连接后端
+      </p>
+    </div>
+
+    <footer>
+      <div class="fl">FishBook Studio</div>
+      <div class="flinks">
+        <a href="index.html" class="flink">← 首页</a>
+        <a
+          href="https://viralnote-sync.vercel.app"
+          class="flink"
+          target="_blank"
+          >访问项目 →</a
+        >
+        <span class="fmeta">Ji Tong · 2025</span>
+      </div>
+    </footer>
+
+    <script>
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".fade-up").forEach((el) => obs.observe(el));
+    </script>
+  </body>
+</html>
