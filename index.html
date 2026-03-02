@@ -1650,7 +1650,6 @@
           transform: translateY(105%) !important;
           transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1) !important;
           animation: none !important;
-          z-index: 200 !important;
           overflow: hidden;
           display: flex !important;
           flex-direction: column;
@@ -2028,7 +2027,7 @@
         position: fixed;
         inset: 0;
         background: rgba(0, 0, 0, 0.45);
-        z-index: 199;
+        z-index: 50;
         opacity: 0;
         transition: opacity 0.3s ease;
       }
@@ -4878,7 +4877,6 @@
 
       // windows
       let Z = 100;
-      const BACKDROP_Z = 199;   // #mobile-backdrop 的 z-index
       const isMobile = () => window.innerWidth <= 768;
 
       function showBackdrop() {
@@ -4919,10 +4917,6 @@
 
         w.classList.remove("minimized");
         w.classList.add("open");
-        // 移动端确保 z-index 高于 backdrop（199），否则遮罩会盖住窗口内容
-        if (isMobile()) {
-          Z = Math.max(Z, BACKDROP_Z);
-        }
         w.style.zIndex = ++Z;
         w.style.display = "";
 
