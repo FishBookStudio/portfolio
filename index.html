@@ -1635,23 +1635,39 @@
           max-width: 100%;
           margin: 0 12px;
         }
+        /* ── 移动端全屏滑出窗口 ── */
         .window {
-          left: 50% !important;
-          right: auto !important;
-          width: min(calc(100vw - 24px), 900px) !important;
-          max-width: calc(100vw - 24px);
-          max-height: calc(100vh - 60px - env(safe-area-inset-top));
-          transform: translateX(-50%);
+          position: fixed !important;
+          top: auto !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          height: calc(94svh - env(safe-area-inset-top)) !important;
+          max-height: calc(94svh - env(safe-area-inset-top)) !important;
+          border-radius: 24px 24px 0 0 !important;
+          transform: translateY(105%) !important;
+          transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1) !important;
+          animation: none !important;
+          z-index: 200 !important;
+          overflow: hidden;
+          display: flex !important;
+          flex-direction: column;
+          margin: 0 !important;
+          padding: 0 !important;
         }
         .window.open {
-          transform: translateX(-50%);
+          transform: translateY(0) !important;
         }
         #wweb {
-          width: min(calc(100vw - 24px), 900px) !important;
-          max-height: calc(100vh - 60px);
+          left: 0 !important;
+          right: 0 !important;
+          width: 100% !important;
+          max-height: calc(94svh - env(safe-area-inset-top)) !important;
         }
         .browser-frame {
-          min-height: 50vh;
+          min-height: 60svh;
         }
         .wt {
           font-size: 12px;
@@ -2004,6 +2020,50 @@
       /* 移动端分栏标题 - 默认隐藏 */
       .mobile-section-title {
         display: none;
+      }
+
+      /* ── 移动端 backdrop 遮罩 ── */
+      #mobile-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        z-index: 199;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      #mobile-backdrop.active {
+        display: block;
+        opacity: 1;
+      }
+
+      /* 移动端拖动把手 */
+      @media (max-width: 768px) {
+        .window::before {
+          content: "";
+          display: block;
+          width: 40px;
+          height: 4px;
+          background: rgba(120, 120, 128, 0.35);
+          border-radius: 2px;
+          margin: 10px auto 0;
+          flex-shrink: 0;
+        }
+        /* 标题栏在移动端更高，方便触摸 */
+        .wtb {
+          height: 52px;
+          padding: 4px 16px;
+          cursor: default;
+        }
+        /* 禁用移动端窗口拖拽 */
+        .wtb[onmousedown] {
+          pointer-events: none;
+        }
+        .wtb .tl {
+          pointer-events: auto;
+        }
       }
 
       /* ── 大屏幕 (1200px+) ── */
@@ -2402,24 +2462,7 @@
           border-radius: 14px;
         }
 
-        /* 窗口样式 */
-        .window {
-          top: calc(50px + env(safe-area-inset-top)) !important;
-          left: 8px !important;
-          right: 8px !important;
-          width: auto !important;
-          max-width: none !important;
-          max-height: calc(
-            100vh - 60px - env(safe-area-inset-top) -
-              env(safe-area-inset-bottom)
-          ) !important;
-          transform: none !important;
-          border-radius: 20px;
-        }
-
-        .window.open {
-          transform: none !important;
-        }
+        /* 窗口样式 — 继承 768px 的滑出规则，无需重复覆盖 */
 
         .wtb {
           height: 48px;
@@ -4794,6 +4837,7 @@
       id="dov"
       style="position: fixed; inset: 0; z-index: 9990; display: none"
     ></div>
+    <div id="mobile-backdrop" onclick="mobileCloseTop()"></div>
 
     <script>
       // theme (浅色/深色)
@@ -4836,34 +4880,76 @@
 
       // windows
       let Z = 100;
+      const isMobile = () => window.innerWidth <= 768;
+
+      function showBackdrop() {
+        const bd = document.getElementById("mobile-backdrop");
+        if (!bd) return;
+        bd.style.display = "block";
+        requestAnimationFrame(() => bd.classList.add("active"));
+      }
+      function hideBackdrop() {
+        const bd = document.getElementById("mobile-backdrop");
+        if (!bd) return;
+        bd.classList.remove("active");
+        setTimeout(() => {
+          if (!document.querySelector(".window.open")) bd.style.display = "none";
+        }, 320);
+      }
+      function mobileCloseTop() {
+        // 关闭 z-index 最高的那个窗口
+        const opens = [...document.querySelectorAll(".window.open")];
+        if (!opens.length) return;
+        const top = opens.reduce((a, b) =>
+          parseInt(a.style.zIndex || 0) >= parseInt(b.style.zIndex || 0) ? a : b
+        );
+        cW(top.id);
+      }
+
       function oW(id) {
         const w = document.getElementById(id);
         if (!w) return;
         w.classList.remove("minimized");
-        w.classList.add("open", "opening");
+        w.classList.add("open");
         w.style.zIndex = ++Z;
-        w.style.display =
-          ""; /* 清除可能被覆盖的 display，由 .window.open 控制 */
-        if (id === "win-skills") {
-          const icon = document.querySelector(".icon-pos-skills");
-          if (icon) {
-            const r = icon.getBoundingClientRect();
-            const ww = w.offsetWidth || 364;
-            const wh = w.offsetHeight || 300;
-            let l = r.left + r.width / 2 - ww / 2;
-            let t = r.top - wh - 12;
-            l = Math.max(10, Math.min(l, window.innerWidth - ww - 10));
-            t = Math.max(50, t);
-            w.style.left = l + "px";
-            w.style.top = t + "px";
+        w.style.display = "";
+
+        if (!isMobile()) {
+          // 桌面端：保留原始弹出动画
+          w.classList.add("opening");
+          if (id === "win-skills") {
+            const icon = document.querySelector(".icon-pos-skills");
+            if (icon) {
+              const r = icon.getBoundingClientRect();
+              const ww = w.offsetWidth || 364;
+              const wh = w.offsetHeight || 300;
+              let l = r.left + r.width / 2 - ww / 2;
+              let t = r.top - wh - 12;
+              l = Math.max(10, Math.min(l, window.innerWidth - ww - 10));
+              t = Math.max(50, t);
+              w.style.left = l + "px";
+              w.style.top = t + "px";
+            }
+          }
+          setTimeout(() => w.classList.remove("opening"), 220);
+        } else {
+          // 移动端：全屏滑出
+          showBackdrop();
+          // 滚动内容区回顶部
+          const wb = w.querySelector(".wb, .ws, .fwb");
+          if (wb) wb.scrollTop = 0;
+          // 绑定下滑关闭手势（只绑一次）
+          if (!w._swipeBound) {
+            bindSwipeClose(w);
+            w._swipeBound = true;
           }
         }
+
         if (id === "win-wechat") wechatZoomReset();
         if (id === "win-education") {
           const wb = w.querySelector(".wb");
           if (wb) wb.style.display = "";
         }
-        setTimeout(() => w.classList.remove("opening"), 220);
       }
       let wechatZoomLevel = 1;
       function wechatZoomIn() {
@@ -4905,7 +4991,46 @@
         if (!w) return;
         w.classList.remove("open", "maximized", "minimized");
         w.style.display = "";
+        if (isMobile()) hideBackdrop();
       }
+      // 下滑关闭手势
+      function bindSwipeClose(w) {
+        let startY = 0, curY = 0, dragging = false;
+        const THRESHOLD = 80; // px，下滑超过此值关闭
+
+        w.addEventListener("touchstart", (e) => {
+          // 只响应从拖动把手或标题栏区域开始的滑动
+          const titleBar = w.querySelector(".wtb");
+          const handle = w; // window::before 没有真实 DOM，用整个窗口顶部 40px 判断
+          const touch = e.touches[0];
+          const rect = w.getBoundingClientRect();
+          if (touch.clientY - rect.top > 60) return; // 只在顶部 60px 响应
+          startY = touch.clientY;
+          curY = touch.clientY;
+          dragging = true;
+          w.style.transition = "none";
+        }, { passive: true });
+
+        w.addEventListener("touchmove", (e) => {
+          if (!dragging) return;
+          curY = e.touches[0].clientY;
+          const dy = Math.max(0, curY - startY);
+          w.style.transform = `translateY(${dy}px)`;
+        }, { passive: true });
+
+        w.addEventListener("touchend", () => {
+          if (!dragging) return;
+          dragging = false;
+          const dy = curY - startY;
+          w.style.transition = "";
+          if (dy > THRESHOLD) {
+            cW(w.id);
+          } else {
+            w.style.transform = "translateY(0)";
+          }
+        });
+      }
+
       function minW(id) {
         const w = document.getElementById(id);
         if (!w) return;
@@ -4960,6 +5085,13 @@
       function oF(k) {
         const meta = projMeta[k];
         if (!meta) return;
+
+        // 移动端：案例研究直接新标签打开，避免 iframe 在小屏内滚动问题
+        if (isMobile()) {
+          window.open(meta.url, "_blank");
+          return;
+        }
+
         const frame = document.getElementById("wweb-frame");
         const titleEl = document.getElementById("wweb-title");
         const urlEl = document.getElementById("wweb-url");
@@ -5141,12 +5273,23 @@
       });
 
       // icon select with click animation
+      // 移动端单击 = 桌面端双击
       function selI(el) {
         document
           .querySelectorAll(".icon.sel")
           .forEach((i) => i.classList.remove("sel"));
         el.classList.add("sel", "click");
         setTimeout(() => el.classList.remove("click"), 120);
+
+        if (isMobile()) {
+          // 触发对应的 ondblclick 动作
+          const dblHandler = el.getAttribute("ondblclick");
+          if (dblHandler) {
+            setTimeout(() => {
+              try { eval(dblHandler); } catch(e) {}
+            }, 80);
+          }
+        }
       }
       document.getElementById("desktop").addEventListener("click", (e) => {
         if (!e.target.closest(".icon") && !e.target.closest(".window"))
