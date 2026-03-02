@@ -4081,6 +4081,9 @@
         </div>
       </div>
 
+      <!-- 移动端遮罩：与窗口同层叠上下文，确保 z-index 比较正确 -->
+      <div id="mobile-backdrop" onclick="mobileCloseTop()"></div>
+
       <!-- Standard windows -->
       <div
         class="window"
@@ -4834,8 +4837,6 @@
       id="dov"
       style="position: fixed; inset: 0; z-index: 9990; display: none"
     ></div>
-    <div id="mobile-backdrop" onclick="mobileCloseTop()"></div>
-
     <script>
       // theme (浅色/深色)
       const THEME_KEY = "fishbook-appearance";
